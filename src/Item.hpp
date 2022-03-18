@@ -60,6 +60,9 @@ public:
 
 class ItemNonTool: public Item{
 public:
+    ItemNonTool();
+    ItemNonTool(string name, string type, int quantity);
+
     // * Operator overloading
     // * Menambahkan item
     ItemNonTool& operator+(const ItemNonTool& item);
