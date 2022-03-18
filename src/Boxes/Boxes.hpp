@@ -6,7 +6,7 @@
 using namespace std;
 
 class Boxes : Item {
-    private:
+    protected:
         vector <Item> collection;
     public:
         Boxes(); // ctor
@@ -14,8 +14,7 @@ class Boxes : Item {
         void insertItem(Item item, int quantity); // insert Item di slot kosong dengan indeks terkecil
         void discardItem(int index, int quantity); // discard Item yang ada di index pada parameter sejumlah quantity
         bool checkEmpty(int index); // pengecekan apakah Box dengan index pada parameter kosong atau tidak
-        void setSize(int inputSize);
-        void setMaxPerBox(int inputMaxPerBox);
+        Item getItem(int index); // return Item in index jika pada index tersebut ada item
 };
 
 class Inventory : Boxes {
@@ -44,6 +43,5 @@ class Crafting : Boxes {
 // Unhandled 
 // (Poin 4 - Move dari inventory ke craft)
 // (Poin 6 - Move dari craft ke inventory)
-
 
 #endif // __BOXES_H__
