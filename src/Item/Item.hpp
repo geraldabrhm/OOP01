@@ -65,9 +65,9 @@ public:
 
     // * Operator overloading
     // * Menambahkan item
-    ItemNonTool& operator+(const ItemNonTool& item);
-    ItemNonTool& operator+(const int& quantity);
-    ItemNonTool& operator-(const int& quantity);
+    ItemNonTool& operator+=(const ItemNonTool& item);
+    ItemNonTool& operator+=(const int& quantity);
+    ItemNonTool& operator-=(const int& quantity);
 
     // Method
 
