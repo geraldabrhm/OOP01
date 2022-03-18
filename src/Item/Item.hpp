@@ -40,7 +40,7 @@ public:
     bool checkDummy() const;
 
     // * Menentukan apakah Tool atau non Tool
-    bool isTool();
+    virtual bool isTool() = 0;
 };
 
 class ItemTool: public Item{
@@ -48,7 +48,7 @@ private:
     int durability;
 public:
     ItemTool();
-    ItemTool(string name, string type, int quantity, int durability);
+    ItemTool(string name, string type, int quantity);
 
     // * Getter
     int getDurability() const;
