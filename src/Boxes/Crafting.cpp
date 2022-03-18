@@ -6,13 +6,31 @@ Crafting::Crafting()
 
 }
 
-void Crafting::craftItem()
+
+bool Crafting::craftAble()
+{
+
+}
+
+
+Item Crafting::craftResult()
 {
 
 }
 
 
 void Crafting::displayBoxes()
+{
+
+}
+
+
+void Inventory::exportInventory()
+{
+
+}
+
+void Crafting::moveToInventory(Inventory inventory, int indexSrc, int indexDst)
 {
 
 }

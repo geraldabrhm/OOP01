@@ -30,8 +30,17 @@ void Inventory::useItem(int index)
 
 }
 
+void Inventory::exportInventory(){
+    
+}
 
 void Inventory::displayBoxes()
+{
+
+}
+
+
+void Inventory::moveToCrafting(Crafting crafting, int indexSrc, int indexDst[])
 {
 
 }
