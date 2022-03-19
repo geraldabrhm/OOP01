@@ -3,7 +3,7 @@
 Inventory::Inventory()
 {
     // Item temp = Item();
-    this->collection.resize(size);
+    // this->collection.resize(size);
 }
 
 
@@ -18,10 +18,7 @@ void Inventory::stackItem(int indexSrc, int indexDst)
 
 bool Inventory::equalityItems(int index1, int index2)
 {
-    if(collection[index1].getName() == collection[index2].getName() && collection[index1].getType() == collection[index1].getType()) {
-        return true;
-    }
-    return false;
+
 }
 
 
@@ -40,7 +37,7 @@ void Inventory::displayBoxes()
 }
 
 
-void Inventory::moveToCrafting(Crafting crafting, int indexSrc, int indexDst[])
+void Inventory::moveToCrafting(Crafting &crafting, int indexSrc, int indexDst[])
 {
 
 }

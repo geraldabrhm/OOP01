@@ -13,7 +13,7 @@ bool Crafting::craftAble()
 }
 
 
-Item Crafting::craftResult()
+Item* Crafting::craftResult()
 {
 
 }
@@ -30,7 +30,7 @@ void Inventory::exportInventory()
 
 }
 
-void Crafting::moveToInventory(Inventory inventory, int indexSrc, int indexDst)
+void Crafting::moveToInventory(Inventory &inventory, int indexSrc, int indexDst)
 {
 
 }
