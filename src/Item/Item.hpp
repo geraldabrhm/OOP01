@@ -49,6 +49,7 @@ private:
 public:
     ItemTool();
     ItemTool(string name, string type, int quantity);
+    ItemTool(const ItemTool &oldObj);
 
     // * Getter
     int getDurability() const;
@@ -62,6 +63,7 @@ class ItemNonTool: public Item{
 public:
     ItemNonTool();
     ItemNonTool(string name, string type, int quantity);
+    ItemNonTool(const ItemNonTool &oldObj);
 
     // * Operator overloading
     // * Menambahkan item

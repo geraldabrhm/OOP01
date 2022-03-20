@@ -4,6 +4,7 @@
 #include "../Item/item.hpp"
 #include <vector>
 using namespace std;
+class Crafting;
 
 class Boxes {
     protected:
@@ -11,20 +12,21 @@ class Boxes {
     public:
         Boxes(); // ctor
         virtual void displayBoxes()=0; // display all Item di Boxes
-        void insertItem(Item &item, int quantity); // insert Item di slot kosong dengan indeks terkecil
-        void discardItem(int index, int quantity); // discard Item yang ada di index pada parameter sejumlah quantity
-        Item* getItem(int index); // return Item in index jika pada index tersebut ada item
+        void insertItem(ItemTool &item, int quantity); // insert Item di slot kosong dengan indeks terkecil
+        void insertItem(ItemNonTool &item, int quantity); // insert Item di slot kosong dengan indeks terkecil
+        void discardItem(int indexRow, int indexCol, int quantity); // discard Item yang ada di index pada parameter sejumlah quantity
+        pair<ItemNonTool,ItemTool> getItem(int indexRow, int indexCol); // return Item in index jika pada index tersebut ada item
 };
 
 class Inventory : public Boxes {
     public:
         Inventory();// ctor
-        void stackItem(int indexSrc, int indexDst);  // melakukan stack dari Item di indexSrc ke indexDst jika sama
-        bool equalityItems(int index1, int index2); // mengecek apakah Item pada index1 dan index2 sama (nama, tipe)
-        void useItem(int index); // Menggunakan Item yang terletak pada index parameter dan mengurangi durabilitynya
+        void stackItem(int indexSrc[], int indexDst[]);  // melakukan stack dari Item di indexSrc ke indexDst jika sama
+        bool equalityItems(int index1[], int index2[]); // mengecek apakah Item pada index1 dan index2 sama (nama, tipe)
+        void useItem(int index[]); // Menggunakan Item yang terletak pada index parameter dan mengurangi durabilitynya
         void displayBoxes(); // display all Item di Inventory
         void exportInventory(); // ekspor inventory ke inventory.txt, belum tau dijadiin method atau kerjain di main
-        void moveToCrafting(Crafting &crafting, int indexSrc, int indexDst[]); // memindahkan Item dari inventory ke crafting
+        void moveToCrafting(Crafting &crafting, int indexSrc[], int indexDst[]); // memindahkan Item dari inventory ke crafting
 };
 
 class Crafting : public Boxes {

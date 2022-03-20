@@ -38,10 +38,18 @@ bool Item::checkDummy() const {
 
 // ItemTool
 ItemTool::ItemTool() : Item() {
-  this->durability = 0;
+  this->durability = -1;
 }
 ItemTool::ItemTool(string name, string type, int quantity) : Item(name, type, quantity) {
   this->durability = 10;
+}
+
+
+ItemTool::ItemTool(const ItemTool &oldObj) {
+  this->name = oldObj.name;
+  this->type = oldObj.type;
+  this->quantity = oldObj.quantity;
+  this->durability = oldObj.durability;
 }
 
 // * Getter
@@ -63,6 +71,12 @@ ItemNonTool::ItemNonTool() : Item(){
 
 ItemNonTool::ItemNonTool(string name, string type, int quantity) : Item(name, type, quantity){
 
+}
+
+ItemNonTool::ItemNonTool(const ItemNonTool &oldObj) {
+  this->name = oldObj.name;
+  this->type = oldObj.type;
+  this->quantity = oldObj.quantity;
 }
 
 // ! Untuk tiap method overloading, pastiin udah memenuhi syarat baru dipakai
