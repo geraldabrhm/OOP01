@@ -15,7 +15,7 @@ int main() {
     map<string,string> itemType;
     vector<string> listTool;
     vector<string> listNonTool;
-    string configPath = "./config";
+    string configPath = "../config";
     string itemConfigPath = configPath + "/item.txt";
     string id, item_name, item_type, item_types;
 
