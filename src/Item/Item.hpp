@@ -1,5 +1,5 @@
-#ifndef _ITEM_
-#define _ITEM_
+#ifndef _ITEM_H_
+#define _ITEM_H_
 
 #include <string>
 using namespace std;
