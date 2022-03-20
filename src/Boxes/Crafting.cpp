@@ -1,7 +1,7 @@
 #include "Boxes.hpp"
 
 
-Crafting::Crafting()
+Crafting::Crafting() : Boxes(3,3)
 {
 
 }

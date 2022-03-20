@@ -18,6 +18,13 @@ bool operator==(const Item& item1, const Item& item2) {
   return item1.getType() == item2.getType();
 }
 
+
+bool operator&(const Item& item1, const Item& item2)
+{
+  return (item1.getType() == item2.getType() && item1.getName() == item2.getName());
+}
+
+
 // * Methods
 
 // * Getter 
@@ -44,14 +51,6 @@ ItemTool::ItemTool(string name, string type, int quantity) : Item(name, type, qu
   this->durability = 10;
 }
 
-
-ItemTool::ItemTool(const ItemTool &oldObj) {
-  this->name = oldObj.name;
-  this->type = oldObj.type;
-  this->quantity = oldObj.quantity;
-  this->durability = oldObj.durability;
-}
-
 // * Getter
 int ItemTool::getDurability() const {
   return this->durability;
@@ -71,12 +70,6 @@ ItemNonTool::ItemNonTool() : Item(){
 
 ItemNonTool::ItemNonTool(string name, string type, int quantity) : Item(name, type, quantity){
 
-}
-
-ItemNonTool::ItemNonTool(const ItemNonTool &oldObj) {
-  this->name = oldObj.name;
-  this->type = oldObj.type;
-  this->quantity = oldObj.quantity;
 }
 
 // ! Untuk tiap method overloading, pastiin udah memenuhi syarat baru dipakai
