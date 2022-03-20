@@ -44,14 +44,6 @@ ItemTool::ItemTool(string name, string type, int quantity) : Item(name, type, qu
   this->durability = 10;
 }
 
-
-ItemTool::ItemTool(const ItemTool &oldObj) {
-  this->name = oldObj.name;
-  this->type = oldObj.type;
-  this->quantity = oldObj.quantity;
-  this->durability = oldObj.durability;
-}
-
 // * Getter
 int ItemTool::getDurability() const {
   return this->durability;
@@ -73,11 +65,6 @@ ItemNonTool::ItemNonTool(string name, string type, int quantity) : Item(name, ty
 
 }
 
-ItemNonTool::ItemNonTool(const ItemNonTool &oldObj) {
-  this->name = oldObj.name;
-  this->type = oldObj.type;
-  this->quantity = oldObj.quantity;
-}
 
 // ! Untuk tiap method overloading, pastiin udah memenuhi syarat baru dipakai
 // ! I.S. Syarat operator terpenuhi -> Untuk penjumlahan masih ada slot dan untuk pengurangn jumlah untuk dibuang mencukupi
