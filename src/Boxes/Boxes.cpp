@@ -8,6 +8,14 @@ Boxes::Boxes(int rowSize, int colSize) : rowSize(rowSize), colSize(colSize) {
     this->collection = vector<vector<Item*>>(rowSize, in);
 }
 
+int Boxes::getRowSize() const{
+    return this->rowSize;
+}
+
+int Boxes::getColSize() const{
+    return this->colSize;
+}
+
 pair<int, int> Boxes::getEmptyIndex(){
     for(int i = 0; i < this->rowSize; i++) {
         for(int j = 0; j < this->colSize; j++) {

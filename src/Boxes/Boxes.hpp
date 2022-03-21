@@ -17,6 +17,10 @@ class Boxes {
         // ctor
         Boxes(int rowSize, int colSize); 
         
+        // * Getter
+        int getRowSize() const;
+        int getColSize() const;
+
         // * Method
         // * Get empty cell with lowest index, 
         // Lowest index dicek berdasarkan column nya dulu
@@ -37,12 +41,25 @@ class Boxes {
 
 class Inventory : public Boxes {
     public:
-        Inventory();// ctor
-        void stackItem(int indexSrc[], int indexDst[]);  // melakukan stack dari Item di indexSrc ke indexDst jika sama
-        void useItem(int indexRow, int indexCol); // Menggunakan Item yang terletak pada index parameter dan mengurangi durabilitynya
-        void displayBoxes(); // display all Item di Inventory
-        void exportInventory(); // ekspor inventory ke inventory.txt, belum tau dijadiin method atau kerjain di main
-        void moveToCrafting(Crafting &crafting, int indexSrc[], int indexDst[]); // memindahkan Item dari inventory ke crafting
+        // * Ctor
+        Inventory();
+        
+        // * Method
+        
+        // * Melakukan stack dari Item di indexSrc ke indexDst
+        void stackItem(pair<int,int>indexSrc, pair<int,int>indexDst);
+        
+        // * Menggunakan Item yang terletak pada index parameter dan mengurangi durabilitynya 
+        void useItem(int indexRow, int indexCol); 
+        
+        // * display all Item di Inventory
+        void displayBoxes(); 
+        
+        // * ekspor inventory ke inventory.txt, belum tau dijadiin method atau kerjain di main
+        void exportInventory(); 
+
+        // * ekspor inventory ke inventory.txt, belum tau dijadiin method atau kerjain di main
+        void moveToCrafting(Crafting &crafting, int indexSrc[], int indexDst[]); 
 };
 
 class Crafting : public Boxes {
