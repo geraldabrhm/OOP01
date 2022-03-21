@@ -4,22 +4,25 @@
 #include "../Item/Item.hpp"
 #include <vector>
 using namespace std;
-class Crafting;
 
 class Boxes {
     protected:
-        vector <vector<pair<ItemNonTool, ItemTool>>> collection;
+        vector<Item*>collection;
         const int rowSize;
         const int colSize;
     public:
-        Boxes(int rowSize, int colSize); // ctor
-        virtual void displayBoxes()=0; // display all Item di Boxes
+
+        // ctor
+        Boxes(int rowSize, int colSize); 
+        
         pair<int, int> getEmptyIndex();
         void insertItem(ItemTool &item); // insert Item di slot kosong dengan indeks terkecil
         void insertItem(ItemNonTool &item); // insert Item di slot kosong dengan indeks terkecil
         void discardItem(int indexRow, int indexCol, int quantity); // discard Item yang ada di index pada parameter sejumlah quantity
         pair<ItemNonTool,ItemTool>& operator()(int indexRow, int indexCol);
         void makePairDummy(int indexRow, int indexCol);
+        
+        virtual void displayBoxes()=0; // display all Item di Boxes
 };
 
 class Inventory : public Boxes {

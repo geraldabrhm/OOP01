@@ -40,7 +40,7 @@ public:
     bool checkDummy() const;
 
     // * Menentukan apakah Tool atau non Tool
-    virtual bool isTool() = 0;
+    virtual bool isTool() const;
 };
 
 class ItemTool: public Item{
@@ -55,7 +55,7 @@ public:
 
     // * Mengurangi durability;
     void reduceDurability();
-    bool isTool();
+    bool isTool() const;
 };
 
 class ItemNonTool: public Item{
@@ -71,12 +71,12 @@ public:
 
     // Method
 
-    bool isTool();
+    bool isTool() const;
     // * Mengecek apakah item masih memiliki slot untuk ditambah
-    bool isAvailable(ItemNonTool item);
+    bool isAvailable(ItemNonTool item) const;
     
     // * Mengecek apakah item mencukupi untuk dibuang
-    bool isEnough(int discard);
+    bool isEnough(int discard) const;
 };
 
 #endif

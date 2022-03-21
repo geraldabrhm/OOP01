@@ -43,6 +43,10 @@ bool Item::checkDummy() const {
   return this->name == "-";
 }
 
+bool Item::isTool() const{
+  return false;
+}
+
 // ItemTool
 ItemTool::ItemTool() : Item() {
   this->durability = -1;
@@ -60,7 +64,7 @@ int ItemTool::getDurability() const {
 void ItemTool::reduceDurability() {
   this->durability--;
 }
-bool ItemTool::isTool() {
+bool ItemTool::isTool() const{
   return true;
 }
 
@@ -89,11 +93,11 @@ ItemNonTool& ItemNonTool::operator-=(const int& quantity){
     return *this;
 }
 
-bool ItemNonTool::isTool(){
+bool ItemNonTool::isTool() const{
     return false;
 }
 
-bool ItemNonTool::isAvailable(ItemNonTool item){
+bool ItemNonTool::isAvailable(ItemNonTool item) const{
     if(this->quantity + item.getQuantity() <= 64 ){
         return true;
     }else{
@@ -101,7 +105,7 @@ bool ItemNonTool::isAvailable(ItemNonTool item){
     }
 }
 
-bool ItemNonTool::isEnough(int discard){
+bool ItemNonTool::isEnough(int discard) const{
     if(this->quantity >= discard){
         return true;
     }
