@@ -28,7 +28,7 @@ void Inventory::stackItem(int indexSrc[2], int indexDst[2])
         //     }
         // }
         pair<ItemNonTool, ItemTool> src = collection[indexSrc[0]][indexSrc[1]];
-        pair<ItemNonTool, ItemTool> dst = collection[indexSrc[0]][indexSrc[1]];
+        pair<ItemNonTool, ItemTool> dst = collection[indexDst[0]][indexDst[1]];
         int srcQuantity = src.first.getQuantity();
         int dstQuantity = dst.first.getQuantity();
         int totalQuantity = srcQuantity + dstQuantity;

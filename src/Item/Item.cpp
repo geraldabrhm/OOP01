@@ -47,7 +47,7 @@ bool Item::checkDummy() const {
 ItemTool::ItemTool() : Item() {
   this->durability = -1;
 }
-ItemTool::ItemTool(string name, string type, int quantity) : Item(name, type, quantity) {
+ItemTool::ItemTool(string name, string type, int quantity) : Item(name, type, 1) {
   this->durability = 10;
 }
 

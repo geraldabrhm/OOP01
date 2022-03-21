@@ -9,29 +9,35 @@ Boxes::Boxes(int rowSize, int colSize) : rowSize(rowSize), colSize(colSize) {
 
 pair<int, int> Boxes::getEmptyIndex()
 {
-    for(int i = 0; i < rowSize; i++) {
-        for(int j = 0; j < colSize; j++) {
+    for(int i = 0; i < this->rowSize; i++) {
+        for(int j = 0; j < this->colSize; j++) {
             if(collection[i][j].first.checkDummy() && collection[i][j].second.checkDummy()) {
                 pair<int, int> result = make_pair(i, j);
                 return result;
-                goto point1;
             }
         }
     }
-    point1: ;
 }
 
-void Boxes::insertItem(ItemTool &item, int quantity)
+void Boxes::insertItem(ItemTool &item)
 {
     pair<int, int> emptyBox = this->getEmptyIndex();
-    this->collection[emptyBox.first][emptyBox.second].second = item; 
+    this->collection[emptyBox.first][emptyBox.second].second = item;
 }
 
-void Boxes::insertItem(ItemNonTool &item, int quantity)
+void Boxes::insertItem(ItemNonTool &item)
 {
 
     pair<int, int> emptyBox = this->getEmptyIndex();
-    this->collection[emptyBox.first][emptyBox.second].first = item; 
+    if(item.getQuantity() <= 64) {
+        this->collection[emptyBox.first][emptyBox.second].first = item;
+    } else {
+        ItemNonTool temp = item;
+        temp += -(item.getQuantity() - 64);
+        item += -64;
+        this->collection[emptyBox.first][emptyBox.second].first = temp;
+        insertItem(item);
+    }
 }
 
 

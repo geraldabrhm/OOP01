@@ -1,7 +1,7 @@
 #ifndef __BOXES_H__
 #define __BOXES_H__
 
-#include "../Item/item.hpp"
+#include "../Item/Item.hpp"
 #include <vector>
 using namespace std;
 class Crafting;
@@ -15,8 +15,8 @@ class Boxes {
         Boxes(int rowSize, int colSize); // ctor
         virtual void displayBoxes()=0; // display all Item di Boxes
         pair<int, int> getEmptyIndex();
-        void insertItem(ItemTool &item, int quantity); // insert Item di slot kosong dengan indeks terkecil
-        void insertItem(ItemNonTool &item, int quantity); // insert Item di slot kosong dengan indeks terkecil
+        void insertItem(ItemTool &item); // insert Item di slot kosong dengan indeks terkecil
+        void insertItem(ItemNonTool &item); // insert Item di slot kosong dengan indeks terkecil
         void discardItem(int indexRow, int indexCol, int quantity); // discard Item yang ada di index pada parameter sejumlah quantity
         pair<ItemNonTool,ItemTool>& operator()(int indexRow, int indexCol);
         void makePairDummy(int indexRow, int indexCol);
