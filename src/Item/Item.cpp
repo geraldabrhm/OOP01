@@ -97,12 +97,8 @@ bool ItemNonTool::isTool() const{
     return false;
 }
 
-bool ItemNonTool::isAvailable(ItemNonTool item) const{
-    if(this->quantity + item.getQuantity() <= 64 ){
-        return true;
-    }else{
-        return false;
-    }
+bool ItemNonTool::isAvailable() const{
+   return this->quantity < 64;
 }
 
 bool ItemNonTool::isEnough(int discard) const{

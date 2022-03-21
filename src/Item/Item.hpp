@@ -73,7 +73,7 @@ public:
 
     bool isTool() const;
     // * Mengecek apakah item masih memiliki slot untuk ditambah
-    bool isAvailable(ItemNonTool item) const;
+    bool isAvailable() const;
     
     // * Mengecek apakah item mencukupi untuk dibuang
     bool isEnough(int discard) const;
