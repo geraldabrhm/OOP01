@@ -21,12 +21,16 @@ class Boxes {
         // * Get empty cell with lowest index, 
         // Lowest index dicek berdasarkan column nya dulu
         pair<int, int> getEmptyIndex();
-        void insertItem(ItemTool &item); // insert Item di slot kosong dengan indeks terkecil
-        void insertItem(ItemNonTool &item); // insert Item di slot kosong dengan indeks terkecil
 
-        void discardItem(int indexRow, int indexCol, int quantity); // discard Item yang ada di index pada parameter sejumlah quantity
+        // * insert Item di slot kosong dengan indeks terkecil
+        void insertItem(Item* item); 
         
-        Item& operator()(int indexRow, int indexCol);
+        // discard Item yang ada di index pada parameter sejumlah quantity
+        void discardItem(int indexRow, int indexCol, int quantity); 
+        
+        // * Operator overloading
+        // * Accessing element
+        Item* operator()(int indexRow, int indexCol);
         
         virtual void displayBoxes()=0; // display all Item di Boxes
 };
