@@ -7,7 +7,9 @@ using namespace std;
 
 class Boxes {
     protected:
-        vector<Item*>collection;
+        //Array for saving item
+        vector<vector<Item*>>collection;
+        
         const int rowSize;
         const int colSize;
     public:
@@ -15,12 +17,16 @@ class Boxes {
         // ctor
         Boxes(int rowSize, int colSize); 
         
+        // * Method
+        // * Get empty cell with lowest index, 
+        // Lowest index dicek berdasarkan column nya dulu
         pair<int, int> getEmptyIndex();
         void insertItem(ItemTool &item); // insert Item di slot kosong dengan indeks terkecil
         void insertItem(ItemNonTool &item); // insert Item di slot kosong dengan indeks terkecil
+
         void discardItem(int indexRow, int indexCol, int quantity); // discard Item yang ada di index pada parameter sejumlah quantity
-        pair<ItemNonTool,ItemTool>& operator()(int indexRow, int indexCol);
-        void makePairDummy(int indexRow, int indexCol);
+        
+        Item& operator()(int indexRow, int indexCol);
         
         virtual void displayBoxes()=0; // display all Item di Boxes
 };
