@@ -18,6 +18,13 @@ bool operator==(const Item& item1, const Item& item2) {
   return item1.getType() == item2.getType();
 }
 
+
+bool operator&(const Item& item1, const Item& item2)
+{
+  return (item1.getType() == item2.getType() && item1.getName() == item2.getName());
+}
+
+
 // * Methods
 
 // * Getter 
@@ -40,7 +47,7 @@ bool Item::checkDummy() const {
 ItemTool::ItemTool() : Item() {
   this->durability = -1;
 }
-ItemTool::ItemTool(string name, string type, int quantity) : Item(name, type, quantity) {
+ItemTool::ItemTool(string name, string type, int quantity) : Item(name, type, 1) {
   this->durability = 10;
 }
 
@@ -64,7 +71,6 @@ ItemNonTool::ItemNonTool() : Item(){
 ItemNonTool::ItemNonTool(string name, string type, int quantity) : Item(name, type, quantity){
 
 }
-
 
 // ! Untuk tiap method overloading, pastiin udah memenuhi syarat baru dipakai
 // ! I.S. Syarat operator terpenuhi -> Untuk penjumlahan masih ada slot dan untuk pengurangn jumlah untuk dibuang mencukupi

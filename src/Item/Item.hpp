@@ -28,7 +28,7 @@ public:
     // * Operator overloading
     // * Mengecek apakah tipe nya sama
     friend bool operator==(const Item& item1, const Item& item2);
-
+    friend bool operator&(const Item& item1, const Item& item2);
     // * Methods
 
     // * Getter 

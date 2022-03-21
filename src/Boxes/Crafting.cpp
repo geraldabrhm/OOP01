@@ -1,10 +1,7 @@
 #include "Boxes.hpp"
 
 
-Crafting::Crafting()
-{
-
-}
+Crafting::Crafting() : Boxes(3,3) {}
 
 
 bool Crafting::craftAble()
@@ -20,12 +17,6 @@ Item* Crafting::craftResult()
 
 
 void Crafting::displayBoxes()
-{
-
-}
-
-
-void Inventory::exportInventory()
 {
 
 }
