@@ -2,12 +2,14 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <map>
 #include <vector>
 #include <cstdlib>
 #include "./Item/Item.hpp"
 #include "./Boxes/Boxes.hpp"
+#include "./Recipe/Recipe.hpp"
 
 using namespace std;
 
@@ -17,6 +19,7 @@ int main() {
     map<string,string> itemType;
     vector<string> listTool;
     vector<string> listNonTool;
+    vector<Recipe> listRecipe;
     string configPath = "../config";
     string itemConfigPath = configPath + "/item.txt";
     string id, item_name, item_type, item_types;
@@ -44,6 +47,26 @@ int main() {
     for (const auto &entry : filesystem::directory_iterator(configPath + "/recipe")) {
         ifstream itemRecipeFile(entry.path());
         // read from file and do something
+        string rec_line, elmt, result;
+        char space_char = ' ';
+        int rec_row, rec_col;
+        int res_quantity, i, j;
+        itemRecipeFile >> rec_row >> rec_col;
+        getline(itemRecipeFile, rec_line);
+        Recipe rec(row,col);
+        for (i = 0; i < row; i++){
+            getline(itemRecipeFile,rec_line);
+            stringstream sstream(rec_line);
+            j = 0;
+            while (getline(sstream, elmt, space_char)){
+                rec.insertElmt(i,j,elmt);
+                j++;
+            }
+        }
+        itemRecipeFile >> result >> res_quantity;
+        rec.setResult(result);
+        rec.setQuantity(res_quantity);
+        listRecipe.push_back(rec);
     }
 
     // Main program
