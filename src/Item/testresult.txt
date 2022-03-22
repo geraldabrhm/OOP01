@@ -64,3 +64,32 @@ axe
 Quantity: 1
 Durability 10
 
+Try getDurability
+Hasil yang diharapkan -1 10
+-1
+10
+
+Try reduceDurability
+Hasil yang diharapkan 9
+9
+
+Try operator+=
+Hasil yang diharapkan 6 7
+6
+7
+
+Try operator-=
+Hasil yang diharapkan 3 0
+3
+0
+
+Try slotAvailable
+Hasil yang diharapkan 61 64
+61
+64
+
+Try isEnough
+Hasil yang diharapkan YES NO YES
+YES
+NO
+YES

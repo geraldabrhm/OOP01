@@ -87,4 +87,49 @@ int main(){
     cout << (*dummyItem) << endl;
     cout << (*itemNT1) << endl;
     cout << (*itemT) << endl;
+
+    cout << "Try getDurability" << endl;
+    cout << "Hasil yang diharapkan -1 10" << endl;
+    cout << dummyItemT->getDurability() << endl;
+    cout << itemT1->getDurability() << endl;
+
+    cout << endl;
+
+    cout << "Try reduceDurability" << endl;
+    cout << "Hasil yang diharapkan 9" << endl;
+    itemT1->reduceDurability();
+    cout << itemT1->getDurability() << endl;
+
+    cout << endl;
+    cout << "Try operator+=" << endl;
+    cout << "Hasil yang diharapkan 6 7" << endl;
+    (*itemNT) += (*itemNT1);
+    (*itemNT1) += 2;
+    cout << itemNT1->getQuantity() << endl;
+    cout << itemNT->getQuantity() << endl;
+
+    cout << endl;
+    
+    cout << "Try operator-=" << endl;
+    cout << "Hasil yang diharapkan 3 0" << endl;
+    (*itemNT) -= 4;
+    (*itemNT1) -= 6;
+    cout << itemNT->getQuantity() << endl;
+    cout << itemNT1->getQuantity() << endl;
+
+    cout << endl;
+
+    cout << "Try slotAvailable" << endl;
+    cout << "Hasil yang diharapkan 61 64" << endl;
+    cout << itemNT->slotAvailable() << endl;
+    cout << itemNT1->slotAvailable() << endl;
+    
+    cout << endl;
+
+    cout << "Try isEnough" << endl;
+    cout << "Hasil yang diharapkan YES NO YES" << endl;
+
+    cout << ((*itemNT).isEnough(2) ? "YES" : "NO") << endl;
+    cout << ((*itemNT).isEnough(5) ? "YES" : "NO") << endl;
+    cout << ((*itemNT1).isEnough(0) ? "YES" : "NO") << endl;
 }   

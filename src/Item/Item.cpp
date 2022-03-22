@@ -109,7 +109,7 @@ void ItemNonTool::print() const{
 }
 
 int ItemNonTool::slotAvailable() const{
-   return max(-1, (MAX_QUANTITY - this->quantity));
+   return (MAX_QUANTITY - this->quantity);
 }
 
 bool ItemNonTool::isEnough(int discard) const{
