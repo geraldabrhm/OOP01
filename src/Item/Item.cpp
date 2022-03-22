@@ -58,7 +58,7 @@ void Item::print() const{
 ItemTool::ItemTool() : Item() {
   this->durability = -1;
 }
-ItemTool::ItemTool(string name, string type, int quantity) : Item(name, type, 1, true) {
+ItemTool::ItemTool(string name, string type) : Item(name, type, 1, true) {
   this->durability = 10;
 }
 

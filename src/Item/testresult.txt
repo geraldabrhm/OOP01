@@ -21,3 +21,24 @@ NO
 NO
 YES
 NO
+
+Try Getter
+
+Try getName
+Hasil yang diharapkan: - birch_log iron_axe
+-
+birch_log
+iron_axe
+
+Try getType
+Hasil yang diharapkan: - log axe
+-
+log
+axe
+
+Try getQuantity
+Hasil yang diharapkan: 0 4 1
+0
+4
+1
+

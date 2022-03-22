@@ -59,7 +59,7 @@ private:
     int durability;
 public:
     ItemTool();
-    ItemTool(string name, string type, int quantity);
+    ItemTool(string name, string type);
 
     // * Getter
     int getDurability() const;
