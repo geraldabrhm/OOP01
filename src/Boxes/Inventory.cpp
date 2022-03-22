@@ -7,11 +7,11 @@ void Inventory::stackItem(pair<int,int>indexSrc, pair<int,int>indexDst){
     Item* itemSrc = this->collection[indexSrc.first][indexSrc.second];
     Item* itemDst = this->collection[indexDst.first][indexDst.second];
 
-    if(!itemSrc->isTool() && !itemDst->isTool()){
+    if(!itemSrc->getTool() && !itemDst->getTool()){
         ItemNonTool* castSrc = static_cast<ItemNonTool*>(itemSrc);
         ItemNonTool* castDst = static_cast<ItemNonTool*>(itemDst);
 
-        if(castDst->isAvailable()){
+        if(castDst->slotAvailable()){
             int slot = min(castSrc->getQuantity(), 64 - (castDst->getQuantity()));
             (*castDst) += slot;
             (*castSrc) -= slot;
@@ -41,8 +41,11 @@ void Inventory::stackItem(pair<int,int>indexSrc, pair<int,int>indexDst){
 
 void Inventory::useItem(int indexRow, int indexCol)
 {
-    if(!collection[indexRow][indexCol].second.checkDummy()) {
-        collection[indexRow][indexCol].second.reduceDurability();
+    Item* itemToBeUsed = this->collection[indexRow][indexCol];
+    if(itemToBeUsed->getTool()) {
+        ItemTool* castItem = static_cast<ItemTool*>(itemToBeUsed);
+        castItem->reduceDurability();
+        this->collection[indexRow][indexCol] = (Item*) castItem;
     }
 }
 
