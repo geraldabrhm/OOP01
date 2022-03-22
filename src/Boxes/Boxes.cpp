@@ -38,7 +38,7 @@ void Boxes::discardItem(int indexRow, int indexCol, int quantity)
 {
     if(!this->collection[indexRow][indexCol]->getTool()){
         ItemNonTool* cast = static_cast<ItemNonTool*>(this->collection[indexRow][indexCol]);
-        if(cast->getQuantity() <= quantity) {
+        if(cast->getQuantity() >= quantity) {
             (*cast) -= quantity;
             this->collection[indexRow][indexCol] = (Item*) cast;
             if(cast->getQuantity() == 0) {

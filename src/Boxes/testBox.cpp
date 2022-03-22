@@ -84,8 +84,32 @@ int main(){
     checkNT1 = static_cast<ItemNonTool*>((*inventory)(0, 0));
     checkNT2 = static_cast<ItemNonTool*>((*inventory)(0, 1));
 
-    cout << check1->getQuantity() << endl;
-    cout << check2->getQuantity() << endl;
+    cout << checkNT1->getQuantity() << endl;
+    cout << checkNT2->getQuantity() << endl;
 
     cout << endl;
+
+    cout << "Try stackItem" << endl;
+    cout << "Hasil yang diharapkan 3 0" << endl;
+
+    inventory->stackItem(make_pair(0,3), make_pair(0,1));
+    inventory->stackItem(make_pair(0,5), make_pair(0,0)); // error
+
+    cout << (*inventory)(0,1)->getQuantity() << endl;
+    cout << (*inventory)(0,3)->getQuantity() << endl;
+
+    cout << endl;
+
+    cout << "Try useItem" << endl;
+    cout << "Hasil yang diharapkan 10 9" << endl;
+
+    cout << static_cast<ItemTool*>((*inventory)(0,4))->getDurability() << endl;
+    inventory->useItem(0,4);
+    cout << static_cast<ItemTool*>((*inventory)(0,4))->getDurability() << endl;
+
+    cout << endl;
+
+    cout << "Try displayBoxes" << endl;
+    
+    inventory->displayBoxes();
 }
