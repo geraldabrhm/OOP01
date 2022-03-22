@@ -3,7 +3,8 @@
 using namespace std;
 
 int main(){
-    
+    freopen("testresult.txt", "w", stdout);
+
     // Test Constructor
     // Dummy Item
     Item* dummyItem = new Item;
@@ -33,6 +34,18 @@ int main(){
     cout << ((*itemT2) == (*itemT1) ? "YES" : "NO") << endl;
     cout << ((*itemT1) == (*itemT3) ? "YES" : "NO") << endl;
 
-    
+    cout << endl;
+
+    cout << "Try operator&&" << endl;
+    cout << "Hasil yang diharapkan: YES NO NO YES NO NO NO YES NO" << endl;
+    cout << ((*dummyItem) & (*dummyItemNT) ? "YES" : " NO") << endl;
+    cout << ((*dummyItem) & (*itemNT) ? "YES" : "NO") << endl;
+    cout << ((*itemNT) & (*itemT) ? "YES" : "NO") << endl;
+    cout << ((*itemNT) & (*itemNT1) ? "YES" : "NO") << endl;
+    cout << ((*itemNT2) & (*itemNT1) ? "YES" : "NO") << endl;
+    cout << ((*itemNT1) & (*itemNT3) ? "YES" : "NO") << endl;
+    cout << ((*itemT) & (*itemT1) ? "YES" : "NO") << endl;
+    cout << ((*itemT2) & (*itemT) ? "YES" : "NO") << endl;
+    cout << ((*itemT1) & (*itemT3) ? "YES" : "NO") << endl;    
 
 }   

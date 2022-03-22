@@ -1,0 +1,23 @@
+Try operator==
+Hasil yang diharapkan: YES NO NO YES YES NO YES YES NO
+YES
+NO
+NO
+YES
+YES
+NO
+YES
+YES
+NO
+
+Try operator&&
+Hasil yang diharapkan: YES NO NO YES NO NO NO YES NO
+YES
+NO
+NO
+YES
+NO
+NO
+NO
+YES
+NO
