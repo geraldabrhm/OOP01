@@ -89,21 +89,29 @@ ItemNonTool::ItemNonTool(string name, string type, int quantity) : Item(name, ty
 
 }
 
-// ! Untuk tiap method overloading, pastiin udah memenuhi syarat baru dipakai
-// ! I.S. Syarat operator terpenuhi -> Untuk penjumlahan masih ada slot dan untuk pengurangn jumlah untuk dibuang mencukupi
 ItemNonTool& ItemNonTool::operator+=(const ItemNonTool& item){
-    this->quantity += item.getQuantity();
+    this->quantity += min(item.getQuantity(), this->slotAvailable());
     return *this;
 }
 
 ItemNonTool& ItemNonTool::operator+=(const int& quantity){
+  if(this->slotAvailable() <= quantity){
     this->quantity += quantity;
     return *this;
+  }else{
+    ArithmeticException* exc = new ArithmeticException(quantity, this->slotAvailable());
+    throw exc;
+  }
 }
 
 ItemNonTool& ItemNonTool::operator-=(const int& quantity){
+  if(this->isEnough(quantity)){
     this->quantity -= quantity;
     return *this;
+  }else{
+    ArithmeticException* exc = new ArithmeticException(quantity, this->quantity);
+    throw exc;
+  }
 }
 
 void ItemNonTool::print() const{
