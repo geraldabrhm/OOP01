@@ -42,3 +42,8 @@ Hasil yang diharapkan: 0 4 1
 4
 1
 
+Try checkDummy
+Hasil yang diharapkan: YES NO NO
+YES
+NO
+NO

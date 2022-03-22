@@ -24,7 +24,7 @@ int main(){
 
     cout << "Try operator==" << endl; 
     cout << "Hasil yang diharapkan: YES NO NO YES YES NO YES YES NO" << endl;
-    cout << ((*dummyItem) == (*dummyItemNT) ? "YES" : " NO") << endl;
+    cout << ((*dummyItem) == (*dummyItemNT) ? "YES" : "NO") << endl;
     cout << ((*dummyItem) == (*itemNT) ? "YES" : "NO") << endl;
     cout << ((*itemNT) == (*itemT) ? "YES" : "NO") << endl;
     cout << ((*itemNT) == (*itemNT1) ? "YES" : "NO") << endl;
@@ -38,7 +38,7 @@ int main(){
 
     cout << "Try operator&&" << endl;
     cout << "Hasil yang diharapkan: YES NO NO YES NO NO NO YES NO" << endl;
-    cout << ((*dummyItem) & (*dummyItemNT) ? "YES" : " NO") << endl;
+    cout << ((*dummyItem) & (*dummyItemNT) ? "YES" : "NO") << endl;
     cout << ((*dummyItem) & (*itemNT) ? "YES" : "NO") << endl;
     cout << ((*itemNT) & (*itemT) ? "YES" : "NO") << endl;
     cout << ((*itemNT) & (*itemNT1) ? "YES" : "NO") << endl;
@@ -74,4 +74,11 @@ int main(){
     cout << itemT1->getQuantity() << endl;
     
     cout << endl;
+
+    cout << "Try checkDummy" << endl;
+    cout << "Hasil yang diharapkan: YES NO NO" << endl;
+    cout << (dummyItem->checkDummy() ? "YES" : "NO") << endl;
+    cout << (itemNT1->checkDummy() ? "YES" : "NO") << endl;
+    cout << (itemT1->checkDummy() ? "YES" : "NO") << endl;
+    
 }   
