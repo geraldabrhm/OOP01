@@ -34,7 +34,7 @@ void Boxes::insertItem(Item* item)
 
 void Boxes::discardItem(int indexRow, int indexCol, int quantity)
 {
-    if(!this->collection[indexRow][indexCol]->isTool()){
+    if(!this->collection[indexRow][indexCol]->getTool()){
         ItemNonTool* cast = static_cast<ItemNonTool*>(this->collection[indexRow][indexCol]);
         (*cast) -= quantity;
         this->collection[indexRow][indexCol] = (Item*) cast;

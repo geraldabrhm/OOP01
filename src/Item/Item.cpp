@@ -42,6 +42,9 @@ string Item::getType() const {
 int Item::getQuantity() const {
   return this->quantity;
 }
+bool Item::getTool() const {
+  return this->isTool;
+}
 
 // * Check apakah item berupa dummy item (True jika dummy)
 bool Item::checkDummy() const {
