@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <cstdlib>
 #include "./Item/Item.hpp"
 #include "./Boxes/Boxes.hpp"
 
@@ -56,11 +57,7 @@ int main() {
             ofstream outputFile(outputPath);
 
             // hardcode for first test case
-            outputFile << "21:10" << endl;
-            outputFile << "6:1" << endl;
-            for (int i = 2; i < 27; i++) {
-                outputFile << "0:0" << endl;
-            }
+            outputFile << inven.exportInventory();
             cout << "Exported" << endl;
         } 
         else if (command == "CRAFT") {
@@ -91,8 +88,31 @@ int main() {
             cout << "TODO" << endl;
         } 
         else if (command == "DISCARD") {
-
-        } 
+            string dest;
+            int dest_slot, itemQty;
+            cin >> dest >> itemQty;
+            if (dest.length() > 3 || dest[0] != 'I'){
+                cout << "Harap masukkan slot inventory dengan benar!" << endl;
+            }
+            else {
+                try{
+                    dest_slot = stoi(dest.substr(1));
+                    cout << dest_slot << endl;
+                } catch(exception){
+                    cout << "Harap masukkan slot inventory dengan benar!" << endl;
+                }
+                int row = 0;
+                while (dest_slot >= colSize){
+                    dest_slot -= (colSize -1);
+                    row++;
+                }
+                if (row >= rowSize){
+                    cout << "Indeks masukan di luar index inventory!!";
+                } else {
+                    inven.discardItem(row,dest_slot,itemQty);
+                }
+            }
+        }  
         else if (command == "SHOW") {
             craftbox.displayBoxes();
             inven.displayBoxes();
