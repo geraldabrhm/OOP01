@@ -27,3 +27,18 @@ Try discardItem
 Hasil yang diharapkan 1 1
 1
 1
+
+Try stackItem
+Hasil yang diharapkan 3 0
+3
+0
+
+Try useItem
+Hasil yang diharapkan 10 9
+10
+9
+
+Try displayBoxes
+[ birch_log 1 ] [ birch_log 3 ] [ wood_log 2 ] [ - 0 ] [ wood_axe 1 ] [ iron_axe 1 ] [ wood_axe 1 ] [ wood_rope 1 ] [ - 0 ] 
+[ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] 
+[ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] 
