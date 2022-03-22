@@ -81,4 +81,10 @@ int main(){
     cout << (itemNT1->checkDummy() ? "YES" : "NO") << endl;
     cout << (itemT1->checkDummy() ? "YES" : "NO") << endl;
     
+    cout << endl;
+
+    cout << "Try operator<<" << endl;
+    cout << (*dummyItem) << endl;
+    cout << (*itemNT1) << endl;
+    cout << (*itemT) << endl;
 }   

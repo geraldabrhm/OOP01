@@ -47,3 +47,20 @@ Hasil yang diharapkan: YES NO NO
 YES
 NO
 NO
+
+Try operator<<
+-
+-
+Quantity: 0
+
+Item Non Tool
+birch_log
+log
+Quantity: 4
+
+Item Tool
+wood_axe
+axe
+Quantity: 1
+Durability 10
+
