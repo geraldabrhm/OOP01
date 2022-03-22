@@ -59,7 +59,7 @@ class Inventory : public Boxes {
         void exportInventory(); 
 
         // * ekspor inventory ke inventory.txt, belum tau dijadiin method atau kerjain di main
-        void moveToCrafting(Crafting &crafting, int indexSrc[], int indexDst[]); 
+        // void moveToCrafting(Crafting &crafting, int indexSrc[], int indexDst[]); 
 };
 
 class Crafting : public Boxes {

@@ -59,7 +59,7 @@ void Inventory::displayBoxes()
 }
 
 
-void Inventory::moveToCrafting(Crafting &crafting, int indexSrc[], int indexDst[])
-{
+// void Inventory::moveToCrafting(Crafting &crafting, int indexSrc[], int indexDst[])
+// {
 
-}
+// }
