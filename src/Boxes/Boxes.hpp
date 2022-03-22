@@ -21,6 +21,9 @@ class Boxes {
         int getRowSize() const;
         int getColSize() const;
 
+        // * Setter
+        void setItemByIndex(Item* item, int indexRow, int indexCol);
+
         // * Method
         // * Get empty cell with lowest index, 
         // Lowest index dicek berdasarkan column nya dulu
@@ -30,7 +33,7 @@ class Boxes {
         void insertItem(Item* item); 
         
         // discard Item yang ada di index pada parameter sejumlah quantity
-        void discardItem(int indexRow, int indexCol, int quantity); 
+        void discardItem(int indexRow, int indexCol, int quantity);
 
         // Make item in particular index to be a dummy
         void makeDummy(int indexRow, int indexCol);
@@ -62,7 +65,7 @@ class Inventory : public Boxes {
         void exportInventory(); 
 
         // * ekspor inventory ke inventory.txt, belum tau dijadiin method atau kerjain di main
-        // void moveToCrafting(Crafting &crafting, int indexSrc[], int indexDst[]); 
+        void moveToCrafting(Crafting &crafting, int indexSrc[], int indexDst[]); 
 };
 
 class Crafting : public Boxes {

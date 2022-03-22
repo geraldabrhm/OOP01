@@ -53,6 +53,11 @@ void Boxes::discardItem(int indexRow, int indexCol, int quantity)
 }
 
 
+void Boxes::setItemByIndex(Item* item, int indexRow, int indexCol)
+{
+    this->collection[indexRow][indexCol] = item;
+}
+
 void Boxes::makeDummy(int indexRow, int indexCol)
 {
     Item* dummyItem = new Item();
