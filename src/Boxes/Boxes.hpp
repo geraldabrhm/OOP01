@@ -31,6 +31,9 @@ class Boxes {
         
         // discard Item yang ada di index pada parameter sejumlah quantity
         void discardItem(int indexRow, int indexCol, int quantity); 
+
+        // Make item in particular index to be a dummy
+        void makeDummy(int indexRow, int indexCol);
         
         // * Operator overloading
         // * Accessing element
