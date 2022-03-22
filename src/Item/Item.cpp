@@ -5,11 +5,13 @@ Item::Item() {
   this->name = "-";
   this->type = "-";
   this->quantity = 0;
+  this->isTool = false;
 }
-Item::Item(string name, string type, int quantity) {
+Item::Item(string name, string type, int quantity, bool isTool) {
   this->name = name;
   this->type = type;
   this->quantity = quantity;
+  this->isTool = isTool;
 }
 
 // * Operator overloading
@@ -24,7 +26,10 @@ bool operator&(const Item& item1, const Item& item2)
   return (item1.getType() == item2.getType() && item1.getName() == item2.getName());
 }
 
-
+ostream& operator<<(ostream& out, const Item& item){
+    item.print();
+    return out;
+}
 // * Methods
 
 // * Getter 
@@ -43,15 +48,17 @@ bool Item::checkDummy() const {
   return this->name == "-";
 }
 
-bool Item::isTool() const{
-  return false;
+void Item::print() const{
+    cout << this->name << endl;
+    cout << this->type << endl;
+    cout << "Quantity: " << this->quantity << endl;
 }
 
 // ItemTool
 ItemTool::ItemTool() : Item() {
   this->durability = -1;
 }
-ItemTool::ItemTool(string name, string type, int quantity) : Item(name, type, 1) {
+ItemTool::ItemTool(string name, string type, int quantity) : Item(name, type, 1, true) {
   this->durability = 10;
 }
 
@@ -64,15 +71,18 @@ int ItemTool::getDurability() const {
 void ItemTool::reduceDurability() {
   this->durability--;
 }
-bool ItemTool::isTool() const{
-  return true;
+
+void ItemTool::print() const{
+    cout << "Item Tool" << endl;
+    Item::print();
+    cout << "Durability " << this->durability << endl;
 }
 
 ItemNonTool::ItemNonTool() : Item(){
 
 }
 
-ItemNonTool::ItemNonTool(string name, string type, int quantity) : Item(name, type, quantity){
+ItemNonTool::ItemNonTool(string name, string type, int quantity) : Item(name, type, quantity, false){
 
 }
 
@@ -93,16 +103,18 @@ ItemNonTool& ItemNonTool::operator-=(const int& quantity){
     return *this;
 }
 
-bool ItemNonTool::isTool() const{
-    return false;
+void ItemNonTool::print() const{
+    cout << "Item Non Tool" << endl;
+    Item::print();
 }
 
-bool ItemNonTool::isAvailable() const{
-   return this->quantity < 64;
+int ItemNonTool::slotAvailable() const{
+   return max(-1, (MAX_QUANTITY - this->quantity));
 }
 
 bool ItemNonTool::isEnough(int discard) const{
     if(this->quantity >= discard){
         return true;
     }
+    return false;
 }
