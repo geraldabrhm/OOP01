@@ -14,7 +14,7 @@
 using namespace std;
 
 int main() {
-    boolean isPlaying = true;
+    bool isPlaying = true;
     map<string,string> itemId;
     map<string,string> itemType;
     vector<string> listTool;
@@ -133,6 +133,32 @@ int main() {
                     cout << "Indeks masukan di luar index inventory!!";
                 } else {
                     inven.discardItem(row,dest_slot,itemQty);
+                }
+            }
+        }
+        wlaw if (command == "USE"){
+            string dest;
+            int dest_slot;
+            cin >> dest;
+            if (dest.length() > 3 || dest[0] != 'I'){
+                cout << "Harap masukkan slot inventory dengan benar!" << endl;
+            }
+            else {
+                try{
+                    dest_slot = stoi(dest.substr(1));
+                    cout << dest_slot << endl;
+                } catch(exception){
+                    cout << "Harap masukkan slot inventory dengan benar!" << endl;
+                }
+                int row = 0;
+                while (dest_slot >= colSize){
+                    dest_slot -= (colSize -1);
+                    row++;
+                }
+                if (row >= rowSize){
+                    cout << "Indeks masukan di luar index inventory!!";
+                } else {
+                    inven.useItem(row,dest_slot);
                 }
             }
         }  
