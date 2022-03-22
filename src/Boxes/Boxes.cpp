@@ -24,6 +24,8 @@ pair<int, int> Boxes::getEmptyIndex(){
             }
         }
     }
+    pair<int, int> noEmptyIndex = make_pair(-1,-1);
+    return noEmptyIndex;
 }
 
 void Boxes::insertItem(Item* item)
@@ -36,13 +38,26 @@ void Boxes::discardItem(int indexRow, int indexCol, int quantity)
 {
     if(!this->collection[indexRow][indexCol]->getTool()){
         ItemNonTool* cast = static_cast<ItemNonTool*>(this->collection[indexRow][indexCol]);
-        (*cast) -= quantity;
-        this->collection[indexRow][indexCol] = (Item*) cast;
-    }else{
-        return;
+        if(cast->getQuantity() <= quantity) {
+            (*cast) -= quantity;
+            this->collection[indexRow][indexCol] = (Item*) cast;
+            if(cast->getQuantity() == 0) {
+                makeDummy(indexRow, indexCol);
+            }
+        } else {
+            // Throw exception here (discard quantity > current quantity)
+        }
+    } else{ // Assuming it is already a dummy or a tool item (quantity fixed-size = 1)
+        makeDummy(indexRow, indexCol);
     }
 }
 
+
+void Boxes::makeDummy(int indexRow, int indexCol)
+{
+    Item* dummyItem = new Item();
+    this->collection[indexRow][indexCol] = dummyItem;
+}
 
 Item* Boxes::operator()(int indexRow, int indexCol){
     return this->collection[indexRow][indexCol];

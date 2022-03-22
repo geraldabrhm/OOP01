@@ -11,7 +11,7 @@ void Inventory::stackItem(pair<int,int>indexSrc, pair<int,int>indexDst){
         ItemNonTool* castSrc = static_cast<ItemNonTool*>(itemSrc);
         ItemNonTool* castDst = static_cast<ItemNonTool*>(itemDst);
 
-        if(castDst->slotAvailable()){
+        if(castDst->slotAvailable() > 0){
             int slot = min(castSrc->getQuantity(), 64 - (castDst->getQuantity()));
             (*castDst) += slot;
             (*castSrc) -= slot;
@@ -55,7 +55,12 @@ void Inventory::exportInventory(){
 
 void Inventory::displayBoxes()
 {
-
+    for(int i = 0; i < this->getRowSize(); i++) {
+        for(int j = 0; j < this->getColSize(); j++) {
+            cout << "[ " << this->collection[i][j]->getName() << " " << this->collection[i][j]->getQuantity() << " ] ";
+        }
+        cout << endl;
+    }
 }
 
 
