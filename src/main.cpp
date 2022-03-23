@@ -9,7 +9,6 @@
 #include <cstdlib>
 #include "./Item/Item.hpp"
 #include "./Boxes/Boxes.hpp"
-#include "./Recipe/Recipe.hpp"
 
 using namespace std;
 
@@ -170,7 +169,7 @@ int main() {
                 }
             }
         }
-        wlaw if (command == "USE"){
+        else if (command == "USE"){
             string dest;
             int dest_slot;
             cin >> dest;
