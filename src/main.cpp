@@ -7,6 +7,7 @@
 #include <map>
 #include <vector>
 #include <cstdlib>
+#include <bits/stdc++.h>
 #include "./Item/Item.hpp"
 #include "./Boxes/Boxes.hpp"
 
@@ -27,8 +28,8 @@ int main() {
 
 
     // Initialize Inventory and Crafting
-    Inventory inven = new Inventory();
-    Crafting craftbox = new Crafting();
+    Inventory* inven = new Inventory();
+    Crafting* craftbox = new Crafting();
 
 
     // read item from config file
@@ -54,10 +55,11 @@ int main() {
         int rec_row, rec_col;
         int res_quantity, i, j, blockCount;
         itemRecipeFile >> rec_row >> rec_col;
+        Item* recipe;
         getline(itemRecipeFile, rec_line);
         Recipe rec(rec_row,rec_col);
         blockCount = 0;
-        for (i = 0; i < row; i++){
+        for (i = 0; i < rec_row; i++){
             getline(itemRecipeFile,rec_line);
             stringstream sstream(rec_line);
             j = 0;
@@ -69,13 +71,18 @@ int main() {
                 }
                 else if (find(listTool.begin(), listTool.end(), elmt) != listTool.end()) {
                     ItemTool* recipe = new ItemTool(elmt,itemType.at(elmt));
+<<<<<<< HEAD
+=======
+                    (Item*)recipe;
+>>>>>>> 465225c965a7e35dc879e181f34fac0f693c57bd
                     blockCount++;
                 }
                 else if (find(listNonTool.begin(), listNonTool.end(), elmt) != listNonTool.end()) {
-                    ItemNonTool recipe = new ItemNonTool(elmt, itemType.at(elmt), 0);
+                    ItemNonTool* recipe = new ItemNonTool(elmt, itemType.at(elmt), 0);
+                    (Item*)recipe;
                     blockCount++;
                 } else { // "-"
-                    Item recipe = new Item();
+                    Item* recipe = new Item();
                 }
                 rec.setItemByIndex(recipe,i,j);
                 j++;
@@ -83,11 +90,12 @@ int main() {
         }
         itemRecipeFile >> result >> res_quantity;
         if (find(listTool.begin(), listTool.end(), result) != listTool.end()) {
-            ItemTool itemResult = new ItemTool(result,itemType.at(result));
+            ItemTool* itemResult = new ItemTool(result,itemType.at(result));
         }
         else if (find(listNonTool.begin(), listNonTool.end(), result) != listNonTool.end()) {
-            ItemNonTool itemResult = new ItemNonTool(result, itemType.at(result), res_quantity);
+            ItemNonTool* itemResult = new ItemNonTool(result, itemType.at(result), res_quantity);
         }
+        Item* itemResult = new Item(*itemResult);
         rec.insertItem(itemResult);
         listRecipe[blockCount].push_back(rec);
     }
@@ -107,7 +115,7 @@ int main() {
                 string confirmation;
                 cout << "Terdapat file dengan nama yang sama!" << endl;
                 cout << "Apakah ingin melakukan overwrite? (Yy)" << endl;
-                cout << "Ketik apapun untuk input nama file baru!)" << endl;
+                cout << "(Ketik apapun untuk input nama file baru!)" << endl;
                 cin >> confirmation;
                 if (confirmation.compare("Y") == 0 || confirmation.compare("y") == 0){
                     checkfile.close();
@@ -122,13 +130,13 @@ int main() {
             }
             ofstream outputFile;
             outputFile.open(outputPath);
-            int row = inven.getRowSize();
-            int col = inven.getColSize();
+            int row = (*inven).getRowSize();
+            int col = (*inven).getColSize();
  
             // Do export
             for (int i = 0; i < row; i++){
                 for (int j = 0; j < col; j++){
-                    Item* elmt = inven.getElmt(i,j);
+                    Item* elmt = (*inven).getElmt(i,j);
                     if (elmt->getTool()){
                         ItemTool* elmt = static_cast<ItemTool*>(elmt);
                         outputFile << itemId.at(elmt->getName()) << ":" << elmt->getDurability() << endl;
@@ -151,8 +159,9 @@ int main() {
                 cout << "Tidak dapat melakukan command GIVE untuk item Tool!" << endl;
             }
             else if (find(listNonTool.begin(), listNonTool.end(), itemName) != listNonTool.end()) {
-                ItemNonTool item = new ItemNonTool(itemName, itemType.at(itemName), itemQty);
-                inven.insertItem(item, item.getQuantity());
+                ItemNonTool* item = new ItemNonTool(itemName, itemType.at(itemName), itemQty);
+                (Item*)item;
+                (*inven).insertItem(item);
             }
             else {
                 cout << "Nama item tidak valid!!" << endl;
@@ -160,35 +169,66 @@ int main() {
         }
         else if (command == "MOVE") {
             string slotSrc;
-            int slotQty;
-            string slotDest;
-            // need to handle multiple destinations
-            cin >> slotSrc >> slotQty >> slotDest;
-            cout << "TODO" << endl;
+            int slotQty, dest_slot;
+
+            cin >> slotSrc >> slotQty;
+            if (slotSrc.length() > 3 || slotSrc[0] != 'I' || slotSrc[0] != 'C'){
+                cout << "Masukan slot inventory tidak sesuai!" << endl;
+            }
+            else {
+                int rowDest, colDest;
+                if (slotSrc[0] != 'I'){
+                    rowDest = (*inven).getRowSize();
+                    colDest = (*inven).getColSize();
+                } else if (slotSrc[0] != 'C'){
+                    rowDest = (*craftbox).getRowSize();
+                    colDest = (*craftbox).getColSize();
+                }
+                try{
+                    dest_slot = stoi(slotSrc.substr(1));
+                    cout << dest_slot << endl;
+                } catch(exception){
+                    cout << "Masukan slot inventory tidak sesuai!" << endl;
+                }
+                int row = 0;
+                while (dest_slot >= colDest){
+                    dest_slot -= (colDest -1);
+                    row++;
+                }
+                if (row >= rowDest){
+                    cout << "Indeks masukan di luar index inventory!!";
+                } else {
+                    for (int inputCount = 0; inputCount < slotQty; inputCount++){
+                        string slotDest;
+                        cin >> slotDest;
+                        //moveTo
+                    }
+                }
+            }
         } 
         else if (command == "DISCARD") {
             string dest;
             int dest_slot, itemQty;
             cin >> dest >> itemQty;
             if (dest.length() > 3 || dest[0] != 'I'){
-                cout << "Harap masukkan slot inventory dengan benar!" << endl;
+                cout << "Masukan slot inventory tidak sesuai!" << endl;
             }
             else {
                 try{
                     dest_slot = stoi(dest.substr(1));
                     cout << dest_slot << endl;
                 } catch(exception){
-                    cout << "Harap masukkan slot inventory dengan benar!" << endl;
+                    cout << "Masukan slot inventory tidak sesuai!" << endl;
                 }
                 int row = 0;
-                while (dest_slot >= colSize){
-                    dest_slot -= (colSize -1);
+                while (dest_slot >= (*inven).getColSize()){
+                    dest_slot -= ((*inven).getColSize() -1);
                     row++;
                 }
-                if (row >= rowSize){
+                if (row >= (*inven).getRowSize()){
                     cout << "Indeks masukan di luar index inventory!!";
                 } else {
-                    inven.discardItem(row,dest_slot,itemQty);
+                    (*inven).discardItem(row,dest_slot,itemQty);
                 }
             }
         }
@@ -197,30 +237,30 @@ int main() {
             int dest_slot;
             cin >> dest;
             if (dest.length() > 3 || dest[0] != 'I'){
-                cout << "Harap masukkan slot inventory dengan benar!" << endl;
+                cout << "Masukan slot inventory tidak sesuai!" << endl;
             }
             else {
                 try{
                     dest_slot = stoi(dest.substr(1));
                     cout << dest_slot << endl;
                 } catch(exception){
-                    cout << "Harap masukkan slot inventory dengan benar!" << endl;
+                    cout << "Masukan slot inventory tidak sesuai!" << endl;
                 }
                 int row = 0;
-                while (dest_slot >= colSize){
-                    dest_slot -= (colSize -1);
+                while (dest_slot >= (*inven).getColSize()){
+                    dest_slot -= ((*inven).getColSize() -1);
                     row++;
                 }
-                if (row >= rowSize){
+                if (row >= (*inven).getRowSize()){
                     cout << "Indeks masukan di luar index inventory!!";
                 } else {
-                    inven.useItem(row,dest_slot);
+                    (*inven).useItem(row,dest_slot);
                 }
             }
         }  
         else if (command == "SHOW") {
-            craftbox.displayBoxes();
-            inven.displayBoxes();
+            (*craftbox).displayBoxes();
+            (*inven).displayBoxes();
         }  
         else if (command == "EXIT") {
             cout << "Terima Kasih telah bermain!!";

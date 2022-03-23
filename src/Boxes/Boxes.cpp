@@ -32,11 +32,58 @@ pair<int, int> Boxes::getEmptyIndex(){
     return noEmptyIndex;
 }
 
+
+pair<int, int> Boxes::getIndexSameItem(Item* item)
+{
+    for(int i = 0; i < this->getRowSize(); i++) {
+        for(int j = 0; j < this->getColSize(); j++) {
+            if(this->collection[i][j] == item) {
+                pair<int,int> index = make_pair(i, j);
+                return index;
+            }
+        }
+    }
+    pair<int, int> noItemExist = make_pair(-1,-1);
+    return noItemExist;
+}
+
+
 void Boxes::insertItem(Item* item)
 {
-    pair<int, int> emptyBox = this->getEmptyIndex();
-    if(!(emptyBox.first == -1 || emptyBox.second == -1)) {
-        this->collection[emptyBox.first][emptyBox.second] = item;
+    pair<int, int> index = getIndexSameItem(item);
+    if(index.first != 1) { 
+        ItemNonTool* cast = static_cast<ItemNonTool*> (this->collection[index.first][index.second]);
+        if(cast->getQuantity() + item->getQuantity() <=64) {
+            (*cast) += item->getQuantity();
+            this->collection[index.first][index.second] = (Item*) cast;
+        }
+        else {
+            int quantity = cast->getQuantity() + item->getQuantity();
+            int remain = quantity % 64;
+            quantity -= 64;
+            (*cast) += (64 - cast->getQuantity());
+            this->collection[index.first][index.second] = (Item*) cast;
+            while(quantity > 64) { // to handle case input quantity > 128
+                pair<int, int> emptyBox = this->getEmptyIndex();
+                Item* item = new Item(item->getName(), item->getType(), 64, item->getTool());
+                if(!(emptyBox.first == -1 || emptyBox.second == -1)) {
+                    this->collection[emptyBox.first][emptyBox.second] = item;
+                }
+                quantity -= 64;
+            }
+            if(remain > 0) {
+                pair<int, int> emptyBox = this->getEmptyIndex();
+                Item* item = new Item(item->getName(), item->getType(), remain, item->getTool());
+                if(!(emptyBox.first == -1 || emptyBox.second == -1)) {
+                    this->collection[emptyBox.first][emptyBox.second] = item;
+                }
+            }
+        }
+    } else {
+        pair<int, int> emptyBox = this->getEmptyIndex();
+        if(!(emptyBox.first == -1 || emptyBox.second == -1)) {
+            this->collection[emptyBox.first][emptyBox.second] = item;
+        }
     }
 }
 
@@ -67,7 +114,11 @@ void Boxes::setItemByIndex(Item* item, int indexRow, int indexCol)
 void Boxes::makeDummy(int indexRow, int indexCol)
 {
     Item* dummyItem = new Item();
+<<<<<<< HEAD
     this->setItemByIndex(dummyItem, indexRow, indexCol);
+=======
+    setItemByIndex(dummyItem, indexRow, indexCol);
+>>>>>>> 465225c965a7e35dc879e181f34fac0f693c57bd
 }
 
 Item* Boxes::operator()(int indexRow, int indexCol){

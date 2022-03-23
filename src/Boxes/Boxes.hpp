@@ -3,6 +3,7 @@
 
 #include "../Item/Item.hpp"
 #include <vector>
+#include "../Exception/Exception.hpp"
 using namespace std;
 
 class Boxes {
@@ -29,6 +30,9 @@ class Boxes {
         // * Get empty cell with lowest index, 
         // Lowest index dicek berdasarkan column nya dulu
         pair<int, int> getEmptyIndex();
+
+        // * get index of item in the box if item in the box same as the parameter
+        pair<int, int> getIndexSameItem(Item* item);
 
         // * insert Item di slot kosong dengan indeks terkecil
         void insertItem(Item* item); 
@@ -72,8 +76,7 @@ class Inventory : public Boxes {
 class Crafting : public Boxes {
     public:
         Crafting();
-        bool craftAble(); // Memvalidasi susunan Item yang ada di Crafting Table ada di resep atau tidak
-        Item* craftResult(); // Menghasilkan Item hasil jika susunan craftable
+        Item* craftResult(Recipe &resep); // Menghasilkan Item hasil jika susunan craftable
         void displayBoxes(); // display all Item di Inventory
         void moveToInventory(Inventory& inventory, pair<int, int> indexCr, pair<int, int> indexInv); // memindahkan Item dari crafting ke inventory
 };
@@ -90,6 +93,7 @@ class Recipe : public Boxes {
         void setResult(Item* res);
         void displayBoxes();
         //Method
+        void displayBoxes();
 };
 
 #endif // __BOXES_H__

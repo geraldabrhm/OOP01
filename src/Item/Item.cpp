@@ -52,9 +52,7 @@ bool Item::checkDummy() const {
 }
 
 void Item::print() const{
-    cout << this->name << endl;
-    cout << this->type << endl;
-    cout << "Quantity: " << this->quantity << endl;
+    cout << "[ " << this->name << " "<< this->type << " Quantity: " << this->quantity << " ] ";
 }
 
 // ItemTool
@@ -82,9 +80,8 @@ ItemTool& ItemTool::operator+(const ItemTool& item2)
 }
 
 void ItemTool::print() const{
-    cout << "Item Tool" << endl;
+    cout << " T->";
     Item::print();
-    cout << "Durability " << this->durability << endl;
 }
 
 ItemNonTool::ItemNonTool() : Item(){
@@ -121,7 +118,7 @@ ItemNonTool& ItemNonTool::operator-=(const int& quantity){
 }
 
 void ItemNonTool::print() const{
-    cout << "Item Non Tool" << endl;
+    cout << " NT ->" ;
     Item::print();
 }
 

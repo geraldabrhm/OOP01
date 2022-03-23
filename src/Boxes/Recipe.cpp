@@ -1,7 +1,7 @@
 #include "Boxes.hpp"
 #include <iostream>
 
-Recipe::Recipe(int row, int col) : Boxes(row, col) {}
+Recipe::Recipe(int row, int col) : Boxes(3, 3) {}
 
 //Getter Setter
 Item* Recipe::getResult() const{
@@ -12,3 +12,4 @@ void Recipe::setResult(Item* res){
 }
 
 //Method
+void Recipe::displayBoxes() {/*do nothing;*/}

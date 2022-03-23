@@ -3,24 +3,21 @@
 
 Crafting::Crafting() : Boxes(3,3) {}
 
-
-bool Crafting::craftAble()
+Item* Crafting::craftResult(Recipe &resep)
 {
+    // for(int i = 0; i < this->rowSize; i++) {
+    //     for(int j = 0; j < this->colSize; j++) {
 
+    //     }
+    // }
 }
 
 
-Item* Crafting::craftResult()
-{
-
-}
-
-
-void Crafting::displayBoxes() // Cara dapet ID dari file config? Untuk ditampilin di sini juga
+void Crafting::displayBoxes()
 {
     for(int i = 0; i < this->getRowSize(); i++) {
         for(int j = 0; j < this->getColSize(); j++) {
-            cout << "[ " << this->collection[i][j]->getName() << ", Q: " << this->collection[i][j]->getQuantity() << " ] ";
+            this->collection[i][j]->print();
         }
         cout << endl;
     }
@@ -40,7 +37,11 @@ void Crafting::moveToInventory(Inventory& inventory, pair<int, int> indexCr, pai
             inventory.insertItem(temp);
         } else {
             ItemNonTool* castItem = static_cast<ItemNonTool*>(srcItem);
-            (*castItem) += 1;
+            try {
+                (*castItem) += 1;
+            } catch(OperationFailedException *exe) {
+                exe->printMessage();
+            }
             inventory.setItemByIndex((Item*) castItem, indexInv.first, indexInv.second);
         }
     }
