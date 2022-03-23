@@ -8,6 +8,10 @@ Boxes::Boxes(int rowSize, int colSize) : rowSize(rowSize), colSize(colSize) {
     this->collection = vector<vector<Item*>>(rowSize, in);
 }
 
+Item* Boxes::getElmt(int row, int col) const{
+    return this->collection[row][col];
+}
+
 int Boxes::getRowSize() const{
     return this->rowSize;
 }

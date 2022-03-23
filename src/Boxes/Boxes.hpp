@@ -18,6 +18,7 @@ class Boxes {
         Boxes(int rowSize, int colSize); 
         
         // * Getter
+        Item* getElmt(int row, int col) const;
         int getRowSize() const;
         int getColSize() const;
 
@@ -59,10 +60,7 @@ class Inventory : public Boxes {
         void useItem(int indexRow, int indexCol); 
         
         // * display all Item di Inventory
-        void displayBoxes(); 
-        
-        // * ekspor inventory ke inventory.txt, belum tau dijadiin method atau kerjain di main
-        void exportInventory(); 
+        void displayBoxes();  
 
         // * ekspor inventory ke inventory.txt, belum tau dijadiin method atau kerjain di main
         void moveToCrafting(Crafting &crafting, pair<int, int> indexSrc, vector<pair<int, int>> indexsDst); 

@@ -76,11 +76,45 @@ int main() {
 
         if (command == "EXPORT") {
             string outputPath;
+            cout << "Masukkan nama file baru : " << endl;
             cin >> outputPath;
-            ofstream outputFile(outputPath);
-
-            // hardcode for first test case
-            outputFile << inven.exportInventory();
+            ifstream  checkfile;
+            checkfile.open(outputPath);
+            while (checkfile){
+                string confirmation;
+                cout << "Terdapat file dengan nama yang sama!" << endl;
+                cout << "Apakah ingin melakukan overwrite? (Yy)" << endl;
+                cout << "Ketik apapun untuk input nama file baru!)" << endl;
+                cin >> confirmation;
+                if (confirmation.compare("Y") == 0 || confirmation.compare("y") == 0){
+                    checkfile.close();
+                    break;
+                }
+                else {
+                    checkfile.close();
+                    cout << "Masukkan nama file baru : " << endl;
+                    cin >> outputPath;
+                    checkfile.open(outputPath);
+                }
+            }
+            ofstream outputFile;
+            outputFile.open(outputPath);
+            int row = inven.getRowSize();
+            int col = inven.getColSize();
+ 
+            // Do export
+            for (int i = 0; i < row; i++){
+                for (int j = 0; j < col; j++){
+                    Item* elmt = inven.getElmt(i,j);
+                    if (elmt->getTool()){
+                        ItemTool* elmt = static_cast<ItemTool*>(elmt);
+                        outputFile << itemId.at(elmt->getName()) << ":" << elmt->getDurability() << endl;
+                    }
+                    else{
+                        outputFile << itemId.at(elmt->getName()) << ":" << elmt->getQuantity() << endl;
+                    }
+                }
+            }
             cout << "Exported" << endl;
         } 
         else if (command == "CRAFT") {

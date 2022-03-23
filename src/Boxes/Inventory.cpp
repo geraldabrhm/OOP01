@@ -51,10 +51,6 @@ void Inventory::useItem(int indexRow, int indexCol)
     }
 }
 
-void Inventory::exportInventory(){
-    
-}
-
 void Inventory::displayBoxes()
 {
     for(int i = 0; i < this->getRowSize(); i++) {
