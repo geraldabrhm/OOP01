@@ -69,10 +69,12 @@ int main() {
                 }
                 else if (find(listTool.begin(), listTool.end(), elmt) != listTool.end()) {
                     ItemTool* recipe = new ItemTool(elmt,itemType.at(elmt));
+                    (Item*)recipe;
                     blockCount++;
                 }
                 else if (find(listNonTool.begin(), listNonTool.end(), elmt) != listNonTool.end()) {
                     ItemNonTool* recipe = new ItemNonTool(elmt, itemType.at(elmt), 0);
+                    (Item*)recipe;
                     blockCount++;
                 } else { // "-"
                     Item* recipe = new Item();
@@ -108,7 +110,7 @@ int main() {
                 string confirmation;
                 cout << "Terdapat file dengan nama yang sama!" << endl;
                 cout << "Apakah ingin melakukan overwrite? (Yy)" << endl;
-                cout << "Ketik apapun untuk input nama file baru!)" << endl;
+                cout << "(Ketik apapun untuk input nama file baru!)" << endl;
                 cin >> confirmation;
                 if (confirmation.compare("Y") == 0 || confirmation.compare("y") == 0){
                     checkfile.close();
@@ -153,6 +155,7 @@ int main() {
             }
             else if (find(listNonTool.begin(), listNonTool.end(), itemName) != listNonTool.end()) {
                 ItemNonTool* item = new ItemNonTool(itemName, itemType.at(itemName), itemQty);
+                (Item*)item;
                 (*inven).insertItem(item);
             }
             else {
@@ -193,7 +196,7 @@ int main() {
                     for (int inputCount = 0; inputCount < slotQty; inputCount++){
                         string slotDest;
                         cin >> slotDest;
-
+                        //moveTo
                     }
                 }
             }
