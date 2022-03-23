@@ -67,6 +67,9 @@ public:
 
     // * Mengurangi durability;
     void reduceDurability();
+    
+    // * Stack durability of two ItemTool with the same name and type
+    ItemTool& operator+(const ItemTool& item2);
 
     // * Mencetak item
     void print() const;

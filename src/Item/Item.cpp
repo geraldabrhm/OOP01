@@ -75,6 +75,12 @@ void ItemTool::reduceDurability() {
   this->durability--;
 }
 
+// * Set durability
+ItemTool& ItemTool::operator+(const ItemTool& item2)
+{
+
+}
+
 void ItemTool::print() const{
     cout << "Item Tool" << endl;
     Item::print();

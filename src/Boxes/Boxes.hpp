@@ -65,7 +65,7 @@ class Inventory : public Boxes {
         void exportInventory(); 
 
         // * ekspor inventory ke inventory.txt, belum tau dijadiin method atau kerjain di main
-        void moveToCrafting(Crafting &crafting, int indexSrc[], int indexDst[]); 
+        void moveToCrafting(Crafting &crafting, pair<int, int> indexSrc, vector<pair<int, int>> indexsDst); 
 };
 
 class Crafting : public Boxes {
@@ -74,7 +74,7 @@ class Crafting : public Boxes {
         bool craftAble(); // Memvalidasi susunan Item yang ada di Crafting Table ada di resep atau tidak
         Item* craftResult(); // Menghasilkan Item hasil jika susunan craftable
         void displayBoxes(); // display all Item di Inventory
-        void moveToInventory(Inventory &inventory, int indexSrc, int indexDst); // memindahkan Item dari crafting ke inventory
+        void moveToInventory(Inventory &inventory, pair<int, int> indexCr, pair<int, int> indexInv); // memindahkan Item dari crafting ke inventory
 };
 
 #endif // __BOXES_H__

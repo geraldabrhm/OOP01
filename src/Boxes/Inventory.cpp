@@ -59,33 +59,42 @@ void Inventory::displayBoxes()
 {
     for(int i = 0; i < this->getRowSize(); i++) {
         for(int j = 0; j < this->getColSize(); j++) {
-            cout << "[ " << this->collection[i][j]->getName() << " " << this->collection[i][j]->getQuantity() << " ] ";
+            cout << "[ " << this->collection[i][j]->getName() << ", Q: " << this->collection[i][j]->getQuantity() << " ] ";
         }
         cout << endl;
     }
 }
 
-// Belum handle move many item
-void Inventory::moveToCrafting(Crafting &crafting, int indexSrc[], int indexDst[])
+void Inventory::moveToCrafting(Crafting &crafting, pair<int, int> indexSrc, vector<pair<int, int>> indexsDst)
 {
-    Item* srcItem = this->collection[indexSrc[0]][indexSrc[1]];
-    Item* dstItem = crafting(indexDst[0], indexDst[1]);
-    if(!srcItem->checkDummy()) {
-        this->insertItem(dstItem);
+    Item* srcItem = this->collection[indexSrc.first][indexSrc.second];
+    if(!srcItem->checkDummy() && srcItem->getQuantity() >= indexsDst.size()) {
         if(srcItem->getTool()) {
-            // Dibuat setter setItemByIndex karena gatau cara ngubah member atribut objek/instansiasi
-            // crafting dari metode di Inventory
-            crafting.setItemByIndex(srcItem, indexDst[0], indexDst[1]);
-            this->makeDummy(indexSrc[0], indexSrc[1]);
+            Item* dstItem = crafting(indexsDst[0].first, indexsDst[0].second);
+            crafting.setItemByIndex(srcItem, indexsDst[0].first, indexsDst[0].second);
+            this->makeDummy(indexSrc.first, indexSrc.second);
+            if(!dstItem->checkDummy()) {
+                this->insertItem(dstItem);
+            }
         } else {
-            ItemNonTool* cast = static_cast<ItemNonTool*>(srcItem);
-            (*cast) -= (cast->getQuantity() - 1);
-            Item* temp = (Item*) cast;
-            this->collection[indexSrc[0]][indexSrc[1]] -= 1;
-            crafting.setItemByIndex(temp, indexDst[0], indexDst[1]);
-            if(this->collection[indexSrc[0]][indexSrc[1]]->getQuantity() == 0) {
-                this->makeDummy(indexSrc[0], indexSrc[1]);
+            for(int i = 0; i < indexsDst.size(); i++) {
+                Item* dstItem = crafting(indexsDst[i].first, indexsDst[i].second);
+
+                ItemNonTool* cast = static_cast<ItemNonTool*>(srcItem);
+                ItemNonTool* cast2 = static_cast<ItemNonTool*>(srcItem);
+                (*cast) -= (cast->getQuantity() - 1);
+                (*cast2) -= 1;
+                this->collection[indexSrc.first][indexSrc.second] = (Item*) cast2;
+                crafting.setItemByIndex((Item*) cast, indexsDst[i].first, indexsDst[i].second);
+                
+                if(this->collection[indexSrc.first][indexSrc.second]->getQuantity() == 0) {
+                    this->makeDummy(indexSrc.first, indexSrc.second);
+                }
+                
+                if(!dstItem->checkDummy()) {
+                    this->insertItem(dstItem);
+                }
             }
         }
-    }
+    }   
 }

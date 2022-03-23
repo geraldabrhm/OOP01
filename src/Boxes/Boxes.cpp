@@ -31,7 +31,9 @@ pair<int, int> Boxes::getEmptyIndex(){
 void Boxes::insertItem(Item* item)
 {
     pair<int, int> emptyBox = this->getEmptyIndex();
-    this->collection[emptyBox.first][emptyBox.second] = item;
+    if(!(emptyBox.first == -1 || emptyBox.second == -1)) {
+        this->collection[emptyBox.first][emptyBox.second] = item;
+    }
 }
 
 void Boxes::discardItem(int indexRow, int indexCol, int quantity)
