@@ -14,11 +14,11 @@ using namespace std;
 
 int main() {
     bool isPlaying = true;
+    map<int,vector<Recipe>> listRecipe;
     map<string,string> itemId;
     map<string,string> itemType;
     vector<string> listTool;
     vector<string> listNonTool;
-    vector<Recipe> listRecipe;
     vector<string> listType = {"LOG","PLANK","STONE"};
     string configPath = "../config";
     string itemConfigPath = configPath + "/item.txt";
@@ -50,10 +50,11 @@ int main() {
         string rec_line, elmt, result;
         char space_char = ' ';
         int rec_row, rec_col;
-        int res_quantity, i, j;
+        int res_quantity, i, j, blockCount;
         itemRecipeFile >> rec_row >> rec_col;
         getline(itemRecipeFile, rec_line);
         Recipe rec(row,col);
+        blockCount = 0;
         for (i = 0; i < row; i++){
             getline(itemRecipeFile,rec_line);
             stringstream sstream(rec_line);
@@ -62,12 +63,15 @@ int main() {
                 if(find(listType.begin(), listType.end(), elmt) != listType.end()){
                     //Create item only have type
                     Item recipe = new Item("-", elmt, 0, false);
+                    blockCount++;
                 }
                 else if (find(listTool.begin(), listTool.end(), elmt) != listTool.end()) {
                     ItemTool recipe = new ItemTool(elmt,itemType.at(elmt));
+                    blockCount++;
                 }
                 else if (find(listNonTool.begin(), listNonTool.end(), elmt) != listNonTool.end()) {
                     ItemNonTool recipe = new ItemNonTool(elmt, itemType.at(elmt), 0);
+                    blockCount++;
                 } else { // "-"
                     Item recipe = new Item();
                 }
@@ -83,7 +87,7 @@ int main() {
             ItemNonTool itemResult = new ItemNonTool(result, itemType.at(result), res_quantity);
         }
         rec.insertItem(itemResult);
-        listRecipe.push_back(rec);
+        listRecipe[blockCount].push_back(rec);
     }
 
     // Main program
