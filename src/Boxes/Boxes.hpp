@@ -79,17 +79,14 @@ class Crafting : public Boxes {
 
 class Recipe : public Boxes {
     private:
-        string result;
-        int res_quantity;
+        Item* result;
     public:
         //Constructor
         Recipe(int row, int col);
 
         //Getter Setter
-        string getResult() const;
-        void setResult(string res);
-        int getQuantity() const;
-        void setQuantity(int q);
+        Item* getResult() const;
+        void setResult(Item* res);
 
         //Method
 };

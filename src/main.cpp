@@ -14,11 +14,12 @@ using namespace std;
 
 int main() {
     bool isPlaying = true;
+    map<int,vector<Recipe>> listRecipe;
     map<string,string> itemId;
     map<string,string> itemType;
     vector<string> listTool;
     vector<string> listNonTool;
-    vector<Recipe> listRecipe;
+    vector<string> listType = {"LOG","PLANK","STONE"};
     string configPath = "../config";
     string itemConfigPath = configPath + "/item.txt";
     string id, item_name, item_type, item_types;
@@ -49,23 +50,44 @@ int main() {
         string rec_line, elmt, result;
         char space_char = ' ';
         int rec_row, rec_col;
-        int res_quantity, i, j;
+        int res_quantity, i, j, blockCount;
         itemRecipeFile >> rec_row >> rec_col;
         getline(itemRecipeFile, rec_line);
         Recipe rec(row,col);
+        blockCount = 0;
         for (i = 0; i < row; i++){
             getline(itemRecipeFile,rec_line);
             stringstream sstream(rec_line);
             j = 0;
             while (getline(sstream, elmt, space_char)){
-                rec.insertElmt(i,j,elmt);
+                if(find(listType.begin(), listType.end(), elmt) != listType.end()){
+                    //Create item only have type
+                    Item recipe = new Item("-", elmt, 0, false);
+                    blockCount++;
+                }
+                else if (find(listTool.begin(), listTool.end(), elmt) != listTool.end()) {
+                    ItemTool recipe = new ItemTool(elmt,itemType.at(elmt));
+                    blockCount++;
+                }
+                else if (find(listNonTool.begin(), listNonTool.end(), elmt) != listNonTool.end()) {
+                    ItemNonTool recipe = new ItemNonTool(elmt, itemType.at(elmt), 0);
+                    blockCount++;
+                } else { // "-"
+                    Item recipe = new Item();
+                }
+                rec.setItemByIndex(recipe,i,j);
                 j++;
             }
         }
         itemRecipeFile >> result >> res_quantity;
-        rec.setResult(result);
-        rec.setQuantity(res_quantity);
-        listRecipe.push_back(rec);
+        if (find(listTool.begin(), listTool.end(), result) != listTool.end()) {
+            ItemTool itemResult = new ItemTool(result,itemType.at(result));
+        }
+        else if (find(listNonTool.begin(), listNonTool.end(), result) != listNonTool.end()) {
+            ItemNonTool itemResult = new ItemNonTool(result, itemType.at(result), res_quantity);
+        }
+        rec.insertItem(itemResult);
+        listRecipe[blockCount].push_back(rec);
     }
 
     // Main program
@@ -124,8 +146,7 @@ int main() {
             int itemQty;
             cin >> itemName >> itemQty;
             if (find(listTool.begin(), listTool.end(), itemName) != listTool.end()) {
-                ItemTool item = new ItemTool(itemName, itemType.at(itemName), itemQty);
-                inven.insertItem(item, item.getQuantity());
+                cout << "Tidak dapat melakukan command GIVE untuk item Tool!" << endl;
             }
             else if (find(listNonTool.begin(), listNonTool.end(), itemName) != listNonTool.end()) {
                 ItemNonTool item = new ItemNonTool(itemName, itemType.at(itemName), itemQty);
