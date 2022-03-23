@@ -19,6 +19,7 @@ int main() {
     vector<string> listTool;
     vector<string> listNonTool;
     vector<Recipe> listRecipe;
+    vector<string> listType = {"LOG","PLANK","STONE"};
     string configPath = "../config";
     string itemConfigPath = configPath + "/item.txt";
     string id, item_name, item_type, item_types;
@@ -58,13 +59,30 @@ int main() {
             stringstream sstream(rec_line);
             j = 0;
             while (getline(sstream, elmt, space_char)){
-                rec.insertElmt(i,j,elmt);
+                if(find(listType.begin(), listType.end(), elmt) != listType.end()){
+                    //Create item only have type
+                    Item recipe = new Item("-", elmt, 0, false);
+                }
+                else if (find(listTool.begin(), listTool.end(), elmt) != listTool.end()) {
+                    ItemTool recipe = new ItemTool(elmt,itemType.at(elmt));
+                }
+                else if (find(listNonTool.begin(), listNonTool.end(), elmt) != listNonTool.end()) {
+                    ItemNonTool recipe = new ItemNonTool(elmt, itemType.at(elmt), 0);
+                } else { // "-"
+                    Item recipe = new Item();
+                }
+                rec.setItemByIndex(recipe,i,j);
                 j++;
             }
         }
         itemRecipeFile >> result >> res_quantity;
-        rec.setResult(result);
-        rec.setQuantity(res_quantity);
+        if (find(listTool.begin(), listTool.end(), result) != listTool.end()) {
+            ItemTool itemResult = new ItemTool(result,itemType.at(result));
+        }
+        else if (find(listNonTool.begin(), listNonTool.end(), result) != listNonTool.end()) {
+            ItemNonTool itemResult = new ItemNonTool(result, itemType.at(result), res_quantity);
+        }
+        rec.insertItem(itemResult);
         listRecipe.push_back(rec);
     }
 
@@ -124,8 +142,7 @@ int main() {
             int itemQty;
             cin >> itemName >> itemQty;
             if (find(listTool.begin(), listTool.end(), itemName) != listTool.end()) {
-                ItemTool item = new ItemTool(itemName, itemType.at(itemName), itemQty);
-                inven.insertItem(item, item.getQuantity());
+                cout << "Tidak dapat melakukan command GIVE untuk item Tool!" << endl;
             }
             else if (find(listNonTool.begin(), listNonTool.end(), itemName) != listNonTool.end()) {
                 ItemNonTool item = new ItemNonTool(itemName, itemType.at(itemName), itemQty);
