@@ -12,3 +12,4 @@ void Recipe::setResult(Item* res){
 }
 
 //Method
+void Recipe::displayBoxes() {/*do nothing;*/}

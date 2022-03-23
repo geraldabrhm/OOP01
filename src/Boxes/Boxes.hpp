@@ -90,6 +90,7 @@ class Recipe : public Boxes {
         void setResult(Item* res);
 
         //Method
+        void displayBoxes();
 };
 
 #endif // __BOXES_H__
