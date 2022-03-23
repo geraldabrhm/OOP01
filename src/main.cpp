@@ -2,20 +2,23 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <map>
 #include <vector>
+#include <cstdlib>
 #include "./Item/Item.hpp"
 #include "./Boxes/Boxes.hpp"
 
 using namespace std;
 
 int main() {
-    boolean isPlaying = true;
+    bool isPlaying = true;
     map<string,string> itemId;
     map<string,string> itemType;
     vector<string> listTool;
     vector<string> listNonTool;
+    vector<Recipe> listRecipe;
     string configPath = "../config";
     string itemConfigPath = configPath + "/item.txt";
     string id, item_name, item_type, item_types;
@@ -43,6 +46,26 @@ int main() {
     for (const auto &entry : filesystem::directory_iterator(configPath + "/recipe")) {
         ifstream itemRecipeFile(entry.path());
         // read from file and do something
+        string rec_line, elmt, result;
+        char space_char = ' ';
+        int rec_row, rec_col;
+        int res_quantity, i, j;
+        itemRecipeFile >> rec_row >> rec_col;
+        getline(itemRecipeFile, rec_line);
+        Recipe rec(row,col);
+        for (i = 0; i < row; i++){
+            getline(itemRecipeFile,rec_line);
+            stringstream sstream(rec_line);
+            j = 0;
+            while (getline(sstream, elmt, space_char)){
+                rec.insertElmt(i,j,elmt);
+                j++;
+            }
+        }
+        itemRecipeFile >> result >> res_quantity;
+        rec.setResult(result);
+        rec.setQuantity(res_quantity);
+        listRecipe.push_back(rec);
     }
 
     // Main program
@@ -52,14 +75,44 @@ int main() {
 
         if (command == "EXPORT") {
             string outputPath;
+            cout << "Masukkan nama file baru : " << endl;
             cin >> outputPath;
-            ofstream outputFile(outputPath);
-
-            // hardcode for first test case
-            outputFile << "21:10" << endl;
-            outputFile << "6:1" << endl;
-            for (int i = 2; i < 27; i++) {
-                outputFile << "0:0" << endl;
+            ifstream  checkfile;
+            checkfile.open(outputPath);
+            while (checkfile){
+                string confirmation;
+                cout << "Terdapat file dengan nama yang sama!" << endl;
+                cout << "Apakah ingin melakukan overwrite? (Yy)" << endl;
+                cout << "Ketik apapun untuk input nama file baru!)" << endl;
+                cin >> confirmation;
+                if (confirmation.compare("Y") == 0 || confirmation.compare("y") == 0){
+                    checkfile.close();
+                    break;
+                }
+                else {
+                    checkfile.close();
+                    cout << "Masukkan nama file baru : " << endl;
+                    cin >> outputPath;
+                    checkfile.open(outputPath);
+                }
+            }
+            ofstream outputFile;
+            outputFile.open(outputPath);
+            int row = inven.getRowSize();
+            int col = inven.getColSize();
+ 
+            // Do export
+            for (int i = 0; i < row; i++){
+                for (int j = 0; j < col; j++){
+                    Item* elmt = inven.getElmt(i,j);
+                    if (elmt->getTool()){
+                        ItemTool* elmt = static_cast<ItemTool*>(elmt);
+                        outputFile << itemId.at(elmt->getName()) << ":" << elmt->getDurability() << endl;
+                    }
+                    else{
+                        outputFile << itemId.at(elmt->getName()) << ":" << elmt->getQuantity() << endl;
+                    }
+                }
             }
             cout << "Exported" << endl;
         } 
@@ -91,8 +144,57 @@ int main() {
             cout << "TODO" << endl;
         } 
         else if (command == "DISCARD") {
-
-        } 
+            string dest;
+            int dest_slot, itemQty;
+            cin >> dest >> itemQty;
+            if (dest.length() > 3 || dest[0] != 'I'){
+                cout << "Harap masukkan slot inventory dengan benar!" << endl;
+            }
+            else {
+                try{
+                    dest_slot = stoi(dest.substr(1));
+                    cout << dest_slot << endl;
+                } catch(exception){
+                    cout << "Harap masukkan slot inventory dengan benar!" << endl;
+                }
+                int row = 0;
+                while (dest_slot >= colSize){
+                    dest_slot -= (colSize -1);
+                    row++;
+                }
+                if (row >= rowSize){
+                    cout << "Indeks masukan di luar index inventory!!";
+                } else {
+                    inven.discardItem(row,dest_slot,itemQty);
+                }
+            }
+        }
+        else if (command == "USE"){
+            string dest;
+            int dest_slot;
+            cin >> dest;
+            if (dest.length() > 3 || dest[0] != 'I'){
+                cout << "Harap masukkan slot inventory dengan benar!" << endl;
+            }
+            else {
+                try{
+                    dest_slot = stoi(dest.substr(1));
+                    cout << dest_slot << endl;
+                } catch(exception){
+                    cout << "Harap masukkan slot inventory dengan benar!" << endl;
+                }
+                int row = 0;
+                while (dest_slot >= colSize){
+                    dest_slot -= (colSize -1);
+                    row++;
+                }
+                if (row >= rowSize){
+                    cout << "Indeks masukan di luar index inventory!!";
+                } else {
+                    inven.useItem(row,dest_slot);
+                }
+            }
+        }  
         else if (command == "SHOW") {
             craftbox.displayBoxes();
             inven.displayBoxes();

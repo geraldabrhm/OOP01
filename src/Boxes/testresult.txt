@@ -1,0 +1,44 @@
+Try Getter
+
+Try getRowSize
+Hasil yang diharapkan 3
+3
+
+Try getColSize
+Hasil yang diharapkan 9
+9
+
+Try getEmpyIndex
+Hasil yang diharapkan 0 0
+0 0
+
+Try InsertItem
+Hasil yang diharapkan (berupa empty index) 0 8 
+0 8
+
+Try Operator()
+Hasil yang diharapkan birch_log 2 10 rope
+birch_log
+2
+10
+rope
+
+Try discardItem
+Hasil yang diharapkan 1 1
+1
+1
+
+Try stackItem
+Hasil yang diharapkan 3 0
+3
+0
+
+Try useItem
+Hasil yang diharapkan 10 9
+10
+9
+
+Try displayBoxes
+[ birch_log 1 ] [ birch_log 3 ] [ wood_log 2 ] [ - 0 ] [ wood_axe 1 ] [ iron_axe 1 ] [ wood_axe 1 ] [ wood_rope 1 ] [ - 0 ] 
+[ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] 
+[ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] [ - 0 ] 

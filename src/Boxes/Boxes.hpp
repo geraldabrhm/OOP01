@@ -4,32 +4,66 @@
 #include "../Item/Item.hpp"
 #include <vector>
 using namespace std;
-class Crafting;
 
 class Boxes {
     protected:
-        vector <vector<pair<ItemNonTool, ItemTool>>> collection;
+        //Array for saving item
+        vector<vector<Item*>>collection;
+        
         const int rowSize;
         const int colSize;
     public:
-        Boxes(int rowSize, int colSize); // ctor
-        virtual void displayBoxes()=0; // display all Item di Boxes
+
+        // ctor
+        Boxes(int rowSize, int colSize); 
+        
+        // * Getter
+        Item* getElmt(int row, int col) const;
+        int getRowSize() const;
+        int getColSize() const;
+
+        // * Setter
+        void setItemByIndex(Item* item, int indexRow, int indexCol);
+
+        // * Method
+        // * Get empty cell with lowest index, 
+        // Lowest index dicek berdasarkan column nya dulu
         pair<int, int> getEmptyIndex();
-        void insertItem(ItemTool &item); // insert Item di slot kosong dengan indeks terkecil
-        void insertItem(ItemNonTool &item); // insert Item di slot kosong dengan indeks terkecil
-        void discardItem(int indexRow, int indexCol, int quantity); // discard Item yang ada di index pada parameter sejumlah quantity
-        pair<ItemNonTool,ItemTool>& operator()(int indexRow, int indexCol);
-        void makePairDummy(int indexRow, int indexCol);
+
+        // * insert Item di slot kosong dengan indeks terkecil
+        void insertItem(Item* item); 
+        
+        // discard Item yang ada di index pada parameter sejumlah quantity
+        void discardItem(int indexRow, int indexCol, int quantity);
+
+        // Make item in particular index to be a dummy
+        void makeDummy(int indexRow, int indexCol);
+        
+        // * Operator overloading
+        // * Accessing element
+        Item* operator()(int indexRow, int indexCol);
+        
+        virtual void displayBoxes()=0; // display all Item di Boxes
 };
 
 class Inventory : public Boxes {
     public:
-        Inventory();// ctor
-        void stackItem(int indexSrc[], int indexDst[]);  // melakukan stack dari Item di indexSrc ke indexDst jika sama
-        void useItem(int indexRow, int indexCol); // Menggunakan Item yang terletak pada index parameter dan mengurangi durabilitynya
-        void displayBoxes(); // display all Item di Inventory
-        void exportInventory(); // ekspor inventory ke inventory.txt, belum tau dijadiin method atau kerjain di main
-        void moveToCrafting(Crafting &crafting, int indexSrc[], int indexDst[]); // memindahkan Item dari inventory ke crafting
+        // * Ctor
+        Inventory();
+        
+        // * Method
+        
+        // * Melakukan stack dari Item di indexSrc ke indexDst
+        void stackItem(pair<int,int>indexSrc, pair<int,int>indexDst);
+        
+        // * Menggunakan Item yang terletak pada index parameter dan mengurangi durabilitynya 
+        void useItem(int indexRow, int indexCol); 
+        
+        // * display all Item di Inventory
+        void displayBoxes();  
+
+        // * ekspor inventory ke inventory.txt, belum tau dijadiin method atau kerjain di main
+        void moveToCrafting(Crafting &crafting, pair<int, int> indexSrc, vector<pair<int, int>> indexsDst); 
 };
 
 class Crafting : public Boxes {
@@ -38,7 +72,24 @@ class Crafting : public Boxes {
         bool craftAble(); // Memvalidasi susunan Item yang ada di Crafting Table ada di resep atau tidak
         Item* craftResult(); // Menghasilkan Item hasil jika susunan craftable
         void displayBoxes(); // display all Item di Inventory
-        void moveToInventory(Inventory &inventory, int indexSrc, int indexDst); // memindahkan Item dari crafting ke inventory
+        void moveToInventory(Inventory &inventory, pair<int, int> indexCr, pair<int, int> indexInv); // memindahkan Item dari crafting ke inventory
+};
+
+class Recipe : public Boxes {
+    private:
+        string result;
+        int res_quantity;
+    public:
+        //Constructor
+        Recipe(int row, int col);
+
+        //Getter Setter
+        string getResult() const;
+        void setResult(string res);
+        int getQuantity() const;
+        void setQuantity(int q);
+
+        //Method
 };
 
 #endif // __BOXES_H__

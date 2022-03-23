@@ -5,11 +5,13 @@ Item::Item() {
   this->name = "-";
   this->type = "-";
   this->quantity = 0;
+  this->isTool = false;
 }
-Item::Item(string name, string type, int quantity) {
+Item::Item(string name, string type, int quantity, bool isTool) {
   this->name = name;
   this->type = type;
   this->quantity = quantity;
+  this->isTool = isTool;
 }
 
 // * Operator overloading
@@ -24,7 +26,10 @@ bool operator&(const Item& item1, const Item& item2)
   return (item1.getType() == item2.getType() && item1.getName() == item2.getName());
 }
 
-
+ostream& operator<<(ostream& out, const Item& item){
+    item.print();
+    return out;
+}
 // * Methods
 
 // * Getter 
@@ -37,17 +42,26 @@ string Item::getType() const {
 int Item::getQuantity() const {
   return this->quantity;
 }
+bool Item::getTool() const {
+  return this->isTool;
+}
 
 // * Check apakah item berupa dummy item (True jika dummy)
 bool Item::checkDummy() const {
   return this->name == "-";
 }
 
+void Item::print() const{
+    cout << this->name << endl;
+    cout << this->type << endl;
+    cout << "Quantity: " << this->quantity << endl;
+}
+
 // ItemTool
 ItemTool::ItemTool() : Item() {
   this->durability = -1;
 }
-ItemTool::ItemTool(string name, string type, int quantity) : Item(name, type, 1) {
+ItemTool::ItemTool(string name, string type) : Item(name, type, 1, true) {
   this->durability = 10;
 }
 
@@ -60,49 +74,64 @@ int ItemTool::getDurability() const {
 void ItemTool::reduceDurability() {
   this->durability--;
 }
-bool ItemTool::isTool() {
-  return true;
+
+// * Set durability
+ItemTool& ItemTool::operator+(const ItemTool& item2)
+{
+
+}
+
+void ItemTool::print() const{
+    cout << "Item Tool" << endl;
+    Item::print();
+    cout << "Durability " << this->durability << endl;
 }
 
 ItemNonTool::ItemNonTool() : Item(){
 
 }
 
-ItemNonTool::ItemNonTool(string name, string type, int quantity) : Item(name, type, quantity){
+ItemNonTool::ItemNonTool(string name, string type, int quantity) : Item(name, type, quantity, false){
 
 }
 
-// ! Untuk tiap method overloading, pastiin udah memenuhi syarat baru dipakai
-// ! I.S. Syarat operator terpenuhi -> Untuk penjumlahan masih ada slot dan untuk pengurangn jumlah untuk dibuang mencukupi
 ItemNonTool& ItemNonTool::operator+=(const ItemNonTool& item){
-    this->quantity += item.getQuantity();
+    this->quantity += min(item.getQuantity(), this->slotAvailable());
     return *this;
 }
 
 ItemNonTool& ItemNonTool::operator+=(const int& quantity){
+  if(this->slotAvailable() <= quantity){
     this->quantity += quantity;
     return *this;
+  }else{
+    ArithmeticException* exc = new ArithmeticException(quantity, this->slotAvailable());
+    throw exc;
+  }
 }
 
 ItemNonTool& ItemNonTool::operator-=(const int& quantity){
+  if(this->isEnough(quantity)){
     this->quantity -= quantity;
     return *this;
+  }else{
+    ArithmeticException* exc = new ArithmeticException(quantity, this->quantity);
+    throw exc;
+  }
 }
 
-bool ItemNonTool::isTool(){
-    return false;
+void ItemNonTool::print() const{
+    cout << "Item Non Tool" << endl;
+    Item::print();
 }
 
-bool ItemNonTool::isAvailable(ItemNonTool item){
-    if(this->quantity + item.getQuantity() <= 64 ){
-        return true;
-    }else{
-        return false;
-    }
+int ItemNonTool::slotAvailable() const{
+   return (MAX_QUANTITY - this->quantity);
 }
 
-bool ItemNonTool::isEnough(int discard){
+bool ItemNonTool::isEnough(int discard) const{
     if(this->quantity >= discard){
         return true;
     }
+    return false;
 }
