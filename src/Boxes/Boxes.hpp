@@ -75,4 +75,21 @@ class Crafting : public Boxes {
         void moveToInventory(Inventory &inventory, pair<int, int> indexCr, pair<int, int> indexInv); // memindahkan Item dari crafting ke inventory
 };
 
+class Recipe : public Boxes {
+    private:
+        string result;
+        int res_quantity;
+    public:
+        //Constructor
+        Recipe(int row, int col);
+
+        //Getter Setter
+        string getResult() const;
+        void setResult(string res);
+        int getQuantity() const;
+        void setQuantity(int q);
+
+        //Method
+};
+
 #endif // __BOXES_H__
