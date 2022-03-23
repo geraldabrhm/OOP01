@@ -3,6 +3,7 @@
 
 #include "../Item/Item.hpp"
 #include <vector>
+#include "../Exception/Exception.hpp"
 using namespace std;
 
 class Boxes {

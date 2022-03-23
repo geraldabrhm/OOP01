@@ -114,7 +114,7 @@ void Boxes::setItemByIndex(Item* item, int indexRow, int indexCol)
 void Boxes::makeDummy(int indexRow, int indexCol)
 {
     Item* dummyItem = new Item();
-    this->collection[indexRow][indexCol] = dummyItem;
+    setItemByIndex(dummyItem, indexRow, indexCol);
 }
 
 Item* Boxes::operator()(int indexRow, int indexCol){

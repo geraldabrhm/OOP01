@@ -11,29 +11,30 @@ void Inventory::stackItem(pair<int,int>indexSrc, pair<int,int>indexDst){
         ItemNonTool* castSrc = static_cast<ItemNonTool*>(itemSrc);
         ItemNonTool* castDst = static_cast<ItemNonTool*>(itemDst);
 
-        if(castDst->slotAvailable() > 0){
-            int slot = min(castSrc->getQuantity(), 64 - (castDst->getQuantity()));
+        
+        int slot = min(castSrc->getQuantity(), castDst->slotAvailable());
+        try {
             (*castDst) += slot;
             (*castSrc) -= slot;
+        } catch(OperationFailedException *exec) {
+            exec->printMessage();
+        }
 
-            if(castSrc ->getQuantity() == 0){
+
+        if(castSrc ->getQuantity() == 0){
+            makeDummy(indexSrc.first, indexSrc.second);
+        }else{
+            pair<int,int>index = this->getEmptyIndex();
+            if(index.first != indexSrc.first || index.second != indexSrc.second){
+                this->collection[index.first][index.second] = (Item*) castSrc;
                 makeDummy(indexSrc.first, indexSrc.second);
             }else{
-                pair<int,int>index = this->getEmptyIndex();
-                if(index.first != indexSrc.first || index.second != indexSrc.second){
-                    this->collection[index.first][index.second] = (Item*) castSrc;
-                    makeDummy(indexSrc.first, indexSrc.second);
-                }else{
-                    this->collection[indexSrc.first][indexSrc.second] = (Item*) castSrc;
-                }
+                this->collection[indexSrc.first][indexSrc.second] = (Item*) castSrc;
             }
-        }else{
-            //Harusnya throw error disini
-            return;
         }
     }else{
-        //Harusnya throw error disini
-        return;
+        InvalidTypeException *exce = new InvalidTypeException(false);
+        throw exce;
     }
 }
 
@@ -55,16 +56,17 @@ void Inventory::displayBoxes()
 {
     for(int i = 0; i < this->getRowSize(); i++) {
         for(int j = 0; j < this->getColSize(); j++) {
-            cout << "[ " << this->collection[i][j]->getName() << ", Q: " << this->collection[i][j]->getQuantity() << " ] ";
+            this->collection[i][j]->print();
         }
         cout << endl;
     }
 }
 
+// Asumsi: pemindahan dilakukan 1 persatu dan jika di crafting sudah ada item, dilakukan pengembalian ke inventory
 void Inventory::moveToCrafting(Crafting &crafting, pair<int, int> indexSrc, vector<pair<int, int>> indexsDst)
 {
     Item* srcItem = this->collection[indexSrc.first][indexSrc.second];
-    if(!srcItem->checkDummy() && srcItem->getQuantity() >= indexsDst.size()) {
+    if(!srcItem->checkDummy()) {
         if(srcItem->getTool()) {
             Item* dstItem = crafting(indexsDst[0].first, indexsDst[0].second);
             crafting.setItemByIndex(srcItem, indexsDst[0].first, indexsDst[0].second);
@@ -73,23 +75,26 @@ void Inventory::moveToCrafting(Crafting &crafting, pair<int, int> indexSrc, vect
                 this->insertItem(dstItem);
             }
         } else {
+            ItemNonTool* cast2 = static_cast<ItemNonTool*>(srcItem);
+            int count = 0;
+
             for(int i = 0; i < indexsDst.size(); i++) {
+                ItemNonTool* cast = new ItemNonTool(srcItem->getName(), srcItem->getType(), 1);
                 Item* dstItem = crafting(indexsDst[i].first, indexsDst[i].second);
 
-                ItemNonTool* cast = static_cast<ItemNonTool*>(srcItem);
-                ItemNonTool* cast2 = static_cast<ItemNonTool*>(srcItem);
-                (*cast) -= (cast->getQuantity() - 1);
-                (*cast2) -= 1;
-                this->collection[indexSrc.first][indexSrc.second] = (Item*) cast2;
+                this->setItemByIndex((Item*) cast2, indexSrc.first, indexSrc.second);
                 crafting.setItemByIndex((Item*) cast, indexsDst[i].first, indexsDst[i].second);
-                
-                if(this->collection[indexSrc.first][indexSrc.second]->getQuantity() == 0) {
-                    this->makeDummy(indexSrc.first, indexSrc.second);
-                }
                 
                 if(!dstItem->checkDummy()) {
                     this->insertItem(dstItem);
                 }
+                count++;
+            }
+            if(count == cast2->getQuantity()) {
+                this->makeDummy(indexSrc.first, indexSrc.second);
+            } else {
+                (*cast2) -= count;
+                this->setItemByIndex((Item*) cast2, indexSrc.first, indexSrc.second);
             }
         }
     }   
