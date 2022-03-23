@@ -45,6 +45,7 @@ class Boxes {
         
         virtual void displayBoxes()=0; // display all Item di Boxes
 };
+#include "./Boxes.hpp"
 
 class Inventory : public Boxes {
     public:
@@ -63,8 +64,10 @@ class Inventory : public Boxes {
         void displayBoxes();  
 
         // * ekspor inventory ke inventory.txt, belum tau dijadiin method atau kerjain di main
-        void moveToCrafting(Crafting &crafting, pair<int, int> indexSrc, vector<pair<int, int>> indexsDst); 
+        void moveToCrafting(Crafting& crafting, pair<int, int> indexSrc, vector<pair<int, int>> indexsDst); 
 };
+
+#include "./Boxes.hpp"
 
 class Crafting : public Boxes {
     public:
@@ -72,7 +75,7 @@ class Crafting : public Boxes {
         bool craftAble(); // Memvalidasi susunan Item yang ada di Crafting Table ada di resep atau tidak
         Item* craftResult(); // Menghasilkan Item hasil jika susunan craftable
         void displayBoxes(); // display all Item di Inventory
-        void moveToInventory(Inventory &inventory, pair<int, int> indexCr, pair<int, int> indexInv); // memindahkan Item dari crafting ke inventory
+        void moveToInventory(Inventory& inventory, pair<int, int> indexCr, pair<int, int> indexInv); // memindahkan Item dari crafting ke inventory
 };
 
 class Recipe : public Boxes {
@@ -85,7 +88,7 @@ class Recipe : public Boxes {
         //Getter Setter
         Item* getResult() const;
         void setResult(Item* res);
-
+        void displayBoxes();
         //Method
 };
 

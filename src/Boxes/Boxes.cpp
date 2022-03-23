@@ -1,4 +1,4 @@
-#include "Boxes.hpp"
+#include "./Boxes.hpp"
 
 Boxes::Boxes(int rowSize, int colSize) : rowSize(rowSize), colSize(colSize) {
     //Mengisi vector dengan dummy item
@@ -67,9 +67,10 @@ void Boxes::setItemByIndex(Item* item, int indexRow, int indexCol)
 void Boxes::makeDummy(int indexRow, int indexCol)
 {
     Item* dummyItem = new Item();
-    this->collection[indexRow][indexCol] = dummyItem;
+    this->setItemByIndex(dummyItem, indexRow, indexCol);
 }
 
 Item* Boxes::operator()(int indexRow, int indexCol){
     return this->collection[indexRow][indexCol];
 }
+

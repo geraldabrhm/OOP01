@@ -24,6 +24,8 @@ int main() {
     string itemConfigPath = configPath + "/item.txt";
     string id, item_name, item_type, item_types;
     string command;
+
+
     // Initialize Inventory and Crafting
     Inventory inven = new Inventory();
     Crafting craftbox = new Crafting();
@@ -53,7 +55,7 @@ int main() {
         int res_quantity, i, j, blockCount;
         itemRecipeFile >> rec_row >> rec_col;
         getline(itemRecipeFile, rec_line);
-        Recipe rec(row,col);
+        Recipe rec(rec_row,rec_col);
         blockCount = 0;
         for (i = 0; i < row; i++){
             getline(itemRecipeFile,rec_line);
@@ -62,11 +64,11 @@ int main() {
             while (getline(sstream, elmt, space_char)){
                 if(find(listType.begin(), listType.end(), elmt) != listType.end()){
                     //Create item only have type
-                    Item recipe = new Item("-", elmt, 0, false);
+                    Item* recipe = new Item("-", elmt, 0, false);
                     blockCount++;
                 }
                 else if (find(listTool.begin(), listTool.end(), elmt) != listTool.end()) {
-                    ItemTool recipe = new ItemTool(elmt,itemType.at(elmt));
+                    ItemTool* recipe = new ItemTool(elmt,itemType.at(elmt));
                     blockCount++;
                 }
                 else if (find(listNonTool.begin(), listNonTool.end(), elmt) != listNonTool.end()) {

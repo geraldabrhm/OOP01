@@ -1,4 +1,4 @@
-#include "Boxes.hpp"
+#include "./Boxes.hpp"
 
 
 Crafting::Crafting() : Boxes(3,3) {}
@@ -26,7 +26,7 @@ void Crafting::displayBoxes() // Cara dapet ID dari file config? Untuk ditampili
     }
 }
 
-void Crafting::moveToInventory(Inventory &inventory, pair<int, int> indexCr, pair<int,int> indexInv)
+void Crafting::moveToInventory(Inventory& inventory, pair<int, int> indexCr, pair<int,int> indexInv)
 {
     // indexCr isinya bukan dummy item, dan diasumsikan jenis item di indexCr dan indexInv sama
     Item* temp = this->collection[indexCr.first][indexCr.second];
