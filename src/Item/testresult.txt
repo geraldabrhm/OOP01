@@ -1,0 +1,95 @@
+Try operator==
+Hasil yang diharapkan: YES NO NO YES YES NO YES YES NO
+YES
+NO
+NO
+YES
+YES
+NO
+YES
+YES
+NO
+
+Try operator&&
+Hasil yang diharapkan: YES NO NO YES NO NO NO YES NO
+YES
+NO
+NO
+YES
+NO
+NO
+NO
+YES
+NO
+
+Try Getter
+
+Try getName
+Hasil yang diharapkan: - birch_log iron_axe
+-
+birch_log
+iron_axe
+
+Try getType
+Hasil yang diharapkan: - log axe
+-
+log
+axe
+
+Try getQuantity
+Hasil yang diharapkan: 0 4 1
+0
+4
+1
+
+Try checkDummy
+Hasil yang diharapkan: YES NO NO
+YES
+NO
+NO
+
+Try operator<<
+-
+-
+Quantity: 0
+
+Item Non Tool
+birch_log
+log
+Quantity: 4
+
+Item Tool
+wood_axe
+axe
+Quantity: 1
+Durability 10
+
+Try getDurability
+Hasil yang diharapkan -1 10
+-1
+10
+
+Try reduceDurability
+Hasil yang diharapkan 9
+9
+
+Try operator+=
+Hasil yang diharapkan 6 7
+6
+7
+
+Try operator-=
+Hasil yang diharapkan 3 0
+3
+0
+
+Try slotAvailable
+Hasil yang diharapkan 61 64
+61
+64
+
+Try isEnough
+Hasil yang diharapkan YES NO YES
+YES
+NO
+YES

@@ -2,6 +2,8 @@
 #define _ITEM_
 
 #include <string>
+#include <iostream>
+#include "../Exception/Exception.hpp"
 using namespace std;
 
 /**
@@ -15,32 +17,42 @@ using namespace std;
 
 // Buat map di main -> Nyimpen pasangan nama sama id
 
+const int MAX_QUANTITY = 64;
+
 class Item{
 protected:
     string name;
     string type;
+    bool isTool;
     int quantity;
 public:
     // * Default Constructor -> Dummy Item, name = "-", type = "-"
     Item();
-    Item(string name, string type, int quantity);
+    Item(string name, string type, int quantity, bool isTool);
 
-    // * Operator overloading
-    // * Mengecek apakah tipe nya sama
-    friend bool operator==(const Item& item1, const Item& item2);
-    friend bool operator&(const Item& item1, const Item& item2);
-    // * Methods
 
     // * Getter 
     string getName() const;
     string getType() const;
     int getQuantity() const;
+    bool getTool() const;
 
     // * Check apakah item berupa dummy item (True jika dummy)
     bool checkDummy() const;
 
     // * Menentukan apakah Tool atau non Tool
-    virtual bool isTool() = 0;
+
+    // * Mencetak ke layar
+    virtual void print() const;
+    
+    // * Operator overloading
+    
+    // * Mengecek apakah tipe nya sama
+    friend bool operator==(const Item& item1, const Item& item2);
+    // * Mengecek apakah benda yang sama (tipe dan nama nya sama)
+    friend bool operator&(const Item& item1, const Item& item2);
+
+    friend ostream& operator<<(ostream& out, const Item& item);
 };
 
 class ItemTool: public Item{
@@ -48,14 +60,19 @@ private:
     int durability;
 public:
     ItemTool();
-    ItemTool(string name, string type, int quantity);
+    ItemTool(string name, string type);
 
     // * Getter
     int getDurability() const;
 
     // * Mengurangi durability;
     void reduceDurability();
-    bool isTool();
+    
+    // * Stack durability of two ItemTool with the same name and type
+    ItemTool& operator+(const ItemTool& item2);
+
+    // * Mencetak item
+    void print() const;
 };
 
 class ItemNonTool: public Item{
@@ -71,12 +88,14 @@ public:
 
     // Method
 
-    bool isTool();
     // * Mengecek apakah item masih memiliki slot untuk ditambah
-    bool isAvailable(ItemNonTool item);
+    int slotAvailable() const;
     
     // * Mengecek apakah item mencukupi untuk dibuang
-    bool isEnough(int discard);
+    bool isEnough(int discard) const;
+
+    // * Mencetak item
+    void print() const;
 };
 
 #endif
