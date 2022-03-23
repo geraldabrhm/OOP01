@@ -114,11 +114,7 @@ void Boxes::setItemByIndex(Item* item, int indexRow, int indexCol)
 void Boxes::makeDummy(int indexRow, int indexCol)
 {
     Item* dummyItem = new Item();
-<<<<<<< HEAD
     this->setItemByIndex(dummyItem, indexRow, indexCol);
-=======
-    setItemByIndex(dummyItem, indexRow, indexCol);
->>>>>>> 465225c965a7e35dc879e181f34fac0f693c57bd
 }
 
 Item* Boxes::operator()(int indexRow, int indexCol){
