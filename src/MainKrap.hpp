@@ -9,6 +9,7 @@
 #include <map>
 #include <vector>
 #include <cstdlib>
+#include <bits/stdc++.h>
 using namespace std;
 using namespace filesystem;
 

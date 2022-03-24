@@ -47,6 +47,7 @@ void MainKrap::setupConfig(string configPath, string itemFile){
 }
 
 void MainKrap::setupRecipe(string configPath, string recipeFolder){
+   vector<string> listType = {"LOG","PLANK","STONE"};
    string recipePath = configPath + recipeFolder;
 
    for(const auto& entry: directory_iterator(recipePath)){
@@ -62,9 +63,15 @@ void MainKrap::setupRecipe(string configPath, string recipeFolder){
          for(int i = 0; i < row; i ++ ){
             for(int j = 0; j < column; j ++){
                string name;
-               cin >> name;
+               itemRecipeFile >> name;
 
                Item* recipe = new Item;
+               if(find(listType.begin(), listType.end(), name) != listType.end()){
+                  //Create item only have type
+                  //Ini penting buat input yang type bukan nama item
+                  Item* recipe = new Item("-", name, 0, false);
+                  blockCount++;
+               }
                if(find(listTool.begin(), listTool.end(), name) != listTool.end()){
                   recipe = (Item*)(new ItemTool(name, itemType[name]));
                   blockCount ++;
@@ -84,7 +91,7 @@ void MainKrap::setupRecipe(string configPath, string recipeFolder){
 
          Item* itemResult = new Item;
          if (find(listTool.begin(), listTool.end(), result) != listTool.end()) {
-           itemResult =(Item*)(new ItemTool(result,itemType[result]));
+            itemResult =(Item*)(new ItemTool(result,itemType[result]));
          }
          else{
             itemResult =(Item*)(new ItemNonTool(result, itemType[result], res_quantity));
@@ -93,7 +100,7 @@ void MainKrap::setupRecipe(string configPath, string recipeFolder){
          rec.setResult(itemResult);
          this->listRecipe[blockCount].push_back(rec);
       }else{
-         cout << "Failed to open file";
+         cout << "Failed to open file" << endl;
       }
    }
 }

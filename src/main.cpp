@@ -48,52 +48,55 @@ int main() {
     // read recipes
     for (const auto &entry : filesystem::directory_iterator(configPath + "/recipe")) {
         ifstream itemRecipeFile(entry.path());
-        // read from file and do something
-        string rec_line, elmt, result;
-        char space_char = ' ';
-        int rec_row, rec_col;
-        int res_quantity, i, j, blockCount;
-        itemRecipeFile >> rec_row >> rec_col;
-        Item* recipe;
-        getline(itemRecipeFile, rec_line);
-        Recipe rec(rec_row,rec_col);
-        blockCount = 0;
-        for (i = 0; i < rec_row; i++){
-            getline(itemRecipeFile,rec_line);
-            stringstream sstream(rec_line);
-            j = 0;
-            while (getline(sstream, elmt, space_char)){
-                if(find(listType.begin(), listType.end(), elmt) != listType.end()){
+        if(itemRecipeFile.is_open()){
+            // read from file and do something
+            int rec_row, rec_col, res_quantity;
+            int blockCount = 0;
+            string result;
+
+            itemRecipeFile >> rec_row >> rec_col;
+            Recipe rec(rec_row, rec_col);
+            for(int i = 0; i < rec_row; i ++ ){
+                for(int j = 0; j < rec_col; j ++){
+                string name;
+                itemRecipeFile >> name;
+
+                Item* recipe = new Item;
+                if(find(listType.begin(), listType.end(), name) != listType.end()){
                     //Create item only have type
-                    Item* recipe = new Item("-", elmt, 0, false);
+                    //Ini penting buat input yang type bukan nama item
+                    Item* recipe = new Item("-", name, 0, false);
                     blockCount++;
                 }
-                else if (find(listTool.begin(), listTool.end(), elmt) != listTool.end()) {
-                    ItemTool* recipe = new ItemTool(elmt,itemType.at(elmt));
-                    (Item*)recipe;
-                    blockCount++;
+                if(find(listTool.begin(), listTool.end(), name) != listTool.end()){
+                    recipe = (Item*)(new ItemTool(name, itemType[name]));
+                    blockCount ++;
+                }else if(find(listNonTool.begin(), listNonTool.end(), name) != listNonTool.end()){
+                    recipe = (Item*)(new ItemNonTool(name, itemType[name], 0));
+                    blockCount ++;
+                }else if(name != "-"){
+                    recipe = new Item("-", name, 0, false);
+                    blockCount ++;
                 }
-                else if (find(listNonTool.begin(), listNonTool.end(), elmt) != listNonTool.end()) {
-                    ItemNonTool* recipe = new ItemNonTool(elmt, itemType.at(elmt), 0);
-                    (Item*)recipe;
-                    blockCount++;
-                } else { // "-"
-                    Item* recipe = new Item();
+
+                rec.setItemByIndex(recipe, i, j);
                 }
-                rec.setItemByIndex(recipe,i,j);
-                j++;
             }
+            itemRecipeFile >> result >> res_quantity;
+
+            Item* itemResult = new Item;
+            if (find(listTool.begin(), listTool.end(), result) != listTool.end()) {
+                itemResult =(Item*)(new ItemTool(result,itemType[result]));
+            }
+            else{
+                itemResult =(Item*)(new ItemNonTool(result, itemType[result], res_quantity));
+            }
+
+            rec.setResult(itemResult);
+            listRecipe[blockCount].push_back(rec);
+        } else {
+            cout << "Failed to open file " << entry.path() << endl;
         }
-        itemRecipeFile >> result >> res_quantity;
-        if (find(listTool.begin(), listTool.end(), result) != listTool.end()) {
-            ItemTool* itemResult = new ItemTool(result,itemType.at(result));
-        }
-        else if (find(listNonTool.begin(), listNonTool.end(), result) != listNonTool.end()) {
-            ItemNonTool* itemResult = new ItemNonTool(result, itemType.at(result), res_quantity);
-        }
-        Item* itemResult = new Item(*itemResult);
-        rec.setResult(itemResult);
-        listRecipe[blockCount].push_back(rec);
     }
 
     // Main program
