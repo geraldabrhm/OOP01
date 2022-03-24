@@ -47,11 +47,24 @@ class Boxes {
         // * Accessing element
         Item* operator()(int indexRow, int indexCol);
         
-        void moveTo(Boxes& target, pair<int, int>indexSrc, vector<pair<int,int>>)
+        void moveTo(Boxes& target, pair<int, int>indexSrc, vector<pair<int,int>> indexDst);
 
         virtual void displayBoxes()=0; // display all Item di Boxes
 };
-#include "./Boxes.hpp"
+
+class Recipe : public Boxes {
+    private:
+        Item* result;
+    public:
+        //Constructor
+        Recipe(int row, int col);
+
+        //Getter Setter
+        Item* getResult() const;
+        void setResult(Item* res);
+        void displayBoxes();
+        //Method
+};
 
 class Inventory : public Boxes {
     public:
@@ -70,32 +83,15 @@ class Inventory : public Boxes {
         void displayBoxes();  
 
         // * ekspor inventory ke inventory.txt, belum tau dijadiin method atau kerjain di main
-        void moveToCrafting(Crafting& crafting, pair<int, int> indexSrc, vector<pair<int, int>> indexsDst); 
+        // void moveToCrafting(Crafting& crafting, pair<int, int> indexSrc, vector<pair<int, int>> indexsDst); 
 };
-
-#include "./Boxes.hpp"
 
 class Crafting : public Boxes {
     public:
         Crafting();
-        Item* craftResult(Recipe &resep); // Menghasilkan Item hasil jika susunan craftable
+        Item* craftResult(Recipe& resep); // Menghasilkan Item hasil jika susunan craftable
         void displayBoxes(); // display all Item di Inventory
-        void moveToInventory(Inventory& inventory, pair<int, int> indexCr, pair<int, int> indexInv); // memindahkan Item dari crafting ke inventory
-};
-
-class Recipe : public Boxes {
-    private:
-        Item* result;
-    public:
-        //Constructor
-        Recipe(int row, int col);
-
-        //Getter Setter
-        Item* getResult() const;
-        void setResult(Item* res);
-        void displayBoxes();
-        //Method
-        void displayBoxes();
+        // void moveToInventory(Inventory& inventory, pair<int, int> indexCr, pair<int, int> indexInv); // memindahkan Item dari crafting ke inventory
 };
 
 #endif // __BOXES_H__

@@ -1,9 +1,9 @@
-#include "./Boxes.hpp"
+#include "Boxes.hpp"
 
 
 Crafting::Crafting() : Boxes(3,3) {}
 
-Item* Crafting::craftResult(Recipe &resep)
+Item* Crafting::craftResult(Recipe& resep)
 {
     // for(int i = 0; i < this->rowSize; i++) {
     //     for(int j = 0; j < this->colSize; j++) {

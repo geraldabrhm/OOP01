@@ -1,4 +1,4 @@
-#include "./Boxes.hpp"
+#include "Boxes.hpp"
 
 Boxes::Boxes(int rowSize, int colSize) : rowSize(rowSize), colSize(colSize) {
     //Mengisi vector dengan dummy item
@@ -50,8 +50,9 @@ pair<int, int> Boxes::getIndexSameItem(Item* item)
 
 void Boxes::insertItem(Item* item)
 {
+    // Dapet index isi boxes yang isinya item dengan nama dan tipe yg sama dengan parameter item
     pair<int, int> index = getIndexSameItem(item);
-    if(index.first != 1) { 
+    if(index.first != -1 && !item->getTool()) { // Kasus kalau sudah ada item di inv dan item NonTool
         ItemNonTool* cast = static_cast<ItemNonTool*> (this->collection[index.first][index.second]);
         if(cast->getQuantity() + item->getQuantity() <=64) {
             (*cast) += item->getQuantity();
@@ -79,7 +80,7 @@ void Boxes::insertItem(Item* item)
                 }
             }
         }
-    } else {
+    } else { // Kasus jika tidak ada item yang sama di inv atau item adalah item tool
         pair<int, int> emptyBox = this->getEmptyIndex();
         if(!(emptyBox.first == -1 || emptyBox.second == -1)) {
             this->collection[emptyBox.first][emptyBox.second] = item;
@@ -121,3 +122,53 @@ Item* Boxes::operator()(int indexRow, int indexCol){
     return this->collection[indexRow][indexCol];
 }
 
+// Petunjuk penggunaan: kalau dari inv ke craft, vector size bisa >= 1. Tetapi kalau sebaliknya, size harus == 1
+void Boxes::moveTo(Boxes& target, pair<int, int>indexSrc, vector<pair<int,int>> indexDst)
+{
+    Item* srcItem = this->collection[indexSrc.first][indexSrc.second];
+    // Memastikan item indexSrc bukan dummy
+    if(!srcItem->checkDummy()) {
+        // Case kalau srcItem tool
+        if(srcItem->getTool()) {
+            // Menyimpan dstItem, mengubah target dengan src, dan src menjadi dummy
+            Item* dstItem = target(indexDst[0].first, indexDst[0].second);
+            target.setItemByIndex(srcItem, indexDst[0].first, indexDst[0].second);
+            this->makeDummy(indexSrc.first, indexSrc.second);
+            // Kasus kalau dstItem tidak dummy
+            if(!dstItem->checkDummy()) {
+                // dari crafting ke inventory, maka dst item akan tetap ke inventory (bukan crafting)
+                if(target.getColSize() == 9) {
+                    target.insertItem(dstItem);
+                } else if (target.getColSize() == 3) { // dari inventory ke crafting, dst item akan ke inventory juga
+                    this->insertItem(dstItem);
+                }
+            }
+        } else {
+            ItemNonTool* cast2 = static_cast<ItemNonTool*>(srcItem);
+            int count = 0;
+
+            for(int i = 0; i < indexDst.size(); i++) {
+                ItemNonTool* cast = new ItemNonTool(srcItem->getName(), srcItem->getType(), 1);
+                Item* dstItem = target(indexDst[i].first, indexDst[i].second);
+
+                this->setItemByIndex((Item*) cast2, indexSrc.first, indexSrc.second);
+                target.setItemByIndex((Item*) cast, indexDst[i].first, indexDst[i].second);
+                
+                if(!dstItem->checkDummy()) {
+                    if(target.getColSize() == 9) {
+                        target.insertItem(dstItem);
+                    } else if(target.getColSize() == 3) {
+                        this->insertItem(dstItem);
+                    }
+                }
+                count++;
+            }
+            if(count == cast2->getQuantity()) {
+                this->makeDummy(indexSrc.first, indexSrc.second);
+            } else {
+                (*cast2) -= count;
+                this->setItemByIndex((Item*) cast2, indexSrc.first, indexSrc.second);
+            }
+        }
+    }   
+}

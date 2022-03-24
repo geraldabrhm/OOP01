@@ -63,39 +63,39 @@ void Inventory::displayBoxes()
 }
 
 // Asumsi: pemindahan dilakukan 1 persatu dan jika di crafting sudah ada item, dilakukan pengembalian ke inventory
-void Inventory::moveToCrafting(Crafting &crafting, pair<int, int> indexSrc, vector<pair<int, int>> indexsDst)
-{
-    Item* srcItem = this->collection[indexSrc.first][indexSrc.second];
-    if(!srcItem->checkDummy()) {
-        if(srcItem->getTool()) {
-            Item* dstItem = crafting(indexsDst[0].first, indexsDst[0].second);
-            crafting.setItemByIndex(srcItem, indexsDst[0].first, indexsDst[0].second);
-            this->makeDummy(indexSrc.first, indexSrc.second);
-            if(!dstItem->checkDummy()) {
-                this->insertItem(dstItem);
-            }
-        } else {
-            ItemNonTool* cast2 = static_cast<ItemNonTool*>(srcItem);
-            int count = 0;
+// void Inventory::moveToCrafting(Crafting &crafting, pair<int, int> indexSrc, vector<pair<int, int>> indexsDst)
+// {
+//     Item* srcItem = this->collection[indexSrc.first][indexSrc.second];
+//     if(!srcItem->checkDummy()) {
+//         if(srcItem->getTool()) {
+//             Item* dstItem = crafting(indexsDst[0].first, indexsDst[0].second);
+//             crafting.setItemByIndex(srcItem, indexsDst[0].first, indexsDst[0].second);
+//             this->makeDummy(indexSrc.first, indexSrc.second);
+//             if(!dstItem->checkDummy()) {
+//                 this->insertItem(dstItem);
+//             }
+//         } else {
+//             ItemNonTool* cast2 = static_cast<ItemNonTool*>(srcItem);
+//             int count = 0;
 
-            for(int i = 0; i < indexsDst.size(); i++) {
-                ItemNonTool* cast = new ItemNonTool(srcItem->getName(), srcItem->getType(), 1);
-                Item* dstItem = crafting(indexsDst[i].first, indexsDst[i].second);
+//             for(int i = 0; i < indexsDst.size(); i++) {
+//                 ItemNonTool* cast = new ItemNonTool(srcItem->getName(), srcItem->getType(), 1);
+//                 Item* dstItem = crafting(indexsDst[i].first, indexsDst[i].second);
 
-                this->setItemByIndex((Item*) cast2, indexSrc.first, indexSrc.second);
-                crafting.setItemByIndex((Item*) cast, indexsDst[i].first, indexsDst[i].second);
+//                 this->setItemByIndex((Item*) cast2, indexSrc.first, indexSrc.second);
+//                 crafting.setItemByIndex((Item*) cast, indexsDst[i].first, indexsDst[i].second);
                 
-                if(!dstItem->checkDummy()) {
-                    this->insertItem(dstItem);
-                }
-                count++;
-            }
-            if(count == cast2->getQuantity()) {
-                this->makeDummy(indexSrc.first, indexSrc.second);
-            } else {
-                (*cast2) -= count;
-                this->setItemByIndex((Item*) cast2, indexSrc.first, indexSrc.second);
-            }
-        }
-    }   
-}
+//                 if(!dstItem->checkDummy()) {
+//                     this->insertItem(dstItem);
+//                 }
+//                 count++;
+//             }
+//             if(count == cast2->getQuantity()) {
+//                 this->makeDummy(indexSrc.first, indexSrc.second);
+//             } else {
+//                 (*cast2) -= count;
+//                 this->setItemByIndex((Item*) cast2, indexSrc.first, indexSrc.second);
+//             }
+//         }
+//     }   
+// }
