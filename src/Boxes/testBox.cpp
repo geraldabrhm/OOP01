@@ -42,17 +42,17 @@ int main(){
     cout << endl;
     
     cout << "Try InsertItem" << endl;
-    cout << "Hasil yang diharapkan (berupa empty index) 0 8 " << endl;
+    cout << "Hasil yang diharapkan (berupa empty index) 0 7 " << endl;
 
     inventory->insertItem(itemNT); // 0 0
-    inventory->insertItem(itemNT1); // 0 1
-    inventory->insertItem(itemNT2); // 0 2
-    inventory->insertItem(itemNT3); // 0 3
+    inventory->insertItem(itemNT1); // 0 0
+    inventory->insertItem(itemNT2); // 0 1
+    inventory->insertItem(itemNT3); // 0 2
 
-    inventory->insertItem(itemT); // 0 4
-    inventory->insertItem(itemT1); // 0 5
-    inventory->insertItem(itemT2); // 0 6
-    inventory->insertItem(itemT3); // 0 7
+    inventory->insertItem(itemT); // 0 3
+    inventory->insertItem(itemT1); // 0 4
+    inventory->insertItem(itemT2); // 0 5
+    inventory->insertItem(itemT3); // 0 6
 
     eIndex = inventory->getEmptyIndex();
     cout << eIndex.first << " " << eIndex.second << endl;
@@ -63,10 +63,10 @@ int main(){
     cout << "Hasil yang diharapkan birch_log 2 10 rope" << endl;
 
     ItemNonTool* checkNT1 = static_cast<ItemNonTool*>((*inventory)(0, 0));
-    ItemNonTool* checkNT2 = static_cast<ItemNonTool*>((*inventory)(0, 3));
+    ItemNonTool* checkNT2 = static_cast<ItemNonTool*>((*inventory)(0, 2));
 
     ItemTool* check1 = static_cast<ItemTool*>((*inventory)(0, 4));
-    ItemTool* check2 = static_cast<ItemTool*>((*inventory)(0, 7));
+    ItemTool* check2 = static_cast<ItemTool*>((*inventory)(0, 6));
 
     cout << checkNT1->getName() << endl;
     cout << checkNT2->getQuantity() << endl;
@@ -76,27 +76,28 @@ int main(){
     cout << endl;
 
     cout << "Try discardItem" << endl;
-    cout << "Hasil yang diharapkan 1 1" << endl;
+    cout << "Hasil yang diharapkan 5 0 dummy" << endl;
 
     inventory->discardItem(0, 0, 2);
-    inventory->discardItem(0, 1, 3);
+    inventory->discardItem(0, 1, 2);
 
     checkNT1 = static_cast<ItemNonTool*>((*inventory)(0, 0));
     checkNT2 = static_cast<ItemNonTool*>((*inventory)(0, 1));
 
     cout << checkNT1->getQuantity() << endl;
     cout << checkNT2->getQuantity() << endl;
+    cout << ((*inventory)(0,1)->checkDummy() ? "dummy" : "not dummy") << endl;
 
     cout << endl;
 
     cout << "Try stackItem" << endl;
-    cout << "Hasil yang diharapkan 3 0" << endl;
+    cout << "Hasil yang diharapkan 7 0" << endl;
 
-    inventory->stackItem(make_pair(0,3), make_pair(0,1));
+    inventory->stackItem(make_pair(0,2), make_pair(0,0));
     // inventory->stackItem(make_pair(0,5), make_pair(0,0)); // error
 
-    cout << (*inventory)(0,1)->getQuantity() << endl;
-    cout << (*inventory)(0,3)->getQuantity() << endl;
+    cout << (*inventory)(0,0)->getQuantity() << endl;
+    cout << (*inventory)(0,2)->getQuantity() << endl;
 
     cout << endl;
 
@@ -112,4 +113,43 @@ int main(){
     cout << "Try displayBoxes" << endl;
     
     inventory->displayBoxes();
+
+    cout << endl;
+
+    cout << "Try moveTo inventory to crafting" << endl;
+
+    cout << "Try move ItemNonTool" << endl;
+    Crafting* crafting = new Crafting;
+    vector<pair<int,int>> indexDst;
+    indexDst.push_back(make_pair(0,0));
+    indexDst.push_back(make_pair(0,1));
+    indexDst.push_back(make_pair(1,2));
+    inventory->moveTo((*crafting), make_pair(0,0), indexDst);
+    
+    cout << "Inventory:" << endl;
+    inventory->displayBoxes();
+    cout << "Crafting:" << endl;
+    crafting->displayBoxes();
+
+    cout << endl << "Try move ItemTool" << endl;
+    indexDst.clear();
+    indexDst.push_back(make_pair(0,2));
+    inventory->moveTo((*crafting), make_pair(0,3), indexDst);
+    cout << "Inventory:" << endl;
+    inventory->displayBoxes();
+    cout << "Crafting:" << endl;
+    crafting->displayBoxes();
+
+    cout << endl;
+
+    cout << "Try moveTo crafting to inventory" << endl;
+
+    indexDst.clear();
+    indexDst.push_back(make_pair(1,0));
+    crafting->moveTo((*inventory), make_pair(0,0), indexDst);
+    
+    cout << "Inventory:" << endl;
+    inventory->displayBoxes();
+    cout << "Crafting:" << endl;
+    crafting->displayBoxes();
 }

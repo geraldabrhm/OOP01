@@ -13,8 +13,12 @@ Hasil yang diharapkan 0 0
 0 0
 
 Try InsertItem
-Hasil yang diharapkan (berupa empty index) 0 8 
-0 8
+Hasil yang diharapkan (berupa empty index) 0 7 
+0 7
+
+ NT ->[ birch_log log Quantity: 7 ]  NT ->[ wood_log log Quantity: 2 ]  NT ->[ wood_plank plank Quantity: 2 ]  T->[ wood_axe axe Quantity: 1 ]  T->[ iron_axe axe Quantity: 1 ]  T->[ wood_axe axe Quantity: 1 ]  T->[ wood_rope rope Quantity: 1 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
+[ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
+[ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
 
 Try Operator()
 Hasil yang diharapkan birch_log 2 10 rope
@@ -24,13 +28,14 @@ birch_log
 rope
 
 Try discardItem
-Hasil yang diharapkan 1 1
-1
-1
+Hasil yang diharapkan 5 0 dummy
+5
+0
+dummy
 
 Try stackItem
-Hasil yang diharapkan 3 0
-3
+Hasil yang diharapkan 7 0
+7
 0
 
 Try useItem
@@ -39,6 +44,36 @@ Hasil yang diharapkan 10 9
 9
 
 Try displayBoxes
- NT ->[ birch_log log Quantity: 1 ]  NT ->[ birch_log log Quantity: 3 ]  NT ->[ wood_log log Quantity: 2 ] [ - - Quantity: 0 ]  T->[ wood_axe axe Quantity: 1 ]  T->[ iron_axe axe Quantity: 1 ]  T->[ wood_axe axe Quantity: 1 ]  T->[ wood_rope rope Quantity: 1 ] [ - - Quantity: 0 ] 
+ NT ->[ birch_log log Quantity: 7 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ]  T->[ wood_axe axe Quantity: 1 ]  T->[ iron_axe axe Quantity: 1 ]  T->[ wood_axe axe Quantity: 1 ]  T->[ wood_rope rope Quantity: 1 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
 [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
 [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
+
+Try moveTo inventory to crafting
+Try move ItemNonTool
+Inventory:
+ NT ->[ birch_log log Quantity: 4 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ]  T->[ wood_axe axe Quantity: 1 ]  T->[ iron_axe axe Quantity: 1 ]  T->[ wood_axe axe Quantity: 1 ]  T->[ wood_rope rope Quantity: 1 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
+[ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
+[ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
+Crafting:
+ NT ->[ birch_log log Quantity: 1 ]  NT ->[ birch_log log Quantity: 1 ] [ - - Quantity: 0 ] 
+[ - - Quantity: 0 ] [ - - Quantity: 0 ]  NT ->[ birch_log log Quantity: 1 ] 
+[ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
+
+Try move ItemTool
+Inventory:
+ NT ->[ birch_log log Quantity: 4 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ]  T->[ iron_axe axe Quantity: 1 ]  T->[ wood_axe axe Quantity: 1 ]  T->[ wood_rope rope Quantity: 1 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
+[ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
+[ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
+Crafting:
+ NT ->[ birch_log log Quantity: 1 ]  NT ->[ birch_log log Quantity: 1 ]  T->[ wood_axe axe Quantity: 1 ] 
+[ - - Quantity: 0 ] [ - - Quantity: 0 ]  NT ->[ birch_log log Quantity: 1 ] 
+[ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
+Try moveTo crafting to inventory
+Inventory:
+ NT ->[ birch_log log Quantity: 4 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ]  T->[ iron_axe axe Quantity: 1 ]  T->[ wood_axe axe Quantity: 1 ]  T->[ wood_rope rope Quantity: 1 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
+ NT ->[ birch_log log Quantity: 1 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
+[ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
+Crafting:
+[ - - Quantity: 0 ]  NT ->[ birch_log log Quantity: 1 ]  T->[ wood_axe axe Quantity: 1 ] 
+[ - - Quantity: 0 ] [ - - Quantity: 0 ]  NT ->[ birch_log log Quantity: 1 ] 
+[ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 

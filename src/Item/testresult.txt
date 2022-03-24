@@ -49,21 +49,9 @@ NO
 NO
 
 Try operator<<
--
--
-Quantity: 0
-
-Item Non Tool
-birch_log
-log
-Quantity: 4
-
-Item Tool
-wood_axe
-axe
-Quantity: 1
-Durability 10
-
+[ - - Quantity: 0 ] 
+ NT ->[ birch_log log Quantity: 4 ] 
+ T->[ wood_axe axe Quantity: 1 ] 
 Try getDurability
 Hasil yang diharapkan -1 10
 -1
