@@ -183,12 +183,13 @@ int main() {
                     //for N
                     row = (*craftbox).getRowSize();
                     col = (*craftbox).getColSize();
-
-                    string out = checkInput('C',row,col,row_dest,col_dest);
-                    if (out.empty()){
-                        //moveTo Crafting
-                    } else {
-                        cout << out << endl;
+                    for (int iterator = 0; iterator < slotQty; iterator++) {
+                        string out = checkInput('C',row,col,row_dest,col_dest);
+                        if (out.empty()){
+                            //moveTo Crafting
+                        } else {
+                            cout << out << endl;
+                        }
                     }
                 }
             } else {
