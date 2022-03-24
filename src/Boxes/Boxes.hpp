@@ -94,8 +94,6 @@ class Recipe : public Boxes {
         Item* getResult() const;
         void setResult(Item* res);
         void displayBoxes();
-        //Method
-        void displayBoxes();
 };
 
 #endif // __BOXES_H__
