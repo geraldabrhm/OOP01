@@ -47,6 +47,8 @@ class Boxes {
         // * Accessing element
         Item* operator()(int indexRow, int indexCol);
         
+        void moveTo(Boxes& target, pair<int, int>indexSrc, vector<pair<int,int>>)
+
         virtual void displayBoxes()=0; // display all Item di Boxes
 };
 #include "./Boxes.hpp"

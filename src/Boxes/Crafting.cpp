@@ -23,26 +23,26 @@ void Crafting::displayBoxes()
     }
 }
 
-void Crafting::moveToInventory(Inventory& inventory, pair<int, int> indexCr, pair<int,int> indexInv)
-{
-    // indexCr isinya bukan dummy item, dan diasumsikan jenis item di indexCr dan indexInv sama
-    Item* temp = this->collection[indexCr.first][indexCr.second];
-    Item* srcItem = inventory(indexInv.first, indexInv.second);
-    this->makeDummy(indexCr.first, indexCr.second);
+// void Crafting::moveToInventory(Inventory& inventory, pair<int, int> indexCr, pair<int,int> indexInv)
+// {
+//     // indexCr isinya bukan dummy item, dan diasumsikan jenis item di indexCr dan indexInv sama
+//     Item* temp = this->collection[indexCr.first][indexCr.second];
+//     Item* srcItem = inventory(indexInv.first, indexInv.second);
+//     this->makeDummy(indexCr.first, indexCr.second);
 
-    if(srcItem->checkDummy()) {
-        inventory.setItemByIndex(temp, indexInv.first, indexInv.second);
-    } else {
-        if(temp->getTool()) {
-            inventory.insertItem(temp);
-        } else {
-            ItemNonTool* castItem = static_cast<ItemNonTool*>(srcItem);
-            try {
-                (*castItem) += 1;
-            } catch(OperationFailedException *exe) {
-                exe->printMessage();
-            }
-            inventory.setItemByIndex((Item*) castItem, indexInv.first, indexInv.second);
-        }
-    }
-}
+//     if(srcItem->checkDummy()) {
+//         inventory.setItemByIndex(temp, indexInv.first, indexInv.second);
+//     } else {
+//         if(temp->getTool()) {
+//             inventory.insertItem(temp);
+//         } else {
+//             ItemNonTool* castItem = static_cast<ItemNonTool*>(srcItem);
+//             try {
+//                 (*castItem) += 1;
+//             } catch(OperationFailedException *exe) {
+//                 exe->printMessage();
+//             }
+//             inventory.setItemByIndex((Item*) castItem, indexInv.first, indexInv.second);
+//         }
+//     }
+// }

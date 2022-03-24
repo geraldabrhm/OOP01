@@ -9,14 +9,15 @@
 #include <map>
 #include <vector>
 #include <cstdlib>
-#include <thread>
 using namespace std;
+using namespace filesystem;
 
 
 class MainKrap{
 private:
     static MainKrap *instance;
 protected:
+
     map<int,vector<Recipe>> listRecipe;
     map<string,string> itemId;
     map<string,string> itemType;
@@ -27,10 +28,31 @@ protected:
 public:
     static MainKrap* getInstance();
 
-    // Isi method lainnya disini , misal getter setter
+    //Btw ini aku gak tau bener gak gini pakenya jadi ya wkkwkw
     /**
-     * @brief Program dibagi 2 bagian
-     *      1. Inisialiasi -> Pembacaan config
-     *      2. Waktu mainnya -> 
-     */ 
+     * @brief Setup kondisi game sebelum dimulai 
+     * 
+     * @param configPath-string path ke folder yang menyimpan config 
+     * @param itemFile-string nama file yang menyompan config item 
+     * @param recipeFolder-string folder yang menyimpan data configRecipe
+     * 
+     */
+    void initialize(string configPath, string itemFile, string recipeFolder);
+
+    /**
+     * @brief Membaca config file untuk item dan menyimpannya dalam variabel
+     * 
+     * @param configPath-string path ke folder yang menyimpan config s
+     * @param itemFile-string nama file yang menyompan config item 
+     */
+    void setupConfig(string configPath, string itemFile);
+    
+    /**
+     * @brief 
+     * 
+     * @param configPath-string path ke folder yang menyimpan config s 
+     * @param recipeFolder-string folder yang menyimpan data configRecipe
+     */
+    void setupRecipe(string configPath, string recipeFolder);
+
 };

@@ -71,10 +71,7 @@ int main() {
                 }
                 else if (find(listTool.begin(), listTool.end(), elmt) != listTool.end()) {
                     ItemTool* recipe = new ItemTool(elmt,itemType.at(elmt));
-<<<<<<< HEAD
-=======
                     (Item*)recipe;
->>>>>>> 465225c965a7e35dc879e181f34fac0f693c57bd
                     blockCount++;
                 }
                 else if (find(listNonTool.begin(), listNonTool.end(), elmt) != listNonTool.end()) {
