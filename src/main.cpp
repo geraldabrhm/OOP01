@@ -1,5 +1,4 @@
-// sample main file, replace this with your own code
-//#include <filesystem>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -165,38 +164,36 @@ int main() {
             }
         }
         else if (command == "MOVE") {
+            pair<int,int> idx_src;
+            vector<pair<int,int>> idx_dest;
             int row_src, col_src, slotQty, row_dest, col_dest;
             int row = (*inven).getRowSize();
             int col = (*inven).getColSize();
 
             string out = checkInput('I',row,col,row_src,col_src);
             if (out.empty()){
+                idx_src = make_pair(row_src,col_src);
                 cin >> slotQty;
-                if (slotQty == 1){
-                    string out = checkInput('I',row,col,row_dest,col_dest);
+                row = (*craftbox).getRowSize();
+                col = (*craftbox).getColSize();
+                for (int iterator = 0; iterator < slotQty; iterator++) {
+                    string out = checkInput('C',row,col,row_dest,col_dest);
                     if (out.empty()){
-                        //moveTo Crafting
+                        idx_dest.push_back(make_pair(row_dest,col_dest));
                     } else {
                         cout << out << endl;
+                        break;
                     }
-                } else {
-                    //for N
-                    row = (*craftbox).getRowSize();
-                    col = (*craftbox).getColSize();
-                    for (int iterator = 0; iterator < slotQty; iterator++) {
-                        string out = checkInput('C',row,col,row_dest,col_dest);
-                        if (out.empty()){
-                            //moveTo Crafting
-                        } else {
-                            cout << out << endl;
-                        }
-                    }
+                }
+                if (idx_dest.size() == slotQty){
+                    inven->moveTo((*craftbox), idx_src, idx_dest);
                 }
             } else {
                 row = (*craftbox).getRowSize();
                 col = (*craftbox).getColSize();
                 string out = checkInput('C',row,col,row_src,col_src);
                 if (out.empty()){
+                    idx_src = make_pair(row_src,col_src);
                     cin >> slotQty;
                     if (slotQty == 1){
                         row = (*inven).getRowSize();
@@ -204,7 +201,8 @@ int main() {
 
                         string out = checkInput('I',row,col,row_dest,col_dest);
                         if (out.empty()){
-                            //moveTo Inventory
+                            idx_dest.push_back(make_pair(row_dest,col_dest));
+                            craftbox->moveTo((*inven),idx_src,idx_dest);
                         } else {
                             cout << out << endl;
                         }
