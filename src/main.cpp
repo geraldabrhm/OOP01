@@ -1,5 +1,5 @@
 // sample main file, replace this with your own code
-#include <filesystem>
+//#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -93,7 +93,7 @@ int main() {
             ItemNonTool* itemResult = new ItemNonTool(result, itemType.at(result), res_quantity);
         }
         Item* itemResult = new Item(*itemResult);
-        rec.insertItem(itemResult);
+        rec.setResult(itemResult);
         listRecipe[blockCount].push_back(rec);
     }
 
@@ -165,94 +165,80 @@ int main() {
             }
         }
         else if (command == "MOVE") {
-            string slotSrc;
-            int slotQty, dest_slot;
+            int row_src, col_src, slotQty, row_dest, col_dest;
+            int row = (*inven).getRowSize();
+            int col = (*inven).getColSize();
 
-            cin >> slotSrc >> slotQty;
-            if (slotSrc.length() > 3 || slotSrc[0] != 'I' || slotSrc[0] != 'C'){
-                cout << "Masukan slot inventory tidak sesuai!" << endl;
-            }
-            else {
-                int rowDest, colDest;
-                if (slotSrc[0] != 'I'){
-                    rowDest = (*inven).getRowSize();
-                    colDest = (*inven).getColSize();
-                } else if (slotSrc[0] != 'C'){
-                    rowDest = (*craftbox).getRowSize();
-                    colDest = (*craftbox).getColSize();
-                }
-                try{
-                    dest_slot = stoi(slotSrc.substr(1));
-                    cout << dest_slot << endl;
-                } catch(exception){
-                    cout << "Masukan slot inventory tidak sesuai!" << endl;
-                }
-                int row = 0;
-                while (dest_slot >= colDest){
-                    dest_slot -= (colDest -1);
-                    row++;
-                }
-                if (row >= rowDest){
-                    cout << "Indeks masukan di luar index inventory!!";
-                } else {
-                    for (int inputCount = 0; inputCount < slotQty; inputCount++){
-                        string slotDest;
-                        cin >> slotDest;
-                        //moveTo
+            string out = checkInput('I',row,col,row_src,col_src);
+            if (out.empty()){
+                cin >> slotQty;
+                if (slotQty == 1){
+                    string out = checkInput('I',row,col,row_dest,col_dest);
+                    if (out.empty()){
+                        //moveTo Crafting
+                    } else {
+                        cout << out << endl;
                     }
+                } else {
+                    //for N
+                    row = (*craftbox).getRowSize();
+                    col = (*craftbox).getColSize();
+
+                    string out = checkInput('C',row,col,row_dest,col_dest);
+                    if (out.empty()){
+                        //moveTo Crafting
+                    } else {
+                        cout << out << endl;
+                    }
+                }
+            } else {
+                row = (*craftbox).getRowSize();
+                col = (*craftbox).getColSize();
+                string out = checkInput('C',row,col,row_src,col_src);
+                if (out.empty()){
+                    cin >> slotQty;
+                    if (slotQty == 1){
+                        row = (*inven).getRowSize();
+                        col = (*inven).getColSize();
+
+                        string out = checkInput('I',row,col,row_dest,col_dest);
+                        if (out.empty()){
+                            //moveTo Inventory
+                        } else {
+                            cout << out << endl;
+                        }
+                    }
+                    else {
+                        cout << "Hanya dapat memindahkan ke 1 slot inventory" << endl;
+                    }
+                } else {
+                    cout << out << endl;
                 }
             }
         } 
         else if (command == "DISCARD") {
-            string dest;
-            int dest_slot, itemQty;
-            cin >> dest >> itemQty;
-            if (dest.length() > 3 || dest[0] != 'I'){
-                cout << "Masukan slot inventory tidak sesuai!" << endl;
-            }
-            else {
-                try{
-                    dest_slot = stoi(dest.substr(1));
-                    cout << dest_slot << endl;
-                } catch(exception){
-                    cout << "Masukan slot inventory tidak sesuai!" << endl;
-                }
-                int row = 0;
-                while (dest_slot >= (*inven).getColSize()){
-                    dest_slot -= ((*inven).getColSize() -1);
-                    row++;
-                }
-                if (row >= (*inven).getRowSize()){
-                    cout << "Indeks masukan di luar index inventory!!";
-                } else {
-                    (*inven).discardItem(row,dest_slot,itemQty);
-                }
+            int row_dest, col_dest, itemQty;
+            int row = (*inven).getRowSize();
+            int col = (*inven).getColSize();
+
+            string out = checkInput('I',row,col,row_dest,col_dest);
+            if (out.empty()){
+                cin >> itemQty;
+                (*inven).discardItem(row_dest,col_dest,itemQty);
+            } else {
+                cout << out << endl;
             }
         }
         else if (command == "USE"){
-            string dest;
-            int dest_slot;
-            cin >> dest;
-            if (dest.length() > 3 || dest[0] != 'I'){
-                cout << "Masukan slot inventory tidak sesuai!" << endl;
-            }
-            else {
-                try{
-                    dest_slot = stoi(dest.substr(1));
-                    cout << dest_slot << endl;
-                } catch(exception){
-                    cout << "Masukan slot inventory tidak sesuai!" << endl;
-                }
-                int row = 0;
-                while (dest_slot >= (*inven).getColSize()){
-                    dest_slot -= ((*inven).getColSize() -1);
-                    row++;
-                }
-                if (row >= (*inven).getRowSize()){
-                    cout << "Indeks masukan di luar index inventory!!";
-                } else {
-                    (*inven).useItem(row,dest_slot);
-                }
+            int row_dest, col_dest;
+            int row = (*inven).getRowSize();
+            int col = (*inven).getColSize();
+
+            string out = checkInput('I',row,col,row_dest,col_dest);
+            if (out.empty()){
+                (*inven).useItem(row_dest,col_dest);
+            } else {
+                cout << out << endl;
             }
         }  
         else if (command == "SHOW") {
@@ -267,4 +253,32 @@ int main() {
         }
     }
     return 0;
+}
+
+string checkInput(char toMatch, int rowMatch, int colMatch, int& row, int& col){
+    string dest, out;
+    cin >> dest;
+    out = "";
+    col = -1;
+    row = 0;
+    if (dest.length() > 3 || dest[0] != toMatch){
+        out = "Masukan slot inventory tidak sesuai!\n";
+    }
+    else {
+        try{
+            col = stoi(dest.substr(1));
+        } catch(exception){
+            out = "Masukan slot inventory tidak sesuai!\n";
+        }
+        while (col >= colMatch){
+            col -= colMatch;
+            row++;
+        }
+        if (row >= rowMatch){
+            out = "Indeks masukan di luar index inventory!!\n";
+        } else {
+            //do nothing (input valid then out = "")
+        }
+    }
+    return out;
 }
