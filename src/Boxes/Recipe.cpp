@@ -1,7 +1,10 @@
 #include "Boxes.hpp"
 #include <iostream>
 
-Recipe::Recipe(int row, int col) : Boxes(3, 3) {}
+Recipe::Recipe(int row, int col) : Boxes(row, col) {
+    Item* dummy = new Item();
+    this->result = dummy;
+}
 
 //Getter Setter
 Item* Recipe::getResult() const{
