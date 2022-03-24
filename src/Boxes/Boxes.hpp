@@ -3,6 +3,7 @@
 
 #include "../Item/Item.hpp"
 #include <vector>
+#include <map>
 #include "../Exception/Exception.hpp"
 using namespace std;
 
@@ -89,7 +90,7 @@ class Inventory : public Boxes {
 class Crafting : public Boxes {
     public:
         Crafting();
-        Item* craftResult(Recipe& resep); // Menghasilkan Item hasil jika susunan craftable
+        Item* Crafting::craftResult(Recipe& resep, map<int,vector<Recipe>> listRecipe); // Menghasilkan Item hasil jika susunan craftable
         void displayBoxes(); // display all Item di Inventory
         // void moveToInventory(Inventory& inventory, pair<int, int> indexCr, pair<int, int> indexInv); // memindahkan Item dari crafting ke inventory
 };

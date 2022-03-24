@@ -37,7 +37,7 @@ pair<int, int> Boxes::getIndexSameItem(Item* item)
 {
     for(int i = 0; i < this->getRowSize(); i++) {
         for(int j = 0; j < this->getColSize(); j++) {
-            if(this->collection[i][j] == item) {
+            if(*(this->collection[i][j]) & (*item)) {
                 pair<int,int> index = make_pair(i, j);
                 return index;
             }

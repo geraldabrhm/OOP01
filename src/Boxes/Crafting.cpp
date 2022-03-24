@@ -3,13 +3,8 @@
 
 Crafting::Crafting() : Boxes(3,3) {}
 
-Item* Crafting::craftResult(Recipe& resep)
-{
-    // for(int i = 0; i < this->rowSize; i++) {
-    //     for(int j = 0; j < this->colSize; j++) {
-
-    //     }
-    // }
+Item* Crafting::craftResult(Recipe& resep, map<int,vector<Recipe>> listRecipe) {
+    
 }
 
 
