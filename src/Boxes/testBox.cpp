@@ -93,7 +93,7 @@ int main(){
     cout << "Hasil yang diharapkan 3 0" << endl;
 
     inventory->stackItem(make_pair(0,3), make_pair(0,1));
-    inventory->stackItem(make_pair(0,5), make_pair(0,0)); // error
+    // inventory->stackItem(make_pair(0,5), make_pair(0,0)); // error
 
     cout << (*inventory)(0,1)->getQuantity() << endl;
     cout << (*inventory)(0,3)->getQuantity() << endl;

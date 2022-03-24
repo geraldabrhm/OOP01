@@ -16,7 +16,7 @@ void Inventory::stackItem(pair<int,int>indexSrc, pair<int,int>indexDst){
         try {
             (*castDst) += slot;
             (*castSrc) -= slot;
-        } catch(OperationFailedException *exec) {
+        } catch(BaseException *exec) {
             exec->printMessage();
         }
 

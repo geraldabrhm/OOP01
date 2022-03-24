@@ -30,3 +30,15 @@ Hasil yang diharapkan 1 1
 
 Try stackItem
 Hasil yang diharapkan 3 0
+3
+0
+
+Try useItem
+Hasil yang diharapkan 10 9
+10
+9
+
+Try displayBoxes
+ NT ->[ birch_log log Quantity: 1 ]  NT ->[ birch_log log Quantity: 3 ]  NT ->[ wood_log log Quantity: 2 ] [ - - Quantity: 0 ]  T->[ wood_axe axe Quantity: 1 ]  T->[ iron_axe axe Quantity: 1 ]  T->[ wood_axe axe Quantity: 1 ]  T->[ wood_rope rope Quantity: 1 ] [ - - Quantity: 0 ] 
+[ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 
+[ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] [ - - Quantity: 0 ] 

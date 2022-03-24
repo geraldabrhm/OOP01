@@ -98,7 +98,7 @@ ItemNonTool& ItemNonTool::operator+=(const ItemNonTool& item){
 }
 
 ItemNonTool& ItemNonTool::operator+=(const int& quantity){
-  if(this->slotAvailable() <= quantity){
+  if(this->slotAvailable() >= quantity){
     this->quantity += quantity;
     return *this;
   }else{
