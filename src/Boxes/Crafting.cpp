@@ -18,6 +18,19 @@ void Crafting::displayBoxes()
     }
 }
 
+int Crafting::getBlockCount(){
+    int count = 0;
+
+    for(int i = 0; i < 3; i ++){
+        for(int j = 0; j < 3; j++){
+            if(!this->collection[i][j]->checkDummy()){
+                count ++;
+            }
+        }
+    }
+
+    return count;
+}
 // void Crafting::moveToInventory(Inventory& inventory, pair<int, int> indexCr, pair<int,int> indexInv)
 // {
 //     // indexCr isinya bukan dummy item, dan diasumsikan jenis item di indexCr dan indexInv sama

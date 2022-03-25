@@ -90,6 +90,7 @@ class Inventory : public Boxes {
 class Crafting : public Boxes {
     public:
         Crafting();
+        int getBlockCount();
         Item* Crafting::craftResult(Recipe& resep, map<int,vector<Recipe>> listRecipe); // Menghasilkan Item hasil jika susunan craftable
         void displayBoxes(); // display all Item di Inventory
         // void moveToInventory(Inventory& inventory, pair<int, int> indexCr, pair<int, int> indexInv); // memindahkan Item dari crafting ke inventory
