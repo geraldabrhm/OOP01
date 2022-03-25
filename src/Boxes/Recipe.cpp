@@ -2,32 +2,22 @@
 #include <iostream>
 
 Recipe::Recipe(int row, int col) : Boxes(row, col) {
-    Item* dummy = new Item();
-    this->result = dummy;
-}
-
-Recipe::Recipe(const Recipe& recipe): Boxes(recipe.getRowSize(), recipe.getColSize()){
-    this->result = new Item;
-    this->result = recipe.getResult();
-}
-
-Recipe& Recipe::operator=(const Recipe& recipe){
-    delete result;
-    this->result = new Item();
-    this->result = recipe.getResult();
-    return *this;
-}
-
-Recipe::~Recipe(){
-    delete result;
+    this->result = "";
+    this->qty = 0;
 }
 
 //Getter Setter
-Item* Recipe::getResult() const{
-    return this->result;
+string Recipe::getResult() const{
+    return result;
 }
-void Recipe::setResult(Item* res){
+void Recipe::setResult(string res){
     this->result = res;
+}
+int Recipe::getQty() const{
+    return qty;
+}
+void Recipe::setQty(int count){
+    qty = count;
 }
 
 //Method

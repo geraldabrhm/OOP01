@@ -37,8 +37,8 @@ pair<int, int> Boxes::getIndexSameItem(Item* item)
 {
     for(int i = 0; i < this->getRowSize(); i++) {
         for(int j = 0; j < this->getColSize(); j++) {
-            if(*(this->collection[i][j]) & (*item)) {
-                pair<int,int> index = make_pair(i, j);
+            if(*(this->collection[i][j]) & (*item) && this->collection[i][j]->getQuantity()!=64) {
+                pair<int, int> index = make_pair(i, j);
                 return index;
             }
         }
@@ -59,31 +59,28 @@ void Boxes::insertItem(Item* item)
             this->collection[index.first][index.second] = (Item*) cast;
         }
         else {
-            int quantity = cast->getQuantity() + item->getQuantity();
-            int remain = quantity % 64;
-            quantity -= 64;
-            (*cast) += (64 - cast->getQuantity());
+            int quantity = item->getQuantity();
+            quantity -= cast->slotAvailable();
+            (*cast) += cast->slotAvailable();
             this->collection[index.first][index.second] = (Item*) cast;
-            while(quantity > 64) { // to handle case input quantity > 128
-                pair<int, int> emptyBox = this->getEmptyIndex();
-                Item* item = new Item(item->getName(), item->getType(), 64, item->getTool());
-                if(!(emptyBox.first == -1 || emptyBox.second == -1)) {
-                    this->collection[emptyBox.first][emptyBox.second] = item;
-                }
-                quantity -= 64;
-            }
-            if(remain > 0) {
-                pair<int, int> emptyBox = this->getEmptyIndex();
-                Item* item = new Item(item->getName(), item->getType(), remain, item->getTool());
-                if(!(emptyBox.first == -1 || emptyBox.second == -1)) {
-                    this->collection[emptyBox.first][emptyBox.second] = item;
-                }
+            if(quantity >= 64) { // to handle case input quantity > 128
+                Item* itemNew = new Item(item->getName(), item->getType(), quantity, item->getTool());
+                this->insertItem(itemNew);
             }
         }
     } else { // Kasus jika tidak ada item yang sama di inv atau item adalah item tool
         pair<int, int> emptyBox = this->getEmptyIndex();
-        if(!(emptyBox.first == -1 || emptyBox.second == -1)) {
-            this->collection[emptyBox.first][emptyBox.second] = item;
+        int qty = item->getQuantity();
+        if (qty > 64){
+            Item* itemNew = new Item(item->getName(), item->getType(), 64, item->getTool());
+            if(!(emptyBox.first == -1 || emptyBox.second == -1)) {
+                this->collection[emptyBox.first][emptyBox.second] = itemNew;
+            }
+            this->insertItem(new Item(item->getName(), item->getType(), qty-64, item->getTool()));
+        } else {
+            if(!(emptyBox.first == -1 || emptyBox.second == -1)) {
+                this->collection[emptyBox.first][emptyBox.second] = item;
+            }
         }
     }
 }
@@ -98,14 +95,16 @@ void Boxes::discardItem(int indexRow, int indexCol, int quantity)
             if(cast->getQuantity() == 0) {
                 makeDummy(indexRow, indexCol);
             }
+            cout << "Item berhasil dibuang!!" << endl;
         } else {
             // Throw exception here (discard quantity > current quantity)
+            cout << "Jumlah item tidak mencukupi!" << endl;
         }
     } else{ // Assuming it is already a dummy or a tool item (quantity fixed-size = 1)
         makeDummy(indexRow, indexCol);
+        cout << "Item berhasil dibuang!!" << endl;
     }
 }
-
 
 void Boxes::setItemByIndex(Item* item, int indexRow, int indexCol)
 {

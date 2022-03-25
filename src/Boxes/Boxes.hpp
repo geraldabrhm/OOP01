@@ -1,7 +1,7 @@
 #ifndef __BOXES_H__
 #define __BOXES_H__
 
-#include "..\Item\Item.hpp"
+#include "../Item/Item.hpp"
 #include <vector>
 #include <map>
 #include "../Exception/Exception.hpp"
@@ -12,8 +12,8 @@ class Boxes {
         //Array for saving item
         vector<vector<Item*>>collection;
         
-        const int rowSize;
-        const int colSize;
+        int rowSize;
+        int colSize;
     public:
 
         // ctor
@@ -55,18 +55,17 @@ class Boxes {
 
 class Recipe : public Boxes {
     private:
-        Item* result;
+        string result;
+        int qty;
     public:
         //Constructor
         Recipe(int row, int col);
-        Recipe(const Recipe& recipe);
-        Recipe& operator=(const Recipe& recipe);
-        
-        ~Recipe();
 
         //Getter Setter
-        Item* getResult() const;
-        void setResult(Item* res);
+        string getResult() const;
+        void setResult(string res);
+        int getQty() const;
+        void setQty(int count);
         void displayBoxes();
         //Method
 };
@@ -86,20 +85,16 @@ class Inventory : public Boxes {
         
         // * display all Item di Inventory
         void displayBoxes();  
-
-        // * ekspor inventory ke inventory.txt, belum tau dijadiin method atau kerjain di main
-        // void moveToCrafting(Crafting& crafting, pair<int, int> indexSrc, vector<pair<int, int>> indexsDst); 
 };
 
 class Crafting : public Boxes {
     private:
-        Item* checkRecipe(Recipe recipe, bool isReverse);
+        pair<string,int> checkRecipe(Recipe recipe, bool isReverse);
     public:
         Crafting();
         int getBlockCount();
-        Item* craftResult(map<int,vector<Recipe>> listRecipe); // Menghasilkan Item hasil jika susunan craftable
+        pair<string,int> craftResult(map<int,vector<Recipe>> listRecipe); // Menghasilkan Item hasil jika susunan craftable
         void displayBoxes(); // display all Item di Inventory
-        // void moveToInventory(Inventory& inventory, pair<int, int> indexCr, pair<int, int> indexInv); // memindahkan Item dari crafting ke inventory
 };
 
 #endif // __BOXES_H__

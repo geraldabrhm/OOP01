@@ -30,7 +30,7 @@ void MainKrap::setupConfig(string configPath, string itemFile){
    ifstream itemConfigFile(itemConfigPath);
 
    if(itemConfigFile.is_open()){
-      while(getline(itemConfigFile, input)){
+      do {
          itemConfigFile >> id >> item_name >> item_type >> item_istool;
 
          this->itemId[item_name] = id;
@@ -41,7 +41,7 @@ void MainKrap::setupConfig(string configPath, string itemFile){
          }else{
             this->listNonTool.push_back(item_name);
          }
-      }
+      } while(getline(itemConfigFile, input));
 
    }else{
       std::cout << "Failed to open file" << endl;
@@ -52,7 +52,6 @@ void MainKrap::setupRecipe(string configPath, string recipeFolder){
    string recipePath = configPath + recipeFolder;
    const filesystem::path recPath(recipePath);
    for(const auto& entry: filesystem::directory_iterator(recPath)){
-      cout << entry.path() << endl;
       ifstream itemRecipeFile(entry.path());
       if(itemRecipeFile.is_open()){
          int row, column, res_quantity;
@@ -60,14 +59,12 @@ void MainKrap::setupRecipe(string configPath, string recipeFolder){
          string result;
 
          itemRecipeFile >> row >> column;
-         cout << row << column << endl;
          Recipe rec(row, column);
          
          for(int i = 0; i < row; i ++ ){
             for(int j = 0; j < column; j ++){
                string name;
                itemRecipeFile >> name;
-               cout << name << endl;
                Item* recipe = new Item;
                if(find(listTool.begin(), listTool.end(), name) != listTool.end()){
                   recipe = (Item*)(new ItemTool(name, itemType[name]));
@@ -85,19 +82,9 @@ void MainKrap::setupRecipe(string configPath, string recipeFolder){
          }
          
          itemRecipeFile >> result >> res_quantity;
-         cout << result << " " << res_quantity << endl;
-         Item* itemResult = new Item;
-         if (find(listTool.begin(), listTool.end(), result) != listTool.end()) {
-            itemResult =(Item*)(new ItemTool(result,itemType[result]));
-         }
-         else{
-            itemResult =(Item*)(new ItemNonTool(result, itemType[result], res_quantity));
-         }
-         cout << "R" << endl;
-         rec.setResult(itemResult);
-         cout << rec.getResult()->getName() << endl;
+         rec.setResult(result);
+         rec.setQty(res_quantity);
          this->listRecipe[blockCount].push_back(rec);
-         cout << "END" << endl;
       }else{
          std::cout << "Failed to open file" << endl;
       }
@@ -113,7 +100,6 @@ void MainKrap::GIVE(){
    }
    else if (find(listNonTool.begin(), listNonTool.end(), itemName) != listNonTool.end()) {
          ItemNonTool* item = new ItemNonTool(itemName, itemType.at(itemName), itemQty);
-         (Item*)item;
          (*this->inventory).insertItem(item);
    }
    else {
@@ -121,42 +107,53 @@ void MainKrap::GIVE(){
    }
 }
 void MainKrap::MOVE(){
+   bool moveToCraft = true;
+   string dest, dest2, out;
    pair<int,int> idx_src;
    vector<pair<int,int>> idx_dest;
    int row_src, col_src, slotQty, row_dest, col_dest;
    int row = (*this->inventory).getRowSize();
    int col = (*this->inventory).getColSize();
+   int row_craft = (*this->craftbox).getRowSize();
+   int col_craft = (*this->craftbox).getColSize();
 
-   string out = checkInput('I',row,col,row_src,col_src);
+   cin >> dest;
+   out = checkInput(dest,'I',row,col,row_src,col_src);
    if (out.empty()){
       idx_src = make_pair(row_src,col_src);
       cin >> slotQty;
-      row = (*this->craftbox).getRowSize();
-      col = (*this->craftbox).getColSize();
+      
       for (int iterator = 0; iterator < slotQty; iterator++) {
-         string out = checkInput('C',row,col,row_dest,col_dest);
+         cin >> dest2;
+         out = checkInput(dest2,'C',row_craft,col_craft,row_dest,col_dest);
          if (out.empty()){
             idx_dest.push_back(make_pair(row_dest,col_dest));
          } else {
-            std::cout << out << endl;
+            out = checkInput(dest2,'I',row,col,row_dest,col_dest);
+            if (out.empty()){
+               pair<int,int>idx_destPair = make_pair(row_dest,col_dest);
+               this->inventory->stackItem(idx_src, idx_destPair);   
+            } else {
+               std::cout << out << endl;
+            }
+            moveToCraft = false;
             break;
          }
       }
-      if (idx_dest.size() == slotQty){
+      if (moveToCraft && idx_dest.size() == slotQty){
          this->inventory->moveTo((*this->craftbox), idx_src, idx_dest);
       }
    } else {
-      row = (*this->craftbox).getRowSize();
-      col = (*this->craftbox).getColSize();
-      string out = checkInput('C',row,col,row_src,col_src);
+      out = checkInput(dest,'C',row_craft,col_craft,row_src,col_src);
       if (out.empty()){
          idx_src = make_pair(row_src,col_src);
          cin >> slotQty;
          if (slotQty == 1){
+            cin >> dest2;
             row = (*this->inventory).getRowSize();
             col = (*this->inventory).getColSize();
 
-            string out = checkInput('I',row,col,row_dest,col_dest);
+            string out = checkInput(dest2,'I',row,col,row_dest,col_dest);
             if (out.empty()){
                idx_dest.push_back(make_pair(row_dest,col_dest));
                this->craftbox->moveTo((*this->inventory),idx_src,idx_dest);
@@ -173,19 +170,42 @@ void MainKrap::MOVE(){
    }
 }
 void MainKrap::CRAFT(){
-   Item* result = this->craftbox->craftResult(listRecipe);
-   if(result->checkDummy()){
-      cout << "Craft gagal " << endl;
+   pair<string,int> result = this->craftbox->craftResult(listRecipe);
+   if(result.first == "Default"){
+      cout << "Craft gagal!" << endl;
    }else{
-      inventory->insertItem(result);
+      Item* resItem = new Item;
+      if (find(listTool.begin(), listTool.end(), result.first) != listTool.end()) {
+         resItem = new ItemTool(result.first, itemType.at(result.first));
+         if (result.second != 1){
+            ItemTool* newItem = new ItemTool(resItem->getName(), resItem->getType());
+
+            while(newItem->getDurability() != result.second){
+               newItem->reduceDurability();
+            }
+
+            resItem = newItem;
+         }
+      }
+      else if (find(listNonTool.begin(), listNonTool.end(), result.first) != listNonTool.end()) {
+         resItem = new ItemNonTool(result.first, itemType.at(result.first), result.second);
+      }
+      for(int i = 0; i < (*craftbox).getRowSize(); i++){
+         for (int j = 0; j < (*craftbox).getColSize(); j++){
+            craftbox->makeDummy(i,j);
+         }
+      }
+      inventory->insertItem(resItem);
    }
 }
 void MainKrap::USE(){
+   string dest;
    int row_dest, col_dest;
    int row = (*this->inventory).getRowSize();
    int col = (*this->inventory).getColSize();
 
-   string out = checkInput('I',row,col,row_dest,col_dest);
+   cin >> dest;
+   string out = checkInput(dest,'I',row,col,row_dest,col_dest);
    if (out.empty()){
       (*this->inventory).useItem(row_dest,col_dest);
    } else {
@@ -193,11 +213,13 @@ void MainKrap::USE(){
    }
 }
 void MainKrap::DISCARD(){
+   string dest;
    int row_dest, col_dest, itemQty;
    int row = (*this->inventory).getRowSize();
    int col = (*this->inventory).getColSize();
 
-   string out = checkInput('I',row,col,row_dest,col_dest);
+   cin >> dest;
+   string out = checkInput(dest,'I',row,col,row_dest,col_dest);
    if (out.empty()){
       cin >> itemQty;
       (*this->inventory).discardItem(row_dest,col_dest,itemQty);
@@ -233,27 +255,26 @@ void MainKrap::EXPORT(){
          checkfile.open(outputPath);
       }
    }
-   ofstream outputFile;
-   outputFile.open(outputPath);
-   int row = (*this->inventory).getRowSize();
-   int col = (*this->inventory).getColSize();
-
+   ofstream outputFile(outputPath,ofstream::trunc);
+   int row = this->inventory->getRowSize();
+   int col = this->inventory->getColSize();
    // Do export
    for (int i = 0; i < row; i++){
-         for (int j = 0; j < col; j++){
-            Item* elmt = (*this->inventory).getElmt(i,j);
-            if(elmt->checkDummy()){
-               outputFile << "0:0" << endl;
-            }
-            else if (elmt->getTool()){
-               ItemTool* elmt = static_cast<ItemTool*>(elmt);
-               outputFile << itemId.at(elmt->getName()) << ":" << elmt->getDurability() << endl;
-            }
-            else{
-               outputFile << itemId.at(elmt->getName()) << ":" << elmt->getQuantity() << endl;
-            }
+      for (int j = 0; j < col; j++){
+         Item* elmt = this->inventory->getElmt(i,j);
+         if(elmt->checkDummy()){
+            outputFile << "0:0" << endl;
          }
+         else if (elmt->getTool()){
+            ItemTool* elmtTool = static_cast<ItemTool*>(elmt);
+            outputFile << itemId.at(elmtTool->getName()) << ":" << elmtTool->getDurability() << endl;
+         }
+         else{
+            outputFile << itemId.at(elmt->getName()) << ":" << elmt->getQuantity() << endl;
+         }
+      }
    }
+   outputFile.close();
    std::cout << "Exported" << endl;
 }
 void MainKrap::HELP(){
@@ -300,7 +321,8 @@ void MainKrap::PLAY(){
       }
       else if (command == "HELP"){
          HELP();
-      }
+      } 
+      else if (command == "EXIT"){/*do nothing*/}
       else {
          std::cout << "Command tidak valid!!" << endl;
       }
@@ -310,11 +332,9 @@ void MainKrap::PLAY(){
    std::cout << "Semoga hari-harimu menyenangkan :D" << endl;
 }
 
-string MainKrap::checkInput(char toMatch, int rowMatch, int colMatch, int& row, int& col){
-    string dest, out;
-    cin >> dest;
-    out = "";
-    col = -1;
+string MainKrap::checkInput(string dest, char toMatch, int rowMatch, int colMatch, int& row, int& col){
+    string out = "";
+    col = 0;
     row = 0;
     if (dest.length() > 3 || dest[0] != toMatch){
         out = "Masukan slot inventory tidak sesuai!\n";

@@ -3,41 +3,60 @@
 
 Crafting::Crafting() : Boxes(3,3) {}
 
-Item* Crafting::craftResult(map<int,vector<Recipe>> listRecipe) {
+pair<string,int> Crafting::craftResult(map<int,vector<Recipe>> listRecipe) {
     int blockCount = this->getBlockCount();
-    cout << blockCount << endl;
 
     vector<Recipe> needCheck = listRecipe[blockCount];
 
     for(int i = 0; i < needCheck.size(); i ++){
-        Item* result = checkRecipe(needCheck[i], false);
+        pair<string,int> result = checkRecipe(needCheck[i], false);
 
-        if(!result->checkDummy()){
+        if(result.first!="Default"){
             return result;
         }else{
             result = checkRecipe(needCheck[i], true);
-            if(!result->checkDummy()){
+            if(result.first!="Default"){
                 return result;
             }
         }
     }
-    
-    Item* dummyItem = new Item;
-    return dummyItem;
+    if (blockCount == 2){
+        Item* item1 = new Item;
+        Item* item2 = new Item;
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                if(!this->collection[i][j]->checkDummy()) {
+                    if(item1->checkDummy()) {
+                        item1 = this->collection[i][j];
+                    } else {
+                        item2 = this->collection[i][j];
+                    }
+                }
+            }
+        }
+
+        if(item1->getTool() && item2->getTool() && (*item1 & *item2) ) {
+            ItemTool* itemTool1 = static_cast<ItemTool*>(item1);
+            ItemTool* itemTool2 = static_cast<ItemTool*>(item2);
+            string name = itemTool1->getName();
+            int dura = min(10,itemTool1->getDurability()+itemTool2->getDurability()); 
+            return make_pair(name,dura);
+        }
+    }
+    return make_pair("Default",0);
 }
 
-Item* Crafting::checkRecipe(Recipe recipe, bool isReverse){
+pair<string,int> Crafting::checkRecipe(Recipe recipe, bool isReverse){
     int row = recipe.getRowSize();
     int col = recipe.getColSize();
-    
-    cout << row << " " << col << " " << recipe.getResult()->getName() << endl;
+
     // Ini iterasi buat nyari starting di pojok kiri atas
     for(int i = 0; i <= 3 - row; i ++){
         for(int j = 0; j <= 3 - col; j ++){
             bool isSame = true;
             // Ini iterasi di dalem submatriksnya gitu 
             for(int k = i; k < i + row; k ++){
-                for(int l = j ; l < j + col; j ++){
+                for(int l = j ; l < j + col; l ++){
 
                     int recIndRow, recIndCol;
                     recIndRow = k - i;
@@ -46,18 +65,11 @@ Item* Crafting::checkRecipe(Recipe recipe, bool isReverse){
                     }else{
                         recIndCol = col - (l - j) - 1;
                     }
-                    cout << k << " " << l << endl;
-                    cout << recIndRow << " " << recIndCol << endl;
                     Item* fromTable = this->collection[k][l];
                     Item* fromRecipe = recipe(recIndRow, recIndCol);
 
-                    cout << i << " " << j << endl;
-                    cout << fromTable->getName() << " " << fromTable->getType() << endl;
-                    cout << fromRecipe->getName() << " " << fromRecipe->getType() << endl;
-
                     if(fromRecipe->getName() == "-" && !fromRecipe->checkDummy()){
                         if(!((*fromTable) == (*fromRecipe))){
-                            cout << "HERE" << endl;
                             isSame = false;
                             break;
                         }
@@ -74,13 +86,11 @@ Item* Crafting::checkRecipe(Recipe recipe, bool isReverse){
             }
 
             if(isSame){
-                return recipe.getResult();
+                return make_pair(recipe.getResult(),recipe.getQty());
             }
         }
     }
-
-    Item* dummyItem = new Item;
-    return dummyItem;
+    return make_pair("Default",0);
 }
 
 void Crafting::displayBoxes()
@@ -106,26 +116,3 @@ int Crafting::getBlockCount(){
 
     return count;
 }
-// void Crafting::moveToInventory(Inventory& inventory, pair<int, int> indexCr, pair<int,int> indexInv)
-// {
-//     // indexCr isinya bukan dummy item, dan diasumsikan jenis item di indexCr dan indexInv sama
-//     Item* temp = this->collection[indexCr.first][indexCr.second];
-//     Item* srcItem = inventory(indexInv.first, indexInv.second);
-//     this->makeDummy(indexCr.first, indexCr.second);
-
-//     if(srcItem->checkDummy()) {
-//         inventory.setItemByIndex(temp, indexInv.first, indexInv.second);
-//     } else {
-//         if(temp->getTool()) {
-//             inventory.insertItem(temp);
-//         } else {
-//             ItemNonTool* castItem = static_cast<ItemNonTool*>(srcItem);
-//             try {
-//                 (*castItem) += 1;
-//             } catch(OperationFailedException *exe) {
-//                 exe->printMessage();
-//             }
-//             inventory.setItemByIndex((Item*) castItem, indexInv.first, indexInv.second);
-//         }
-//     }
-// }

@@ -66,5 +66,5 @@ public:
     // Main program cek command
     void PLAY();
 
-    string checkInput(char toMatch, int rowMatch, int colMatch, int& row, int& col);
+    string checkInput(string dest, char toMatch, int rowMatch, int colMatch, int& row, int& col);
 };

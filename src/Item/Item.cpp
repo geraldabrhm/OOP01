@@ -17,8 +17,6 @@ Item::Item(string name, string type, int quantity, bool isTool) {
 // * Operator overloading
 // * Mengecek apakah tipe nya sama
 bool operator==(const Item& item1, const Item& item2) {
-  cout << "CHECK" << endl;
-  cout << item1.getType() << " " << item2.getType() << endl;
   return item1.getType() == item2.getType();
 }
 
@@ -79,9 +77,9 @@ void ItemTool::reduceDurability() {
 }
 
 // * Set durability
-ItemTool& ItemTool::operator+(const ItemTool& item2){
-  ItemTool* newItem = new ItemTool(this->name, this->type);
-  int newDura = item2.getDurability() + this->durability;
+ItemTool operator+(ItemTool item1, const ItemTool& item2){
+  ItemTool* newItem = new ItemTool(item1.name, item1.type);
+  int newDura = item2.getDurability() + item1.durability;
 
   while(newItem->getDurability() != min(10, newDura)){
     newItem->reduceDurability();

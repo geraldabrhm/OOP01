@@ -71,7 +71,7 @@ public:
     void reduceDurability();
     
     // * Stack durability of two ItemTool with the same name and type
-    ItemTool& operator+(const ItemTool& item2);
+    friend ItemTool operator+(ItemTool item1, const ItemTool& item2);
 
     // * Mencetak item
     void print() const;
