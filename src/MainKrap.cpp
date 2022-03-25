@@ -52,7 +52,7 @@ void MainKrap::setupRecipe(string configPath, string recipeFolder){
    string recipePath = configPath + recipeFolder;
    const filesystem::path recPath(recipePath);
    for(const auto& entry: filesystem::directory_iterator(recPath)){
-      // cout << entry.path() << endl;
+      cout << entry.path() << endl;
       ifstream itemRecipeFile(entry.path());
       if(itemRecipeFile.is_open()){
          int row, column, res_quantity;
@@ -60,13 +60,14 @@ void MainKrap::setupRecipe(string configPath, string recipeFolder){
          string result;
 
          itemRecipeFile >> row >> column;
+         cout << row << column << endl;
          Recipe rec(row, column);
          
          for(int i = 0; i < row; i ++ ){
             for(int j = 0; j < column; j ++){
                string name;
                itemRecipeFile >> name;
-
+               cout << name << endl;
                Item* recipe = new Item;
                if(find(listTool.begin(), listTool.end(), name) != listTool.end()){
                   recipe = (Item*)(new ItemTool(name, itemType[name]));
@@ -84,7 +85,7 @@ void MainKrap::setupRecipe(string configPath, string recipeFolder){
          }
          
          itemRecipeFile >> result >> res_quantity;
-
+         cout << result << " " << res_quantity << endl;
          Item* itemResult = new Item;
          if (find(listTool.begin(), listTool.end(), result) != listTool.end()) {
             itemResult =(Item*)(new ItemTool(result,itemType[result]));
@@ -92,9 +93,11 @@ void MainKrap::setupRecipe(string configPath, string recipeFolder){
          else{
             itemResult =(Item*)(new ItemNonTool(result, itemType[result], res_quantity));
          }
-
+         cout << "R" << endl;
          rec.setResult(itemResult);
+         cout << rec.getResult()->getName() << endl;
          this->listRecipe[blockCount].push_back(rec);
+         cout << "END" << endl;
       }else{
          std::cout << "Failed to open file" << endl;
       }

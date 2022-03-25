@@ -17,6 +17,8 @@ Item::Item(string name, string type, int quantity, bool isTool) {
 // * Operator overloading
 // * Mengecek apakah tipe nya sama
 bool operator==(const Item& item1, const Item& item2) {
+  cout << "CHECK" << endl;
+  cout << item1.getType() << " " << item2.getType() << endl;
   return item1.getType() == item2.getType();
 }
 
@@ -51,7 +53,7 @@ bool Item::getTool() const {
 
 // * Check apakah item berupa dummy item (True jika dummy)
 bool Item::checkDummy() const {
-  return this->name == "-";
+  return this->name == "-" && this->type == "-";
 }
 
 void Item::print() const{

@@ -6,6 +6,11 @@ Recipe::Recipe(int row, int col) : Boxes(row, col) {
     this->result = dummy;
 }
 
+Recipe::Recipe(const Recipe& recipe): Boxes(recipe.getRowSize(), recipe.getColSize()){
+    this->result = new Item;
+    this->result = recipe.getResult();
+}
+
 Recipe& Recipe::operator=(const Recipe& recipe){
     delete result;
     this->result = new Item();

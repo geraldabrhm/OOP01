@@ -5,6 +5,7 @@ Crafting::Crafting() : Boxes(3,3) {}
 
 Item* Crafting::craftResult(map<int,vector<Recipe>> listRecipe) {
     int blockCount = this->getBlockCount();
+    cout << blockCount << endl;
 
     vector<Recipe> needCheck = listRecipe[blockCount];
 
@@ -28,14 +29,16 @@ Item* Crafting::craftResult(map<int,vector<Recipe>> listRecipe) {
 Item* Crafting::checkRecipe(Recipe recipe, bool isReverse){
     int row = recipe.getRowSize();
     int col = recipe.getColSize();
-
+    
+    cout << row << " " << col << " " << recipe.getResult()->getName() << endl;
     // Ini iterasi buat nyari starting di pojok kiri atas
-    for(int i = 0; i < 3 - row; i ++){
-        for(int j = 0; j < 3 - col; j ++){
+    for(int i = 0; i <= 3 - row; i ++){
+        for(int j = 0; j <= 3 - col; j ++){
             bool isSame = true;
             // Ini iterasi di dalem submatriksnya gitu 
             for(int k = i; k < i + row; k ++){
                 for(int l = j ; l < j + col; j ++){
+
                     int recIndRow, recIndCol;
                     recIndRow = k - i;
                     if(!isReverse){
@@ -43,12 +46,18 @@ Item* Crafting::checkRecipe(Recipe recipe, bool isReverse){
                     }else{
                         recIndCol = col - (l - j) - 1;
                     }
-
+                    cout << k << " " << l << endl;
+                    cout << recIndRow << " " << recIndCol << endl;
                     Item* fromTable = this->collection[k][l];
                     Item* fromRecipe = recipe(recIndRow, recIndCol);
 
+                    cout << i << " " << j << endl;
+                    cout << fromTable->getName() << " " << fromTable->getType() << endl;
+                    cout << fromRecipe->getName() << " " << fromRecipe->getType() << endl;
+
                     if(fromRecipe->getName() == "-" && !fromRecipe->checkDummy()){
                         if(!((*fromTable) == (*fromRecipe))){
+                            cout << "HERE" << endl;
                             isSame = false;
                             break;
                         }

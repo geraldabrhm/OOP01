@@ -59,7 +59,9 @@ class Recipe : public Boxes {
     public:
         //Constructor
         Recipe(int row, int col);
+        Recipe(const Recipe& recipe);
         Recipe& operator=(const Recipe& recipe);
+        
         ~Recipe();
 
         //Getter Setter
