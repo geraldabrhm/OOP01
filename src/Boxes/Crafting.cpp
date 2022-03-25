@@ -3,10 +3,44 @@
 
 Crafting::Crafting() : Boxes(3,3) {}
 
-Item* Crafting::craftResult(Recipe& resep, map<int,vector<Recipe>> listRecipe) {
+Item* Crafting::craftResult(map<int,vector<Recipe>> listRecipe) {
+    int blockCount = this->getBlockCount();
+
+    vector<Recipe> needCheck = listRecipe[blockCount];
+
+    for(int i = 0; i < needCheck.size(); i ++){
+        Item* result = checkRecipe(needCheck[i], false);
+
+        if(!result->checkDummy()){
+            return result;
+        }else{
+            result = checkRecipe(needCheck[i], true);
+            if(!result->checkDummy()){
+                return result;
+            }
+        }
+    }
     
+    Item* dummyItem = new Item;
+    return dummyItem;
 }
 
+Item* Crafting::checkRecipe(Recipe recipe, bool isReverse){
+    int row = recipe.getRowSize();
+    int col = recipe.getColSize();
+
+    // Ini iterasi buat nyari starting di pojok kiri atas
+    for(int i = 0; i < 3 - row; i ++){
+        for(int j = 0; j < 3 - col; j ++){
+            
+            // Ini iterasi di dalem submatriksnya gitu 
+            
+        }
+    }
+
+    Item* dummyItem = new Item;
+    return dummyItem;
+}
 
 void Crafting::displayBoxes()
 {

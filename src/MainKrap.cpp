@@ -53,7 +53,7 @@ void MainKrap::setupConfig(string configPath, string itemFile){
 void MainKrap::setupRecipe(string configPath, string recipeFolder){
    string recipePath = configPath + recipeFolder;
 
-   for(const auto& entry: directory_iterator(recipePath)){
+   for(const auto& entry: filesystem::directory_iterator(recipePath)){
       ifstream itemRecipeFile(entry.path());
       if(itemRecipeFile.is_open()){
          int row, column, res_quantity;
