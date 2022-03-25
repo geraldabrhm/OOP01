@@ -24,6 +24,11 @@ protected:
     map<string,string> itemType;
     vector<string> listTool;
     vector<string> listNonTool;
+    string command;
+
+    // Initialize Inventory and Crafting
+    Inventory* inventory;
+    Crafting* craftbox;
 
     MainKrap();
 public:
@@ -55,5 +60,16 @@ public:
      * @param recipeFolder-string folder yang menyimpan data configRecipe
      */
     void setupRecipe(string configPath, string recipeFolder);
+
+    void GIVE();
+    void MOVE();
+    void CRAFT();
+    void USE();
+    void DISCARD();
+    void SHOW();
+    void EXPORT();
+    void HELP();
+    // Main program cek command
+    void COMMAND();
 
 };

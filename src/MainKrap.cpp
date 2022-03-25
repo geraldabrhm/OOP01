@@ -17,6 +17,10 @@ MainKrap* MainKrap::getInstance(){
 void MainKrap::initialize(string configPath, string itemFile, string recipeFolder){
    this->setupConfig(configPath, itemFile);
    this->setupRecipe(configPath, recipeFolder);
+   
+   this->command = "Default";
+   this->inventory = new Inventory();
+   this->craftbox = new Crafting();
 }
 
 void MainKrap::setupConfig(string configPath, string itemFile){
