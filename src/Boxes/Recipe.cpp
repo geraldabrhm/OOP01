@@ -6,6 +6,17 @@ Recipe::Recipe(int row, int col) : Boxes(row, col) {
     this->result = dummy;
 }
 
+Recipe& Recipe::operator=(const Recipe& recipe){
+    delete result;
+    this->result = new Item();
+    this->result = recipe.getResult();
+    return *this;
+}
+
+Recipe::~Recipe(){
+    delete result;
+}
+
 //Getter Setter
 Item* Recipe::getResult() const{
     return this->result;

@@ -1,7 +1,7 @@
 #ifndef __BOXES_H__
 #define __BOXES_H__
 
-#include "../Item/Item.hpp"
+#include "..\Item\Item.hpp"
 #include <vector>
 #include <map>
 #include "../Exception/Exception.hpp"
@@ -59,6 +59,8 @@ class Recipe : public Boxes {
     public:
         //Constructor
         Recipe(int row, int col);
+        Recipe& operator=(const Recipe& recipe);
+        ~Recipe();
 
         //Getter Setter
         Item* getResult() const;

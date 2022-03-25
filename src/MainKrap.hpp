@@ -3,15 +3,10 @@
 #include "./Boxes/Boxes.hpp"
 #include <filesystem>
 #include <fstream>
-#include <iostream>
 #include <sstream>
-#include <string>
-#include <map>
-#include <vector>
 #include <cstdlib>
 #include <bits/stdc++.h>
 using namespace std;
-using namespace filesystem;
 
 
 class MainKrap{

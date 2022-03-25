@@ -77,9 +77,15 @@ void ItemTool::reduceDurability() {
 }
 
 // * Set durability
-ItemTool& ItemTool::operator+(const ItemTool& item2)
-{
+ItemTool& ItemTool::operator+(const ItemTool& item2){
+  ItemTool* newItem = new ItemTool(this->name, this->type);
+  int newDura = item2.getDurability() + this->durability;
 
+  while(newItem->getDurability() != min(10, newDura)){
+    newItem->reduceDurability();
+  }
+
+  return (*newItem);
 }
 
 void ItemTool::print() const{

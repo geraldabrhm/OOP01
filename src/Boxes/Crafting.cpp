@@ -32,12 +32,40 @@ Item* Crafting::checkRecipe(Recipe recipe, bool isReverse){
     // Ini iterasi buat nyari starting di pojok kiri atas
     for(int i = 0; i < 3 - row; i ++){
         for(int j = 0; j < 3 - col; j ++){
-            
+            bool isSame = true;
             // Ini iterasi di dalem submatriksnya gitu 
             for(int k = i; k < i + row; k ++){
                 for(int l = j ; l < j + col; j ++){
+                    int recIndRow, recIndCol;
+                    recIndRow = k - i;
+                    if(!isReverse){
+                        recIndCol = l - j;
+                    }else{
+                        recIndCol = col - (l - j) - 1;
+                    }
+
                     Item* fromTable = this->collection[k][l];
+                    Item* fromRecipe = recipe(recIndRow, recIndCol);
+
+                    if(fromRecipe->getName() == "-" && !fromRecipe->checkDummy()){
+                        if(!((*fromTable) == (*fromRecipe))){
+                            isSame = false;
+                            break;
+                        }
+                    }else{
+                        if(!((*fromTable) & (*fromRecipe))){
+                            isSame = false;
+                            break;
+                        }
+                    }
                 }
+                if(!isSame){
+                    break;
+                }
+            }
+
+            if(isSame){
+                return recipe.getResult();
             }
         }
     }

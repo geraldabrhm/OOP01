@@ -1,10 +1,12 @@
 #include "./MainKrap.hpp"
 
+MainKrap* MainKrap::instance = nullptr;
+
 int main(){
     MainKrap* Game = MainKrap::getInstance();
-    string configPath = "../config";
-    string itemFile = "/item.txt";
-    string recipeFolder = "/recipe";
+    string configPath = "..\\config";
+    string itemFile = "\\item.txt";
+    string recipeFolder = "\\recipe";
 
     cout << "Selamat datang di dunia MainKrap!!" << endl;
     cout << "MainKrap adalah permainan sederhana berbasis CLI" << endl;
