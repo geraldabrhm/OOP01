@@ -257,8 +257,46 @@ void MainKrap::HELP(){
    cout << "EXIT -> Keluar dari permainan" << endl;
 }
 
-void MainKrap::COMMAND(){
+void MainKrap::PLAY(){
+   cout << "Selamat bermain!!" << endl;
+   cout << "Ketik HELP untuk melihat daftar COMMAND" << endl;
+   cout << endl;
 
+   while (command != "EXIT"){
+      cout << "COMMAND : ";
+      cin >> command;
+
+      if (command == "GIVE"){
+         GIVE();
+      }
+      else if (command == "MOVE"){
+         MOVE();
+      }
+      else if (command == "CRAFT"){
+         CRAFT();
+      }
+      else if (command == "USE"){
+         USE();
+      }
+      else if (command == "DISCARD"){
+         DISCARD();
+      }
+      else if (command == "SHOW"){
+         SHOW();
+      }
+      else if (command == "EXPORT"){
+         EXPORT();
+      }
+      else if (command == "HELP"){
+         HELP();
+      }
+      else {
+         cout << "Command tidak valid!!" << endl;
+      }
+   }
+
+   cout << "Terimakasih telah bermain MainKrap!!" << endl;
+   cout << "Semoga hari-harimu menyenangkan :D" << endl;
 }
 
 string MainKrap::checkInput(char toMatch, int rowMatch, int colMatch, int& row, int& col){

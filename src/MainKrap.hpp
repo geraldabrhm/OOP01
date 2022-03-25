@@ -18,7 +18,6 @@ class MainKrap{
 private:
     static MainKrap *instance;
 protected:
-
     map<int,vector<Recipe>> listRecipe;
     map<string,string> itemId;
     map<string,string> itemType;
@@ -70,7 +69,7 @@ public:
     void EXPORT();
     void HELP();
     // Main program cek command
-    void COMMAND();
+    void PLAY();
 
     string checkInput(char toMatch, int rowMatch, int colMatch, int& row, int& col);
 };
