@@ -49,6 +49,8 @@ public:
     
     // * Mengecek apakah tipe nya sama
     friend bool operator==(const Item& item1, const Item& item2);
+    friend bool operator==(const Item& item1, string type);
+    
     // * Mengecek apakah benda yang sama (tipe dan nama nya sama)
     friend bool operator&(const Item& item1, const Item& item2);
 

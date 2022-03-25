@@ -8,7 +8,11 @@ void InvalidTypeException::printMessage(){
     cout << "Diiinginkan tipe " << (this->isTool? "item Tool" : "item Non Tool");
     cout << " tetapi diberikan tipe " << (this->isTool? "item Non Tool" : "item Tool") << endl; 
 }
+NotSameException::NotSameException(){}
 
+void NotSameException::printMessage(){
+    cout << "Kedua item memilki nama dan tipe yang berbeda" << endl;
+}
 
 FullCollectionException::FullCollectionException(){}
 

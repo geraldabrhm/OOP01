@@ -20,6 +20,9 @@ bool operator==(const Item& item1, const Item& item2) {
   return item1.getType() == item2.getType();
 }
 
+bool operator==(const Item& item1, const string type){
+  return item1.getType() == type;
+}
 
 bool operator&(const Item& item1, const Item& item2)
 {

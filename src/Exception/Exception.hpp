@@ -25,6 +25,15 @@ public:
 };
 
 /**
+ * @brief Exception untuk menghandle apabila ada item dengan nama dan tipe yang tidak sama distack
+ * 
+ */
+class NotSameException: public BaseException{
+public:
+    NotSameException();
+    void printMessage();
+};
+/**
  * @brief Menghandle kasus collectionn penuh ketika ditambahkan item
  * 
  */
