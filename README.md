@@ -33,14 +33,24 @@ Untuk menjalankan program ini, minimal dibutuhkan C++ compiler seperti GCC
 Berikut adalah langkah yang dapat diikuti untuk menjalankan program ini:
 
 1. Lakukan cloning repository git clone `https://github.com/geraldabrhm/OOP01.git`
-2. Jalankan `src/main.cpp`
+2. Jalankan `cd src`
+2. Lakukan compile dengan menjalankan `g++ -std=c++17 .\main.cpp .\MainKrap.cpp .\Item\Item.cpp .\Exception\Exception.cpp .\Boxes\Boxes.cpp .\Boxes\Inventory.cpp .\Boxes\Recipe.cpp .\Boxes\Crafting.cpp -o main.exe  -lstdc++fs`
+3. Jalankan `./main.exe`
 
 ### Menjalankan dengan Makefile
 Makefile digunakan untuk compiling and testing. Untuk menjalankan makefile, pastikan user menggunakan Linux dengan C++17, atau WSL apabila menggunakan Windows
 ```
 sudo apt-get install make g++
-make all
+make manual
+cd src
+./main.exe
+
 ```
+
+### Jika terjadi masalah dengan filesystem
+Masalah ini kemungkinan besar terjadi untuk pengguna Windows.  
+Lakukan instalasi GCC terbaru dengan referensi link video berikut ini:.  
+[LINK](https://www.youtube.com/watch?v=aXF4A5UeSeM&)
 
 ## Anggota Kelompok
 
