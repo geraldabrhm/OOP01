@@ -1,7 +1,7 @@
 #include "./Item/Item.hpp"
 #include "./Exception/Exception.hpp"
 #include "./Boxes/Boxes.hpp"
-//#include <filesystem>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -11,14 +11,13 @@
 #include <cstdlib>
 #include <bits/stdc++.h>
 using namespace std;
-// using namespace filesystem;
+using namespace filesystem;
 
 
 class MainKrap{
 private:
     static MainKrap *instance;
 protected:
-
     map<int,vector<Recipe>> listRecipe;
     map<string,string> itemId;
     map<string,string> itemType;
@@ -70,7 +69,7 @@ public:
     void EXPORT();
     void HELP();
     // Main program cek command
-    void COMMAND();
+    void PLAY();
 
     string checkInput(char toMatch, int rowMatch, int colMatch, int& row, int& col);
 };

@@ -5,6 +5,8 @@ MainKrap::MainKrap(){
       vector<Recipe>emptyVector;
       this->listRecipe[i] = emptyVector;
    }
+   this->inventory = new Inventory();
+   this->craftbox = new Crafting();
 }
 
 MainKrap* MainKrap::getInstance(){
@@ -17,10 +19,6 @@ MainKrap* MainKrap::getInstance(){
 void MainKrap::initialize(string configPath, string itemFile, string recipeFolder){
    this->setupConfig(configPath, itemFile);
    this->setupRecipe(configPath, recipeFolder);
-
-   this->command = "Default";
-   this->inventory = new Inventory();
-   this->craftbox = new Crafting();
 }
 
 void MainKrap::setupConfig(string configPath, string itemFile){
@@ -53,7 +51,7 @@ void MainKrap::setupConfig(string configPath, string itemFile){
 void MainKrap::setupRecipe(string configPath, string recipeFolder){
    string recipePath = configPath + recipeFolder;
 
-   for(const auto& entry: filesystem::directory_iterator(recipePath)){
+   for(const auto& entry: directory_iterator(recipePath)){
       ifstream itemRecipeFile(entry.path());
       if(itemRecipeFile.is_open()){
          int row, column, res_quantity;
@@ -257,8 +255,46 @@ void MainKrap::HELP(){
    cout << "EXIT -> Keluar dari permainan" << endl;
 }
 
-void MainKrap::COMMAND(){
+void MainKrap::PLAY(){
+   cout << "Selamat bermain!!" << endl;
+   cout << "Ketik HELP untuk melihat daftar COMMAND" << endl;
+   cout << endl;
 
+   while (command != "EXIT"){
+      cout << "COMMAND : ";
+      cin >> command;
+
+      if (command == "GIVE"){
+         GIVE();
+      }
+      else if (command == "MOVE"){
+         MOVE();
+      }
+      else if (command == "CRAFT"){
+         CRAFT();
+      }
+      else if (command == "USE"){
+         USE();
+      }
+      else if (command == "DISCARD"){
+         DISCARD();
+      }
+      else if (command == "SHOW"){
+         SHOW();
+      }
+      else if (command == "EXPORT"){
+         EXPORT();
+      }
+      else if (command == "HELP"){
+         HELP();
+      }
+      else {
+         cout << "Command tidak valid!!" << endl;
+      }
+   }
+
+   cout << "Terimakasih telah bermain MainKrap!!" << endl;
+   cout << "Semoga hari-harimu menyenangkan :D" << endl;
 }
 
 string MainKrap::checkInput(char toMatch, int rowMatch, int colMatch, int& row, int& col){

@@ -34,7 +34,11 @@ Item* Crafting::checkRecipe(Recipe recipe, bool isReverse){
         for(int j = 0; j < 3 - col; j ++){
             
             // Ini iterasi di dalem submatriksnya gitu 
-            
+            for(int k = i; k < i + row; k ++){
+                for(int l = j ; l < j + col; j ++){
+                    Item* fromTable = this->collection[k][l];
+                }
+            }
         }
     }
 
